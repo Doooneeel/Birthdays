@@ -1,0 +1,90 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:foreground="@android:color/transparent"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|snap">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_distance"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/BaseTextStyle"
+                        android:layout_gravity="start|center"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/large_distance"
+                        android:text="@string/app_name"
+                        android:textColor="@color/text"
+                        android:textSize="@dimen/large_text"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/search_view"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:autofillHints="name|username"
+                        android:background="@drawable/panel"
+                        android:contentDescription="@string/search"
+                        app:iconifiedByDefault="false"
+                        app:queryBackground="@null"
+                        app:queryHint="@string/search" />
+
+                    <ImageButton
+                        android:id="@+id/new_birthday_image_button"
+                        style="@style/ImageButtonStyle"
+                        android:layout_marginHorizontal="@dimen/small_distance"
+                        android:contentDescription="@string/add"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/text" />
+
+                    <ImageButton
+                        android:id="@+id/menu_image_button"
+                        style="@style/ImageButtonStyle"
+                        android:layout_marginEnd="@dimen/large_distance"
+                        android:contentDescription="@string/menu"
+                        android:src="@drawable/ic_menu"
+                        app:tint="@color/text" />
+
+                </LinearLayout>
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomChipGroup
+                    android:id="@+id/chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/large_distance"
+                    android:paddingVertical="@dimen/small_distance"
+                    app:singleSelection="true" />
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ru.daniilglazkov.birthdays.ui.core.view.CustomRecyclerView
+        android:id="@+id/recycler_view"
+        style="@style/RecyclerViewStyle"
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

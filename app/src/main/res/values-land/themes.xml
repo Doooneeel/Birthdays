@@ -1,0 +1,13 @@
+<resources>
+
+    <style name="RecyclerItemTextViewStyle" parent="TextWithIconStyle">
+        <item name="android:drawablePadding">@dimen/small_distance</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+        <item name="android:paddingVertical">@dimen/medium_distance</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="drawableTint">@color/white</item>
+        <item name="android:background">@drawable/panel</item>
+    </style>
+
+</resources>

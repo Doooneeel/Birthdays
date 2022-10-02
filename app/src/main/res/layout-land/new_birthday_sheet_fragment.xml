@@ -1,0 +1,134 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/normal_distance"
+    android:paddingBottom="@dimen/large_distance"
+    android:theme="@style/Theme.Birthdays">
+
+    <include
+        android:id="@+id/grapple"
+        layout="@layout/bottom_sheet_grapple" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/normal_distance"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextWithIconStyle"
+                android:drawablePadding="@dimen/normal_distance"
+                android:paddingHorizontal="@dimen/medium_distance"
+                android:paddingVertical="@dimen/large_distance"
+                android:text="@string/new_birthday"
+                android:textSize="@dimen/large_text"
+                app:drawableStartCompat="@drawable/ic_cake_add" />
+
+            <ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout
+                android:id="@+id/name_text_input_layout"
+                style="@style/TextInputLayoutStyle"
+                app:boxStrokeColor="@color/blue"
+                app:boxStrokeErrorColor="@color/red"
+                app:counterEnabled="true"
+                app:counterMaxLength="@integer/name_max_length"
+                app:errorIconTint="@color/red"
+                app:errorTextColor="@color/red">
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomInputEditText
+                    android:id="@+id/name_input_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="name"
+                    android:hint="@string/name"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapSentences"
+                    android:maxLength="@integer/name_max_length"
+                    android:textColor="@color/text" />
+
+            </ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout>
+
+            <include layout="@layout/small_horizontal_space_layout" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|bottom">
+
+                <ImageButton
+                    android:id="@+id/clear_image_button"
+                    style="@style/ImageButtonStyle"
+                    android:contentDescription="@string/clear"
+                    android:src="@drawable/ic_restart" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/add_button"
+                    style="@style/ButtonWithIcon"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/normal_distance"
+                    android:backgroundTint="@color/blue"
+                    android:drawableStart="@drawable/ic_add"
+                    android:text="@string/add" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_distance"
+                android:gravity="center">
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                    android:id="@+id/turn_age_text_view"
+                    style="@style/TextWithBackgroundStyle"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/normal_distance"
+                    android:layout_weight="0"
+                    android:backgroundTint="@color/violet"
+                    android:drawableStart="@drawable/ic_cake_fill"
+                    android:textColor="@color/white"
+                    tools:text="20 years" />
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                    android:id="@+id/until_day_text_view"
+                    style="@style/TextWithBackgroundStyle"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:backgroundTint="@color/gray"
+                    android:drawableStart="@drawable/ic_alarm_fill"
+                    android:paddingVertical="@dimen/medium_distance"
+                    android:textColor="@color/text"
+                    app:drawableTint="@color/text"
+                    tools:text="360 days" />
+
+            </LinearLayout>
+
+            <ru.daniilglazkov.birthdays.ui.core.view.CustomDatePicker
+                android:id="@+id/date_picker"
+                style="@style/DatePickerStyle"
+                android:layout_marginTop="@dimen/medium_distance" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<ru.daniilglazkov.birthdays.ui.core.view.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header_text_view"
+    style="@style/BaseTextStyle"
+    android:layout_width="match_parent"
+    android:gravity="start"
+    android:paddingHorizontal="@dimen/very_large_distance"
+    android:paddingVertical="@dimen/normal_distance"
+    android:textColor="@color/gray_text"
+    android:textSize="@dimen/large_text"
+    tools:text="Header" />
+

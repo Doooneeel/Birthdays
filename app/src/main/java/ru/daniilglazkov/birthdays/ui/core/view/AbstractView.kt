@@ -1,0 +1,25 @@
+package ru.daniilglazkov.birthdays.ui.core.view
+
+import ru.daniilglazkov.birthdays.core.Mapper
+import java.time.LocalDate
+
+/**
+ * @author Danil Glazkov on 27.08.2022, 14:25
+ */
+interface AbstractView<T> : Mapper.Unit<T> {
+
+    interface Text : AbstractView<String> {
+
+        class Empty : Text {
+            override fun map(source: String) = Unit
+        }
+    }
+
+    interface Check : AbstractView<Boolean>
+
+    interface Scroll : AbstractView<Boolean>
+
+    interface Date : AbstractView<LocalDate>
+
+    interface TextList : AbstractView<List<String>>
+}

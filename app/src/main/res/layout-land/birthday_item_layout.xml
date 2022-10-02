@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/large_distance"
+    android:layout_marginVertical="@dimen/small_distance"
+    android:background="@drawable/panel"
+    android:foreground="@drawable/medium_rounded_ripple_effect"
+    android:paddingHorizontal="@dimen/very_large_distance"
+    android:paddingVertical="@dimen/normal_distance">
+
+    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        android:id="@+id/name_text_view"
+        style="@style/BaseTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="start|center"
+        android:textSize="@dimen/normal_text"
+        tools:text="Username Username " />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+            android:id="@+id/turn_age_text_view"
+            style="@style/TextWithBackgroundStyle"
+            android:layout_marginHorizontal="@dimen/normal_distance"
+            android:backgroundTint="@color/blue"
+            android:drawableStart="@drawable/ic_cake_fill"
+            android:paddingVertical="@dimen/medium_distance"
+            android:textColor="@color/white"
+            tools:text="20 years" />
+
+        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+            android:id="@+id/until_day_text_view"
+            style="@style/TextWithBackgroundStyle"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/background"
+            android:drawableStart="@drawable/ic_alarm_fill"
+            app:drawableTint="@color/text"
+            tools:text="20 days" />
+
+    </LinearLayout>
+
+</LinearLayout>

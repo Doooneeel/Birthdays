@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Birthdays</string>
+    <string name="add">Add</string>
+    <string name="birthday">Birthday</string>
+    <string name="birthdays">Birthdays</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="turns">Turns</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="today">Today</string>
+    <string name="new_birthday">New\nbirthday</string>
+    <string name="by_name">Sort by name</string>
+    <string name="by_date">Sort by date</string>
+    <string name="by_month">Sort by month</string>
+    <string name="by_age">Sort by age</string>
+    <string name="by_year">Sort by year</string>
+    <string name="total">Total</string>
+    <string name="birthday_not_found">Nothing found</string>
+    <string name="search">Search</string>
+    <string name="is_reverse">Reverse</string>
+    <string name="is_grouped">Group</string>
+    <string name="name_min_length_error_message">Short name</string>
+    <string name="empty_name_error_message">Enter your name</string>
+    <string name="first_char_is_not_letter_error_message">Name must start with a letter</string>
+    <string name="element_removed">Element removed</string>
+    <string name="date">Date</string>
+    <string name="name">Name</string>
+    <string name="age">Age</string>
+    <string name="month">Month</string>
+    <string name="menu">Меню</string>
+    <string name="clear">Clear</string>
+
+    <string name="sort">Sort</string>
+    <string name="additional_parameters">Additional Parameters</string>
+
+    <plurals name="left">
+        <item quantity="one">%d</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+
+    <plurals name="day">
+        <item quantity="one">Remaining: %d day</item>
+        <item quantity="other">Remaining: %d days</item>
+    </plurals>
+
+    <plurals name="age">
+        <item quantity="one">%d year</item>
+        <item quantity="other">%d years</item>
+    </plurals>
+
+</resources>

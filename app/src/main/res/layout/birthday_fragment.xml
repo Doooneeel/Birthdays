@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/very_large_distance">
+
+    <include layout="@layout/bottom_sheet_grapple" />
+
+    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        android:id="@+id/name_text_view"
+        style="@style/BaseTextStyle"
+        android:textSize="@dimen/large_text"
+        tools:text="Username Username" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/delete_button"
+        style="@style/ButtonWithIcon"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/large_distance"
+        android:backgroundTint="@color/red"
+        android:drawableStart="@drawable/ic_person_remove_fill"
+        android:paddingVertical="@dimen/small_distance"
+        android:text="@string/delete" />
+
+    <!--TODO-->
+</LinearLayout>

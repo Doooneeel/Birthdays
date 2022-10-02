@@ -1,0 +1,169 @@
+<resources>
+
+    <style name="Theme.Birthdays" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorControlActivated">@color/blue</item>
+
+        <item name="android:windowLightStatusBar">@bool/windowLightStatusBar</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/none</item>
+
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="android:colorEdgeEffect">@color/gray</item>
+    </style>
+
+
+    <style name="DatePickerTheme">
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="colorControlNormal">@color/gray_text</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="hintTextColor">@color/blue</item>
+        <item name="helperTextEnabled">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="BackPanelLayoutStyle">
+        <item name="android:background">@drawable/panel</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingVertical">@dimen/normal_distance</item>
+        <item name="android:layout_marginTop">@dimen/normal_distance</item>
+    </style>
+
+    <style name="MenuItemBackgroundStyle">
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+        <item name="android:paddingVertical">@dimen/medium_distance</item>
+        <item name="android:background">@drawable/panel</item>
+    </style>
+
+    <style name="BaseTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+    </style>
+
+    <style name="SecondaryTextStyle" parent="BaseTextStyle">
+        <item name="android:textColor">@color/gray_text</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="ButtonWithIcon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:text">TEXT</item>
+        <item name="tint">@color/white</item>
+        <item name="android:paddingHorizontal">@dimen/very_large_distance</item>
+        <item name="android:drawablePadding">@dimen/medium_distance</item>
+        <item name="android:paddingStart">@dimen/medium_distance</item>
+        <item name="android:paddingEnd">@dimen/normal_distance</item>
+        <item name="android:foreground">@drawable/medium_rounded_ripple_effect</item>
+        <item name="android:background">@drawable/panel</item>
+    </style>
+
+
+    <style name="SwitchStyle" parent="Theme.MaterialComponents">
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="drawableTint">@color/text</item>
+        <item name="android:layout_marginStart">@dimen/small_distance</item>
+        <item name="android:textSize">@dimen/very_small_text</item>
+    </style>
+
+    <style name="RadioButtonStyle">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/small_distance</item>
+        <item name="drawableTint">@color/text</item>
+    </style>
+
+
+    <style name="ImageButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="tint">@color/text</item>
+        <item name="android:background">@drawable/panel</item>
+        <item name="android:foreground">@drawable/medium_rounded_ripple_effect</item>
+        <item name="android:padding">@dimen/medium_distance</item>
+    </style>
+
+    <style name="TextWithBackgroundStyle" parent="BaseTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawablePadding">@dimen/small_distance</item>
+        <item name="android:gravity">center</item>
+        <item name="drawableTint">@color/white</item>
+        <item name="android:background">@drawable/panel</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+        <item name="android:paddingVertical">@dimen/very_small_distance</item>
+        <item name="android:textSize">@dimen/small_text</item>
+    </style>
+
+    <style name="TextWithIconStyle" parent="BaseTextStyle">
+        <item name="android:gravity">start</item>
+        <item name="android:textSize">@dimen/large_text</item>
+        <item name="android:drawablePadding">@dimen/medium_distance</item>
+        <item name="drawableTint">@color/text</item>
+    </style>
+
+
+    <style name="MenuGridLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:columnCount">@integer/menu_column_count</item>
+        <item name="android:layout_marginHorizontal">@dimen/medium_distance</item>
+        <item name="android:useDefaultMargins">true</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+
+    <style name="RecyclerViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingBottom">@dimen/recycler_padding_bottom</item>
+        <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="layout_behavior">@string/appbar_scrolling_view_behavior</item>
+        <item name="layout_constraintTop_toBottomOf">parent</item>
+    </style>
+
+    <style name="DatePickerStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/panel</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+        <item name="android:theme">@style/DatePickerTheme</item>
+    </style>
+
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+</resources>

@@ -1,0 +1,18 @@
+<resources>
+
+    <color name="white">#FFF5F6F8</color>
+    <color name="red">#E7452B</color>
+    <color name="violet">#8701F6</color>
+    <color name="blue">#FF6200EE</color>
+    <color name="none">@android:color/transparent</color>
+
+
+    <color name="background">#FF121212</color>
+    <color name="ripple">#47474B</color>
+    <color name="text">#FFF5F6F8</color>
+    <color name="negative_text">#FF333333</color>
+    <color name="gray">#FF1C1C1E</color>
+    <color name="gray_text">#FF898989</color>
+    <color name="gray_ripple">#AAA</color>
+
+</resources>

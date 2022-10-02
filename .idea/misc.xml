@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.22870370370370371" />
+        <entry key="app/src/main/res/drawable/app_icon.xml" value="0.121" />
+        <entry key="app/src/main/res/drawable/app_icon_rounded.xml" value="0.167" />
+        <entry key="app/src/main/res/drawable/app_logo_rounded.xml" value="0.1955" />
+        <entry key="app/src/main/res/drawable/back_panel.xml" value="0.1325" />
+        <entry key="app/src/main/res/drawable/blue_button_background.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/bottom_sheet_background.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/button_background.xml" value="0.12" />
+        <entry key="app/src/main/res/drawable/cycle_ripple_effect.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/fab_background.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/gradient_back_panel.xml" value="0.2385" />
+        <entry key="app/src/main/res/drawable/gradient_button_background.xml" value="0.204" />
+        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_add_image.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_alarm_fill.xml" value="0.1075" />
+        <entry key="app/src/main/res/drawable/ic_arrow_down.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_arrows.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_backspace.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_birthdays_text_logo.xml" value="0.186" />
+        <entry key="app/src/main/res/drawable/ic_cake.xml" value="0.121" />
+        <entry key="app/src/main/res/drawable/ic_cake_2.xml" value="0.167" />
+        <entry key="app/src/main/res/drawable/ic_cake_add.xml" value="0.167" />
+        <entry key="app/src/main/res/drawable/ic_calendar_month.xml" value="0.167" />
+        <entry key="app/src/main/res/drawable/ic_celebration_fill.xml" value="0.2355" />
+        <entry key="app/src/main/res/drawable/ic_clapperboard.xml" value="0.181" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_done.xml" value="0.134" />
+        <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.134" />
+        <entry key="app/src/main/res/drawable/ic_group.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1335" />
+        <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.134" />
+        <entry key="app/src/main/res/drawable/ic_person.xml" value="0.134" />
+        <entry key="app/src/main/res/drawable/ic_restart.xml" value="0.181" />
+        <entry key="app/src/main/res/drawable/ic_reverse.xml" value="0.167" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.134" />
+        <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_splashscreen_branding_centered.xml" value="0.186" />
+        <entry key="app/src/main/res/drawable/ic_splashscreen_logo.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/inactive_password_cycle.xml" value="0.1325" />
+        <entry key="app/src/main/res/drawable/line.xml" value="0.1325" />
+        <entry key="app/src/main/res/drawable/medium_rounded_ripple_effect.xml" value="0.134" />
+        <entry key="app/src/main/res/drawable/normal_rounded_ripple_effect.xml" value="0.1355" />
+        <entry key="app/src/main/res/drawable/red_button_background.xml" value="0.1955" />
+        <entry key="app/src/main/res/drawable/red_gradient.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/sheet_grapple.xml" value="0.2025" />
+        <entry key="app/src/main/res/drawable/small_rounded_ripple_effect.xml" value="0.1355" />
+        <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/splashscreen.xml" value="0.2255" />
+        <entry key="app/src/main/res/drawable/splashscreen_animated_logo.xml" value="0.186" />
+        <entry key="app/src/main/res/drawable/tool_bar_background.xml" value="0.23" />
+        <entry key="app/src/main/res/font/roboto.xml" value="0.27239583333333334" />
+        <entry key="app/src/main/res/font/roboto_medium.xml" value="0.27239583333333334" />
+        <entry key="app/src/main/res/layout-land/birthday_complete_info_fragment.xml" value="0.18666666666666668" />
+        <entry key="app/src/main/res/layout-land/birthday_fragment.xml" value="0.10666666666666667" />
+        <entry key="app/src/main/res/layout-land/birthday_item_layout.xml" value="0.18666666666666668" />
+        <entry key="app/src/main/res/layout-land/birthday_today_item_layout.xml" value="0.18666666666666668" />
+        <entry key="app/src/main/res/layout-land/birthdays_fragment.xml" value="0.16" />
+        <entry key="app/src/main/res/layout-land/birthdays_menu_sheet_fragment.xml" value="0.22666666666666668" />
+        <entry key="app/src/main/res/layout-land/header_layout.xml" value="0.21333333333333335" />
+        <entry key="app/src/main/res/layout-land/new_birthday_sheet_fragment.xml" value="0.14666666666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.18796296296296297" />
+        <entry key="app/src/main/res/layout/birthday_complete_info_fragment.xml" value="0.24" />
+        <entry key="app/src/main/res/layout/birthday_fragment.xml" value="0.24" />
+        <entry key="app/src/main/res/layout/birthday_item_layout.xml" value="0.24" />
+        <entry key="app/src/main/res/layout/birthday_item_message.xml" value="0.18666666666666668" />
+        <entry key="app/src/main/res/layout/birthday_sheet_fragment.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/birthday_today_item_layout.xml" value="0.29333333333333333" />
+        <entry key="app/src/main/res/layout/birthdays_fragment.xml" value="0.29333333333333333" />
+        <entry key="app/src/main/res/layout/birthdays_menu_sheet_fragment.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/bottom_sheet_grapple.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/bottom_sheet_handle.xml" value="0.29333333333333333" />
+        <entry key="app/src/main/res/layout/bottom_sheet_holder.xml" value="0.13333333333333333" />
+        <entry key="app/src/main/res/layout/cake_and_new_birthday_layout.xml" value="0.20601851851851852" />
+        <entry key="app/src/main/res/layout/check_box_layout.xml" value="0.27999999999999997" />
+        <entry key="app/src/main/res/layout/custom_radio_button_layout.xml" value="0.29333333333333333" />
+        <entry key="app/src/main/res/layout/header_layout.xml" value="0.21333333333333335" />
+        <entry key="app/src/main/res/layout/month_layout.xml" value="0.24" />
+        <entry key="app/src/main/res/layout/new_birthday_sheet_fragment.xml" value="0.21333333333333335" />
+        <entry key="app/src/main/res/layout/pet_item_layout.xml" value="0.23177083333333334" />
+        <entry key="app/src/main/res/layout/pet_sheet_fragment.xml" value="0.19999999999999998" />
+        <entry key="app/src/main/res/layout/small_horizontal_space_layout.xml" value="0.20601851851851852" />
+        <entry key="app/src/main/res/layout/small_space_layout.xml" value="0.20601851851851852" />
+        <entry key="app/src/main/res/layout/snakbar_layout.xml" value="0.26666666666666666" />
+        <entry key="app/src/main/res/layout/sort_sheet_fragment.xml" value="0.29333333333333333" />
+        <entry key="app/src/main/res/layout/two_text_view_layout.xml" value="0.20601851851851852" />
+        <entry key="app/src/main/res/menu/sort_menu.xml" value="0.23125" />
+        <entry key="app/src/main/res/menu/top_menu_bar.xml" value="0.19722222222222222" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.125" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.182" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,20 @@
+package ru.daniilglazkov.birthdays.sl.module
+
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.BirthdayListShowModeInteractor
+import ru.daniilglazkov.birthdays.sl.core.Module
+import ru.daniilglazkov.birthdays.ui.birthdays.sheetmenu.MenuSheetViewModel
+import ru.daniilglazkov.birthdays.ui.birthdays.showmode.ShowModeCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.showmode.ShowModeDomainToUiMapper
+
+/**
+ * @author Danil Glazkov on 21.07.2022, 22:58
+ */
+class BirthdaysMenuModule(
+    private val interactor: BirthdayListShowModeInteractor,
+) : Module<MenuSheetViewModel> {
+    override fun viewModel() = MenuSheetViewModel(
+        interactor = interactor,
+        communication = ShowModeCommunication.Base(),
+        toUi = ShowModeDomainToUiMapper.Base()
+    )
+}

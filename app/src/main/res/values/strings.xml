@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">Дни рождения</string>
+    <string name="add">Добавить</string>
+    <string name="birthday">День рождения</string>
+    <string name="birthdays">Дни рождения</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="turns">Исполняется</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="total">Всего</string>
+    <string name="search">Поиск</string>
+    <string name="sort">Сортировка</string>
+    <string name="clear">Очистить</string>
+
+    <string name="date">Дата</string>
+    <string name="name">Имя</string>
+    <string name="age">Возраст</string>
+    <string name="month">Месяц</string>
+    <string name="menu">Меню</string>
+
+    <string name="additional_parameters">Дополнительные\nпараметры</string>
+
+    <string name="birthday_not_found">¯\\_(ツ)_/¯\nНичего не найдено</string>
+
+    <string name="new_birthday">Новый\nДень\nРождения</string>
+
+    <!--Sort mode-->
+    <string name="by_name">По имени</string>
+    <string name="by_date">По дате</string>
+    <string name="by_month">По месяцу</string>
+    <string name="by_age">По возрасту</string>
+    <string name="by_year">По году</string>
+
+    <string name="is_reverse">Обратный порядок</string>
+    <string name="is_grouped">Группировать</string>
+
+
+    <!--Error messages-->
+    <string name="name_min_length_error_message">Слишком короткое имя</string>
+    <string name="empty_name_error_message">Введите имя</string>
+    <string name="first_char_is_not_letter_error_message">Имя должно начинаться с буквы</string>
+    <string name="element_removed">Элемент удален</string>
+
+
+    <!--Plurals-->
+    <plurals name="left">
+        <item quantity="one">Остался: %d день</item>
+        <item quantity="few">Осталось: %d дня</item>
+        <item quantity="many">Осталось: %d дней</item>
+    </plurals>
+
+    <plurals name="day">
+        <item quantity="zero">Сегодня %d</item>
+        <item quantity="two">Завтра %d</item>
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+    </plurals>
+
+    <plurals name="age">
+        <item quantity="one">%d год</item>
+        <item quantity="few">%d года</item>
+        <item quantity="many">%d лет</item>
+    </plurals>
+
+</resources>

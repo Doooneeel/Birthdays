@@ -1,0 +1,15 @@
+<resources>
+    <declare-styleable name="ToggleButtonView">
+        <attr name="enableBackgroundTint" format="color" />
+        <attr name="disableBackgroundTint" format="color" />
+
+        <attr name="enableText" format="string" />
+        <attr name="disableText" format="string" />
+
+        <attr name="baseBackground" format="reference" />
+
+        <attr name="enableDrawable" format="reference" />
+        <attr name="disableDrawable" format="reference" />
+    </declare-styleable>
+
+</resources>

@@ -1,9 +1,9 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.birthdayinfo
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdayFragmentBinding
-import ru.daniilglazkov.birthdays.ui.core.click.OnDebouncedClickListener
 import ru.daniilglazkov.birthdays.ui.core.view.CustomToast
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
 
@@ -19,16 +19,22 @@ class BirthdaySheetFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.deleteButton.setOnClickListener(OnDebouncedClickListener.MediumDelay {
-            viewModel.delete()
-        })
+        binding.deleteButton.setOnToggleListener { newState ->
+            viewModel.changeStatus(newState)
+        }
         viewModel.observe(viewLifecycleOwner) { birthdayUi ->
             //Todo make views
         }
+
         viewModel.observeError(viewLifecycleOwner) { error ->
             error.apply(CustomToast(requireContext()))
         }
         viewModel.init(savedInstanceState == null, birthdayId)
         viewModel.fetch()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        viewModel.dismiss()
     }
 }

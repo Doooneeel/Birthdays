@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,15 +16,17 @@
         tools:text="Username Username" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ru.daniilglazkov.birthdays.ui.core.view.ToggleButtonView
         android:id="@+id/delete_button"
         style="@style/ButtonWithIcon"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/large_distance"
-        android:backgroundTint="@color/red"
-        android:drawableStart="@drawable/ic_person_remove_fill"
         android:paddingVertical="@dimen/small_distance"
-        android:text="@string/delete" />
+        app:enableDrawable="@drawable/ic_person_remove_fill"
+        app:disableDrawable="@drawable/ic_close"
+        app:baseBackground="@drawable/panel"
+        app:disableBackgroundTint="@color/gray"
+        app:disableText="@string/cancel"
+        app:enableBackgroundTint="@color/red"
+        app:enableText="@string/delete" />
 
     <!--TODO-->
 </LinearLayout>

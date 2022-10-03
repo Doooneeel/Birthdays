@@ -23,7 +23,8 @@ class BirthdayViewModel(
     private val toUi: BirthdayDomainToUiMapper,
     private val provideString: ProvideString
 ) : BaseSheetViewModel<BirthdayUi>(communication), ErrorCommunication.Observe {
-    private var birthdayId: Int = -1
+    private var birthdayId: Int = UNKNOWN_ID
+    private var needToRemoved = false
 
     private val handleError = {
         val errorMessage = ErrorMessage.Base(provideString.string(R.string.element_removed))
@@ -36,14 +37,21 @@ class BirthdayViewModel(
     fun init(firstCall: Boolean, id: Int) {
         if (firstCall) birthdayId = id
     }
-    fun fetch() = interactor.find(birthdayId, handleSuccess, handleError)
-
-    fun delete() {
-        interactor.delete(birthdayId)
-        navigateBack()
+    fun changeStatus(status: Boolean) {
+        needToRemoved = status
     }
+    fun fetch() = interactor.find(birthdayId, handleSuccess, handleError)
 
     override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) {
         errorCommunication.observe(owner, observer)
+    }
+    fun dismiss() {
+        if (needToRemoved && birthdayId != UNKNOWN_ID) {
+            interactor.delete(birthdayId)
+        }
+    }
+
+    companion object {
+        private const val UNKNOWN_ID: Int = -1
     }
 }

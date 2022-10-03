@@ -29,9 +29,9 @@ class BirthdaysModule(
     private val showStrategyInteractor: BirthdayListShowModeInteractor,
     private val nextEvent: NextEvent,
     private val now: LocalDate
-) : Module<BirthdaysViewModel> {
+) : Module<BirthdaysViewModel.Base> {
 
-    override fun viewModel() = BirthdaysViewModel(
+    override fun viewModel() = BirthdaysViewModel.Base(
         interactor = BirthdayListInteractor.Base(
             repository,
             showStrategyInteractor,

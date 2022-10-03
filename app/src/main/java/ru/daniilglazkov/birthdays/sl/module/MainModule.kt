@@ -7,6 +7,6 @@ import ru.daniilglazkov.birthdays.ui.main.MainViewModel
 /**
  * @author Danil Glazkov on 10.06.2022, 22:17
  */
-class MainModule(private val navigation: Navigation.Mutable) : Module<MainViewModel> {
-    override fun viewModel() = MainViewModel(navigation)
+class MainModule(private val navigation: Navigation.Mutable) : Module<MainViewModel.Base> {
+    override fun viewModel() = MainViewModel.Base(navigation)
 }

@@ -2,21 +2,24 @@ package ru.daniilglazkov.birthdays.ui.main
 
 import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysScreen
 import ru.daniilglazkov.birthdays.ui.core.Communication
+import ru.daniilglazkov.birthdays.ui.core.Init
 import ru.daniilglazkov.birthdays.ui.core.Navigation
 
 /**
  * @author Danil Glazkov on 10.06.2022, 21:55
  */
-class MainViewModel(
-    navigation: Navigation.Mutable
-) : BaseViewModel<Unit>(
-    Communication.Unit(),
-    navigation
-) {
-    private val birthdaysScreen = BirthdaysScreen()
+interface MainViewModel : Init {
 
-    fun init(firstOpening: Boolean) {
+    class Base(
+        navigation: Navigation.Mutable
+    ) : BaseViewModel<Unit>(
+        Communication.Unit(),
+        navigation
+    ) , MainViewModel {
+        private val birthdaysScreen = BirthdaysScreen()
 
-        if (firstOpening) { navigate(birthdaysScreen) }
+        override fun init(isFirstRun: Boolean) {
+            if (isFirstRun) { navigate(birthdaysScreen) }
+        }
     }
 }

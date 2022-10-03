@@ -1,5 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.birthdayinfo
 
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ru.daniilglazkov.birthdays.R
@@ -11,47 +12,56 @@ import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayDomainToUiMapper
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
 import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
 import ru.daniilglazkov.birthdays.ui.core.ErrorMessage
+import ru.daniilglazkov.birthdays.ui.core.Fetch
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 
 /**
  * @author Danil Glazkov on 10.06.2022, 21:49
  */
-class BirthdayViewModel(
-    private val interactor: BirthdayCompleteInfoInteractor,
-    private val communication: BirthdayCommunication,
-    private val errorCommunication: ErrorCommunication,
-    private val toUi: BirthdayDomainToUiMapper,
-    private val provideString: ProvideString
-) : BaseSheetViewModel<BirthdayUi>(communication), ErrorCommunication.Observe {
-    private var birthdayId: Int = UNKNOWN_ID
-    private var needToRemoved = false
+interface BirthdayViewModel : ErrorCommunication.Observe, Fetch {
 
-    private val handleError = {
-        val errorMessage = ErrorMessage.Base(provideString.string(R.string.element_removed))
-        errorCommunication.map(errorMessage)
-        navigateBack()
-    }
-    private val handleSuccess = { birthday: BirthdayDomain ->
-        communication.map(birthday.map(toUi))
-    }
-    fun init(firstCall: Boolean, id: Int) {
-        if (firstCall) birthdayId = id
-    }
-    fun changeStatus(status: Boolean) {
-        needToRemoved = status
-    }
-    fun fetch() = interactor.find(birthdayId, handleSuccess, handleError)
+    fun init(isFirstRun: Boolean, id: Int)
+    fun changeStatus(status: Boolean)
+    fun dismiss()
 
-    override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) {
-        errorCommunication.observe(owner, observer)
-    }
-    fun dismiss() {
-        if (needToRemoved && birthdayId != UNKNOWN_ID) {
-            interactor.delete(birthdayId)
+    class Base(
+        private val interactor: BirthdayCompleteInfoInteractor,
+        private val communication: BirthdayCommunication,
+        private val errorCommunication: ErrorCommunication,
+        private val toUi: BirthdayDomainToUiMapper,
+        private val provideString: ProvideString
+    ) : BaseSheetViewModel<BirthdayUi>(communication), BirthdayViewModel {
+        private var birthdayId: Int = UNKNOWN_ID
+        private var needToRemoved = false
+
+        private val handleError = {
+            val errorMessage = ErrorMessage.Base(provideString.string(R.string.element_removed))
+            errorCommunication.map(errorMessage)
+            navigateBack()
         }
-    }
+        private val handleSuccess = { birthday: BirthdayDomain ->
+            communication.map(birthday.map(toUi))
+        }
 
-    companion object {
-        private const val UNKNOWN_ID: Int = -1
+        override fun init(isFirstRun: Boolean, id: Int) {
+            if (isFirstRun) birthdayId = id
+        }
+        override fun changeStatus(status: Boolean) {
+            Log.d("TTTT", "$status")
+            needToRemoved = status
+        }
+        override fun fetch() = interactor.find(birthdayId, handleSuccess, handleError)
+
+        override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) {
+            errorCommunication.observe(owner, observer)
+        }
+        override fun dismiss() {
+            if (needToRemoved && birthdayId != UNKNOWN_ID) {
+                interactor.delete(birthdayId)
+            }
+        }
+        companion object {
+            private const val UNKNOWN_ID: Int = -1
+        }
     }
 }

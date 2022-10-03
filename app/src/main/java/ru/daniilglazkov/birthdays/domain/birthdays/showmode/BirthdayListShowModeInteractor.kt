@@ -19,9 +19,9 @@ interface BirthdayListShowModeInteractor : Read<ShowModeDomain>, ChangeShowMode 
                 .changeSortMode(sort)
                 .also(repository::save)
 
-        override fun changeFlags(reverse: Boolean, group: Boolean): ShowModeDomain =
+        override fun changeAdditionalSettings(reverse: Boolean, group: Boolean): ShowModeDomain =
             lastSavedShowMode
-                .changeFlags(reverse, group)
+                .changeAdditionalSettings(reverse, group)
                 .also(repository::save)
 
         override fun read(): ShowModeDomain = lastSavedShowMode

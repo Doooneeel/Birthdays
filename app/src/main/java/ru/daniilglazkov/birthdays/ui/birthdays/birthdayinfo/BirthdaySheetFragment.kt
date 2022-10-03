@@ -12,20 +12,19 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
  */
 class BirthdaySheetFragment(
     private val birthdayId: Int = -1,
-) : BaseSheetFragment<BirthdayFragmentBinding, BirthdayViewModel>(
+) : BaseSheetFragment<BirthdayFragmentBinding, BirthdayViewModel.Base>(
     inflate = BirthdayFragmentBinding::inflate,
-    viewModelClass = BirthdayViewModel::class.java
+    viewModelClass = BirthdayViewModel.Base::class.java
 ) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.deleteButton.setOnToggleListener { newState ->
-            viewModel.changeStatus(newState)
+            viewModel.changeStatus(newState.not())
         }
         viewModel.observe(viewLifecycleOwner) { birthdayUi ->
             //Todo make views
         }
-
         viewModel.observeError(viewLifecycleOwner) { error ->
             error.apply(CustomToast(requireContext()))
         }

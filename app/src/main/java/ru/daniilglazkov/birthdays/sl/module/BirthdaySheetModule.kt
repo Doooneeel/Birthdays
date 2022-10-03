@@ -22,8 +22,8 @@ class BirthdaySheetModule(
     private val repository: BirthdayListRepository,
     private val nextEvent: NextEvent,
     private val now: LocalDate
-) : Module<BirthdayViewModel> {
-    override fun viewModel() = BirthdayViewModel(
+) : Module<BirthdayViewModel.Base> {
+    override fun viewModel() = BirthdayViewModel.Base(
         interactor = BirthdayCompleteInfoInteractor.Base(repository),
         communication = BirthdayCommunication.Base(),
         errorCommunication = ErrorCommunication.Base(),

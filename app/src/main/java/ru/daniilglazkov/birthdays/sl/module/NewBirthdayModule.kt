@@ -38,7 +38,7 @@ class NewBirthdayModule(
     private val repository: BirthdayListRepository,
     private val nextEvent: NextEvent,
     private val now: LocalDate
-) : Module<NewBirthdayViewModel> {
+) : Module<NewBirthdayViewModel.Base> {
 
     private val validate = ValidateChain(
         ValidateNotEmpty(
@@ -54,7 +54,7 @@ class NewBirthdayModule(
             )
         )
     )
-    override fun viewModel() = NewBirthdayViewModel(
+    override fun viewModel() = NewBirthdayViewModel.Base(
         interactor = NewBirthdayInteractor.Base(
             repository,
             BaseNewBirthdayRepository(

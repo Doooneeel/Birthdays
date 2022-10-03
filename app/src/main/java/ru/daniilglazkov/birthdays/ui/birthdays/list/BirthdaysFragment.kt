@@ -12,9 +12,9 @@ import ru.daniilglazkov.birthdays.ui.main.BaseFragment
 /**
  * @author Danil Glazkov on 10.06.2022, 01:09
  */
-class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewModel>(
+class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewModel.Base>(
     inflate = BirthdaysFragmentBinding::inflate,
-    viewModelClass = BirthdaysViewModel::class.java,
+    viewModelClass = BirthdaysViewModel.Base::class.java,
     debounce = Debounce.MediumDelay()
 ) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

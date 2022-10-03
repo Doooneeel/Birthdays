@@ -14,7 +14,7 @@ interface ShowModeDomain : ChangeShowMode {
         private val group: Boolean,
     ) : ShowModeDomain {
         override fun <T> map(mapper: Mapper<T>): T = mapper.map(sort, reverse, group)
-        override fun changeFlags(reverse: Boolean, group: Boolean) = Base(sort, reverse, group)
+        override fun changeAdditionalSettings(reverse: Boolean, group: Boolean) = Base(sort, reverse, group)
         override fun changeSortMode(sort: SortMode) = Base(sort, reverse, group)
     }
 

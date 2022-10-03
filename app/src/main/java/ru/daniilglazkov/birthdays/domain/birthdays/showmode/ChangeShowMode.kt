@@ -7,5 +7,5 @@ import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
  */
 interface ChangeShowMode {
     fun changeSortMode(sort: SortMode): ShowModeDomain
-    fun changeFlags(reverse: Boolean, group: Boolean): ShowModeDomain
+    fun changeAdditionalSettings(reverse: Boolean, group: Boolean): ShowModeDomain
 }

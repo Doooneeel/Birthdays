@@ -15,7 +15,7 @@ class MainDependencyContainer(
     private val next: DependencyContainer = DependencyContainer.Error()
 ) : DependencyContainer {
     override fun <VM : ViewModel> module(clazz: Class<VM>): Module<*> {
-        return if (clazz == MainViewModel::class.java) {
+        return if (clazz == MainViewModel.Base::class.java) {
             MainModule(coreModule.navigation())
         } else {
             next.module(clazz)

@@ -63,18 +63,18 @@ class BirthdaysDependencyContainer(
         )
     )
     override fun <VM : ViewModel> module(clazz: Class<VM>): Module<*> = when (clazz) {
-        BirthdaysViewModel::class.java -> {
+        BirthdaysViewModel.Base::class.java -> {
             BirthdaysModule(coreModule, birthdaysRepository, showModeInteractor, nextEvent, now)
         }
-        BirthdayViewModel::class.java -> {
+        BirthdayViewModel.Base::class.java -> {
             BirthdaySheetModule(coreModule.resourcesManager(), birthdaysRepository, nextEvent, now)
         }
-        NewBirthdayViewModel::class.java -> {
+        NewBirthdayViewModel.Base::class.java -> {
             NewBirthdayModule(coreModule.resourcesManager(), database, birthdaysRepository,
                 nextEvent, now
             )
         }
-        MenuSheetViewModel::class.java -> {
+        MenuSheetViewModel.Base::class.java -> {
             BirthdaysMenuModule(showModeInteractor)
         }
         else -> next.module(clazz)

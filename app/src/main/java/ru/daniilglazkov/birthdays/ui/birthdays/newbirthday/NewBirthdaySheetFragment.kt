@@ -11,9 +11,9 @@ import ru.daniilglazkov.birthdays.ui.main.BaseNotDraggableSheetFragment
  * @author Danil Glazkov on 11.06.2022, 23:55
  */
 class NewBirthdaySheetFragment :
-    BaseNotDraggableSheetFragment<NewBirthdaySheetFragmentBinding, NewBirthdayViewModel>(
+    BaseNotDraggableSheetFragment<NewBirthdaySheetFragmentBinding, NewBirthdayViewModel.Base>(
         inflate = NewBirthdaySheetFragmentBinding::inflate,
-        viewModelClass = NewBirthdayViewModel::class.java,
+        viewModelClass = NewBirthdayViewModel.Base::class.java,
     )
 {
     override val grappleId: Int = R.id.grapple

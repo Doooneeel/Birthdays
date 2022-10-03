@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideFragmentFacto
         setContentView(binding.root)
 
         fragmentFactory = FragmentFactory.Base(binding.frame.id, supportFragmentManager)
-        val viewModel = provideViewModel(MainViewModel::class.java, this)
+        val viewModel = provideViewModel(MainViewModel.Base::class.java, this)
 
         viewModel.observeNavigation(owner = this) {
             fragmentFactory.fragment(it)

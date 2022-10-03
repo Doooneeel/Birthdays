@@ -10,16 +10,16 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
  * @author Danil Glazkov on 21.07.2022, 22:31
  */
 class MenuSheetFragment :
-    BaseSheetFragment<BirthdaysMenuSheetFragmentBinding, MenuSheetViewModel>(
+    BaseSheetFragment<BirthdaysMenuSheetFragmentBinding, MenuSheetViewModel.Base>(
         inflate = BirthdaysMenuSheetFragmentBinding::inflate,
-        viewModelClass = MenuSheetViewModel::class.java
+        viewModelClass = MenuSheetViewModel.Base::class.java
     )
 {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val checkBoxClickListener = View.OnClickListener {
-            viewModel.changeFlags(binding.reverseSwitch.isChecked, binding.groupSwitch.isChecked)
+            viewModel.changeAdditionalSettings(binding.reverseSwitch.isChecked, binding.groupSwitch.isChecked)
         }
         val sortModeMap by lazy {
             mapOf(

@@ -17,9 +17,13 @@ interface AbstractView<T> : Mapper.Unit<T> {
 
     interface Check : AbstractView<Boolean>
 
-    interface Scroll : AbstractView<Boolean>
-
     interface Date : AbstractView<LocalDate>
 
     interface TextList : AbstractView<List<String>>
+
+    interface Recycler {
+        fun nestedScroll(enabled: Boolean)
+        fun scrollUp(needToScroll: Boolean)
+    }
+
 }

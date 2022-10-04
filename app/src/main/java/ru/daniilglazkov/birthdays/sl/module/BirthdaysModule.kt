@@ -17,7 +17,7 @@ import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysViewModel
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUp
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpBirthdayList
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpChain
-import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.ScrollUpCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.list.RecyclerStateCommunication
 import java.time.LocalDate
 
 /**
@@ -31,17 +31,15 @@ class BirthdaysModule(
     private val now: LocalDate
 ) : Module<BirthdaysViewModel.Base> {
 
-    override fun viewModel() = BirthdaysViewModel.Base(
-        interactor = BirthdayListInteractor.Base(
+    override fun viewModel(): BirthdaysViewModel.Base {
+        val interactor = BirthdayListInteractor.Base(
             repository,
             showStrategyInteractor,
             ShowModeDomain.Mapper.Transform(
                 TransformBirthdayListFactory.Base(nextEvent)
-            ),
-        ),
-        communication = BirthdaysCommunication.Base(),
-        chipCommunication = BirthdayChipCommunication.Base(),
-        scrollUpCommunication = ScrollUpCommunication.Base(
+            )
+        )
+        val recyclerStateCommunication = RecyclerStateCommunication.Base(
             NeedToScrollUpBirthdayList.Base(
                 NeedToScrollUpChain(
                     NeedToScrollUp.ListsMatch(),
@@ -50,9 +48,8 @@ class BirthdaysModule(
                     ),
                 )
             )
-        ),
-        navigation = coreModule.navigation(),
-        birthdayListDomainToUi = BirthdayListDomainToUiMapper.Base(
+        )
+        val birthdayListDomainToUi = BirthdayListDomainToUiMapper.Base(
             BirthdayDomainToUiMapper.Base(
                 BirthdateTextFormat.Age(
                     coreModule.resourcesManager(),
@@ -67,10 +64,19 @@ class BirthdaysModule(
                 DateDifference.YearsPlusOne(),
                 now
             )
-        ),
-        birthdayListDomainToChips = BirthdayListDomainToChipsMapper.OnlyName(
-            BirthdayDomain.CheckMapper.IsHeader(),
-        ),
-        provideString = coreModule.resourcesManager()
-    )
+        )
+        val birthdayListDomainToChips = BirthdayListDomainToChipsMapper.OnlyName(
+            BirthdayDomain.CheckMapper.IsHeader()
+        )
+        return BirthdaysViewModel.Base(
+            interactor,
+            BirthdaysCommunication.Base(),
+            BirthdayChipCommunication.Base(),
+            recyclerStateCommunication,
+            coreModule.navigation(),
+            coreModule.resourcesManager(),
+            birthdayListDomainToUi,
+            birthdayListDomainToChips
+        )
+    }
 }

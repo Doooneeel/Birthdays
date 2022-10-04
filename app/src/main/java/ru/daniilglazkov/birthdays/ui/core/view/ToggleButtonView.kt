@@ -19,7 +19,9 @@ class ToggleButtonView(
     context,
     attributeSet,
     R.styleable.ToggleButtonView
-) , SetOnToggleListener, Toggle {
+) , SetOnToggleListener,
+    Toggle
+{
     override val resources = ManageAttributeResources.Base(typedArray)
 
     override val handleOnRestoreInstanceState = { bundle: Bundle ->
@@ -92,8 +94,4 @@ interface ToggleButtonState {
             view.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0)
         }
     }
-/*
-    class Base(text: String, backgroundTint: ColorStateList, drawableId: Int) : Abstract(
-        text, backgroundTint, drawableId
-    )*/
 }

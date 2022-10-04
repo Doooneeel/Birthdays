@@ -29,6 +29,7 @@
     <string name="month">Month</string>
     <string name="menu">Меню</string>
     <string name="clear">Clear</string>
+    <string name="list_is_empty">The list is empty</string>
 
     <string name="sort">Sort</string>
     <string name="additional_parameters">Additional Parameters</string>

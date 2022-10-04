@@ -31,7 +31,7 @@ abstract class AbstractButtonCustomView @JvmOverloads constructor(
     }
 
     override fun onRestoreInstanceState(state: Parcelable): Unit = (state as Bundle).let {
-        super.onRestoreInstanceState(state.getParcelable(PARCELABLE_KEY))
+        super.onRestoreInstanceState(state.getBundle(PARCELABLE_KEY))
         handleOnRestoreInstanceState.invoke(state)
         updateView()
     }

@@ -23,17 +23,22 @@ class BirthdaySheetModule(
     private val nextEvent: NextEvent,
     private val now: LocalDate
 ) : Module<BirthdayViewModel.Base> {
-    override fun viewModel() = BirthdayViewModel.Base(
-        interactor = BirthdayCompleteInfoInteractor.Base(repository),
-        communication = BirthdayCommunication.Base(),
-        errorCommunication = ErrorCommunication.Base(),
-        toUi = BirthdayDomainToUiMapper.Base(
+    override fun viewModel(): BirthdayViewModel.Base {
+        val interactor = BirthdayCompleteInfoInteractor.Base(repository)
+
+        val birthdayDomainToUiMapper = BirthdayDomainToUiMapper.Base(
             BirthdateTextFormat.Age(provideString, now),
             BirthdateTextFormat.Date(DateTextFormat.Full()),
             BirthdateTextFormat.DaysUntilBirthdaySheet(provideString, nextEvent, now),
             DateDifference.YearsPlusOne(),
             now
-        ),
-        provideString = provideString
-    )
+        )
+        return BirthdayViewModel.Base(
+            interactor,
+            BirthdayCommunication.Base(),
+            ErrorCommunication.Base(),
+            birthdayDomainToUiMapper,
+            provideString
+        )
+    }
 }

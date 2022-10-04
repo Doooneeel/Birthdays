@@ -45,11 +45,9 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
         binding.chipGroup.setOnChipClickListener {
             searchViewClearFocus.invoke()
         }
-        binding.searchView.setOnQueryTextListener(object : OnSingleQueryTextListener() {
-            override fun onTextChange(text: String) {
-                viewModel.changeSearchQuery(text)
-                viewModel.fetch()
-            }
+        binding.searchView.setOnQueryTextListener(OnSingleQueryTextListener { newText ->
+            viewModel.changeSearchQuery(newText)
+            viewModel.fetch()
         })
         binding.recyclerView.adapter = adapter
 
@@ -59,10 +57,9 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
         viewModel.observeChips(viewLifecycleOwner) { chips ->
             chips.apply(binding.chipGroup)
         }
-        viewModel.observeScrollUp(viewLifecycleOwner) { scrollUp ->
-            scrollUp.apply(binding.recyclerView)
+        viewModel.observeRecyclerState(viewLifecycleOwner) { recyclerState ->
+            recyclerState.apply(binding.recyclerView)
         }
-        viewModel.init(savedInstanceState == null)
         viewModel.fetch()
     }
 }

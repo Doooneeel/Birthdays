@@ -12,9 +12,10 @@ import ru.daniilglazkov.birthdays.ui.birthdays.showmode.ShowModeDomainToUiMapper
 class BirthdaysMenuModule(
     private val interactor: BirthdayListShowModeInteractor,
 ) : Module<MenuSheetViewModel.Base> {
-    override fun viewModel() = MenuSheetViewModel.Base(
-        interactor = interactor,
-        communication = ShowModeCommunication.Base(),
-        toUi = ShowModeDomainToUiMapper.Base()
-    )
+    override fun viewModel(): MenuSheetViewModel.Base {
+        val communication = ShowModeCommunication.Base()
+        val showModeDomainToUiMapper = ShowModeDomainToUiMapper.Base()
+
+        return MenuSheetViewModel.Base(interactor, communication, showModeDomainToUiMapper)
+    }
 }

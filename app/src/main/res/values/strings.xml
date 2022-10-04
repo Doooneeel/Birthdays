@@ -18,6 +18,8 @@
     <string name="age">Возраст</string>
     <string name="month">Месяц</string>
     <string name="menu">Меню</string>
+    
+    <string name="list_is_empty">Список пуст</string>
 
     <string name="additional_parameters">Дополнительные\nпараметры</string>
 

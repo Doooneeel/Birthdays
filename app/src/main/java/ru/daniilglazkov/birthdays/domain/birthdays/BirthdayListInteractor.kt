@@ -13,8 +13,8 @@ interface BirthdayListInteractor {
         result: (BirthdayListDomain) -> Unit,
         filter: CharSequence,
         notFound: () -> Unit,
+        onEmptyCache: () -> Unit
     )
-    fun handleEmpty(block: () -> Unit)
 
     class Base(
         private val repository: BirthdayListRepository,
@@ -28,16 +28,18 @@ interface BirthdayListInteractor {
             result: (BirthdayListDomain) -> Unit,
             filter: CharSequence,
             notFound: () -> Unit,
+            onEmptyCache: () -> Unit
         ) {
+            if (birthdayListDomain.isEmpty()) {
+                onEmptyCache.invoke()
+                return
+            }
             val showMode: ShowModeDomain = showModeRepository.read()
             val transformBirthdays: TransformBirthdayList = showMode.map(transformBirthdayList)
             val birthdays: BirthdayListDomain = transformBirthdays.transform(birthdayListDomain)
 
             result.invoke(birthdays)
             //TODO make search
-        }
-        override fun handleEmpty(block: () -> Unit) {
-            if (birthdayListDomain.isEmpty()) block.invoke()
         }
     }
 }

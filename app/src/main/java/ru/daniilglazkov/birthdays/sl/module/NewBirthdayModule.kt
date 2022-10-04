@@ -39,23 +39,20 @@ class NewBirthdayModule(
     private val nextEvent: NextEvent,
     private val now: LocalDate
 ) : Module<NewBirthdayViewModel.Base> {
-
-    private val validate = ValidateChain(
-        ValidateNotEmpty(
-            resourceManager.string(R.string.empty_name_error_message)
-        ),
-        ValidateChain(
-            ValidateFirstCharIsLetter(
-                resourceManager.string(R.string.first_char_is_not_letter_error_message)
-            ),
-            ValidateMinLength(
-                resourceManager.number(R.integer.name_min_length),
-                resourceManager.string(R.string.name_min_length_error_message)
+    override fun viewModel(): NewBirthdayViewModel.Base {
+        val validate = ValidateChain(
+            ValidateNotEmpty(
+                resourceManager.string(R.string.empty_name_error_message)
+            ), ValidateChain(
+                ValidateFirstCharIsLetter(
+                    resourceManager.string(R.string.first_char_is_not_letter_error_message)
+                ), ValidateMinLength(
+                    resourceManager.number(R.integer.name_min_length),
+                    resourceManager.string(R.string.name_min_length_error_message)
+                )
             )
         )
-    )
-    override fun viewModel() = NewBirthdayViewModel.Base(
-        interactor = NewBirthdayInteractor.Base(
+        val interactor = NewBirthdayInteractor.Base(
             repository,
             BaseNewBirthdayRepository(
                 NewBirthdayCacheDataSource.Base(
@@ -70,18 +67,21 @@ class NewBirthdayModule(
             DateDifference.NextEventInDays(nextEvent),
             DateDifference.YearsPlusOne(),
             now
-        ),
-        communication = NewBirthdayCommunication.Base(),
-        errorCommunication = ErrorCommunication.Base(),
+        )
+        val nameFilter = TextFilterChain(
+            TextFilterTrim(), TextFilterWhitespaces()
+        )
 
-        nameFilter = TextFilterChain(
-            TextFilterTrim(),
-            TextFilterWhitespaces()
-        ),
-        validate = validate,
-        toUi = NewBirthdayDomainToUiMapper.Base(),
-        toDomain = NewBirthdayUi.Mapper.ToDomain(),
-        aboutBirthdateCommunication = AboutBirthdateCommunication.Base(),
-        provideString = resourceManager
-    )
+        return NewBirthdayViewModel.Base(
+            interactor,
+            NewBirthdayCommunication.Base(),
+            ErrorCommunication.Base(),
+            AboutBirthdateCommunication.Base(),
+            nameFilter,
+            validate,
+            resourceManager,
+            NewBirthdayDomainToUiMapper.Base(),
+            NewBirthdayUi.Mapper.ToDomain()
+        )
+    }
 }

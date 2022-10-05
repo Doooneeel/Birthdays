@@ -30,7 +30,8 @@ class SettingsSheetFragment :
                 binding.byNameRadioButton to SortMode.NAME,
                 binding.byMonthRadioButton to SortMode.MONTH,
                 binding.byAgeRadioButton to SortMode.AGE,
-                binding.byYearRadioButton to SortMode.YEAR
+                binding.byYearRadioButton to SortMode.YEAR,
+                binding.byZodiacRadioButton to SortMode.ZODIAC
             )
         }
         sortModeMap.forEach { (checkView: View, sortMode: SortMode) ->

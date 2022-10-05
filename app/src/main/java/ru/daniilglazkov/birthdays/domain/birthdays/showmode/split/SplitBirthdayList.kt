@@ -1,10 +1,13 @@
 package ru.daniilglazkov.birthdays.domain.birthdays.showmode.split
 
+import ru.daniilglazkov.birthdays.domain.birthdays.AgeGroupClassification
+import ru.daniilglazkov.birthdays.domain.birthdays.AgeRangeCategory
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.group.BirthdayGroupDomain
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacRangeCategory
 import ru.daniilglazkov.birthdays.domain.core.Split
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
-import ru.daniilglazkov.birthdays.domain.range.RangeCategory
 import java.time.LocalDate
 
 /**
@@ -24,11 +27,19 @@ interface SplitBirthdayList : Split<BirthdayListDomain, List<BirthdayGroupDomain
 
     class Year : Abstract<Int>(BirthdayListSplitPredicate.Year())
 
-    class Age(before: LocalDate) : Abstract<RangeCategory<Int>>(
-        BirthdayListSplitPredicate.Age(before)
+    class Age(
+        before: LocalDate,
+        classification: AgeGroupClassification
+    ) : Abstract<AgeRangeCategory>(
+        BirthdayListSplitPredicate.Age(before, classification)
     )
 
     class MonthsByYears(nextEvent: NextEvent) : Abstract<String>(
         BirthdayListSplitPredicate.MonthsByYears(nextEvent)
     )
+
+    class Zodiac(zodiacRangeCategory: ZodiacGroupClassification) : Abstract<ZodiacRangeCategory>(
+        BirthdayListSplitPredicate.Zodiac(zodiacRangeCategory)
+    )
+
 }

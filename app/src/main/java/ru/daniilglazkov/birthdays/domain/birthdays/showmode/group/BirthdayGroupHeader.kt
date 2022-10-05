@@ -1,5 +1,7 @@
 package ru.daniilglazkov.birthdays.domain.birthdays.showmode.group
 
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacTextFormat
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
@@ -39,6 +41,14 @@ interface BirthdayGroupHeader {
     class FirstCharOfName : Abstract(
         MakeHeader.BasedOnFirst(
             BirthdayGroupPredicate.FirstChar()
+        )
+    )
+    class Zodiac(
+        classification: ZodiacGroupClassification,
+        textFormat: ZodiacTextFormat
+    ) : Abstract(
+        MakeHeader.BasedOnFirst(
+            BirthdayGroupPredicate.Zodiac(classification, textFormat)
         )
     )
 }

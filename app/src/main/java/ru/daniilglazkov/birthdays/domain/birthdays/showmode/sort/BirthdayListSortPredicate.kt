@@ -29,4 +29,8 @@ interface BirthdayListSortPredicate<T : Comparable<T>> : BirthdayDomain.Mapper<T
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): String =
             name
     }
+    class Zodiac : BirthdayListSortPredicate<Int> {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+            date.dayOfYear
+    }
 }

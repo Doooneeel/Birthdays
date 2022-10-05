@@ -47,7 +47,6 @@ interface BirthdayViewModel : ErrorCommunication.Observe, Fetch {
             if (isFirstRun) birthdayId = id
         }
         override fun changeStatus(status: Boolean) {
-            Log.d("TTTT", "$status")
             needToRemoved = status
         }
         override fun fetch() = interactor.find(birthdayId, handleSuccess, handleError)

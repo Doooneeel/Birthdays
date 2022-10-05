@@ -9,11 +9,13 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="today">Today</string>
     <string name="new_birthday">New\nbirthday</string>
-    <string name="by_name">Sort by name</string>
-    <string name="by_date">Sort by date</string>
-    <string name="by_month">Sort by month</string>
-    <string name="by_age">Sort by age</string>
-    <string name="by_year">Sort by year</string>
+    <string name="by_name">By name</string>
+    <string name="by_date">By date</string>
+    <string name="by_month">By month</string>
+    <string name="by_age">By age</string>
+    <string name="by_year">By year</string>
+    <string name="by_zodiac">By zodiac</string>
+
     <string name="total">Total</string>
     <string name="birthday_not_found">Nothing found</string>
     <string name="search">Search</string>

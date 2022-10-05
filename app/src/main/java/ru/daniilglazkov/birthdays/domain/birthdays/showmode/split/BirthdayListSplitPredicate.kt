@@ -1,8 +1,11 @@
 package ru.daniilglazkov.birthdays.domain.birthdays.showmode.split
 
+import ru.daniilglazkov.birthdays.domain.birthdays.AgeRangeCategory
 import ru.daniilglazkov.birthdays.domain.birthdays.AgeGroupClassification
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayType
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacRangeCategory
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.domain.range.RangeCategory
@@ -43,9 +46,19 @@ interface BirthdayListSplitPredicate<T> : BirthdayDomain.Mapper<T> {
             rangeGroup.group(dateDifference.difference(before, date))
     }
 
-    class Age(before: LocalDate) : AbstractRange<RangeCategory<Int>>(
+    class Age(
+        before: LocalDate,
+        classification: AgeGroupClassification,
+    ) : AbstractRange<AgeRangeCategory>(
         DateDifference.YearsPlusOne(),
-        AgeGroupClassification(),
+        classification,
         before
     )
+
+    class Zodiac(
+        private val classification: ZodiacGroupClassification,
+    ) : BirthdayListSplitPredicate<ZodiacRangeCategory> {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+            classification.group(date.dayOfYear)
+    }
 }

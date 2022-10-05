@@ -33,6 +33,7 @@
     <string name="by_month">По месяцу</string>
     <string name="by_age">По возрасту</string>
     <string name="by_year">По году</string>
+    <string name="by_zodiac">По зодиакту</string>
 
     <string name="is_reverse">Обратный порядок</string>
     <string name="is_grouped">Группировать</string>

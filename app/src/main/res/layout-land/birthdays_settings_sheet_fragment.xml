@@ -58,6 +58,15 @@
                 style="@style/RadioButtonStyle"
                 android:text="@string/by_age" />
         </LinearLayout>
+
+        <LinearLayout style="@style/MenuItemBackgroundStyle">
+            <ru.daniilglazkov.birthdays.ui.core.view.CustomRadioButton
+                android:id="@+id/by_zodiac_radio_button"
+                style="@style/RadioButtonStyle"
+                android:pointerIcon="none"
+                android:text="@string/by_zodiac" />
+        </LinearLayout>
+
     </GridLayout>
 
     <GridLayout

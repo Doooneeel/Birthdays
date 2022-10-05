@@ -12,7 +12,6 @@ interface RangeGroup<R : RangeCategory<C>, C : Comparable<C>> {
         protected abstract val ranges: List<R>
 
         override fun group(value: C): R =
-            ranges.find { it.isInRange(value) } ?: throw NotFoundException("Unknown value: $value")
+            ranges.find { it.isInRange(value) } ?: throw NotFoundException("out of range: $value")
     }
-    abstract class AbstractInt : Abstract<RangeCategory<Int>, Int>()
 }

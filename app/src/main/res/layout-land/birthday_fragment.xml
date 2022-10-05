@@ -12,6 +12,14 @@
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/name_text_view"
         style="@style/BaseTextStyle"
+        android:layout_gravity="center"
+        android:textSize="@dimen/large_text"
+        tools:text="Username Username" />
+
+    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        android:id="@+id/date_text_view"
+        android:layout_gravity="center"
+        style="@style/BaseTextStyle"
         android:textSize="@dimen/large_text"
         tools:text="Username Username" />
 

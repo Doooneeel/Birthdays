@@ -2,6 +2,8 @@ package ru.daniilglazkov.birthdays.domain.birthdays.showmode.group
 
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayType
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacTextFormat
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
@@ -35,5 +37,13 @@ interface BirthdayGroupPredicate<T> : BirthdayDomain.Mapper<T> {
     ) : BirthdayGroupPredicate<Int> {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): Int =
             range.difference(before, date)
+    }
+
+    class Zodiac(
+        private val classification: ZodiacGroupClassification,
+        private val textFormat: ZodiacTextFormat
+    ) : BirthdayGroupPredicate<String> {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+            textFormat.format(classification.group(date.dayOfYear))
     }
 }

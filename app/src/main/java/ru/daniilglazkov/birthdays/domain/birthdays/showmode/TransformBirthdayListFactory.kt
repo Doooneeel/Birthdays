@@ -1,14 +1,15 @@
 package ru.daniilglazkov.birthdays.domain.birthdays.showmode
 
+import ru.daniilglazkov.birthdays.domain.birthdays.AgeGroupClassification
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.TransformBirthdayList.SortingAndGrouping
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.group.BirthdayGroupHeader
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.group.GroupBirthdayList
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortBirthdayList.*
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortBirthdayList
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.split.SplitBirthdayList
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
-import ru.daniilglazkov.birthdays.domain.date.NextEvent
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.domain.birthdays.zodiac.ZodiacTextFormat
+import ru.daniilglazkov.birthdays.domain.date.*
 import java.time.LocalDate
 
 /**
@@ -18,14 +19,21 @@ interface TransformBirthdayListFactory {
     fun create(sort: SortMode, reverse: Boolean, group: Boolean): TransformBirthdayList
 
     class Base(private val nextEvent: NextEvent) : TransformBirthdayListFactory {
-        private val unitGroup = GroupBirthdayList.Unit()
         private val now = LocalDate.now()
+
+        private val zodiacGroupClassification = ZodiacGroupClassification.Base()
+        private val ageGroupClassification = AgeGroupClassification.Base()
+        private val zodiacTextFormat = ZodiacTextFormat.Base()
+        private val unitGroup = GroupBirthdayList.Unit()
+        private val nextEventInDays = DateDifference.NextEventInDays(nextEvent)
+        private val differenceInYears = DateDifference.Years()
 
         override fun create(sort: SortMode, reverse: Boolean, group: Boolean) = when (sort) {
             SortMode.DATE -> {
-                val range = DateDifference.NextEventInDays(nextEvent)
                 SortingAndGrouping(
-                    sort = if (reverse) RangeDescending(range, now) else RangeAscending(range, now),
+                    sort = if (reverse) SortBirthdayList.RangeDescending(nextEventInDays, now)
+                    else SortBirthdayList.RangeAscending(nextEventInDays, now),
+
                     group = if (group) GroupBirthdayList.Base(
                         split = SplitBirthdayList.MonthsByYears(nextEvent),
                         groupHeader = BirthdayGroupHeader.MonthAndYear(nextEvent)
@@ -34,15 +42,19 @@ interface TransformBirthdayListFactory {
                 )
             }
             SortMode.AGE -> SortingAndGrouping(
-                sort = if (reverse) AgeDescending() else AgeAscending(),
+                sort = if (reverse) SortBirthdayList.AgeDescending()
+                else SortBirthdayList.AgeAscending(),
+
                 group = if (group) GroupBirthdayList.Base(
-                    split = SplitBirthdayList.Age(now),
+                    split = SplitBirthdayList.Age(now, ageGroupClassification),
                     groupHeader = BirthdayGroupHeader.Age(now)
                 )
                 else unitGroup
             )
             SortMode.NAME -> SortingAndGrouping(
-                sort = if (reverse) NameDescending() else NameAscending(),
+                sort = if (reverse) SortBirthdayList.NameDescending()
+                else SortBirthdayList.NameAscending(),
+
                 group = if (group) GroupBirthdayList.Base(
                     split = SplitBirthdayList.Name(),
                     groupHeader = BirthdayGroupHeader.FirstCharOfName()
@@ -50,7 +62,9 @@ interface TransformBirthdayListFactory {
                 else unitGroup
             )
             SortMode.MONTH -> SortingAndGrouping(
-                sort = if (reverse) MonthDescending() else MonthAscending(),
+                sort = if (reverse) SortBirthdayList.MonthDescending()
+                else SortBirthdayList.MonthAscending(),
+
                 group = if (group) GroupBirthdayList.Base(
                     split = SplitBirthdayList.Month(),
                     groupHeader = BirthdayGroupHeader.Date(DateTextFormat.Month())
@@ -58,14 +72,28 @@ interface TransformBirthdayListFactory {
                 else unitGroup
             )
             SortMode.YEAR -> {
-                val difference = DateDifference.Years()
                 SortingAndGrouping(
-                    sort = if (reverse) RangeAscending(difference, now)
-                    else RangeDescending(difference, now),
+                    sort = if (reverse) SortBirthdayList.RangeAscending(differenceInYears, now)
+                    else SortBirthdayList.RangeDescending(differenceInYears, now),
 
                     group = if (group) GroupBirthdayList.Base(
                         split = SplitBirthdayList.Year(),
                         groupHeader = BirthdayGroupHeader.Date(DateTextFormat.Year())
+                    )
+                    else unitGroup
+                )
+            }
+            SortMode.ZODIAC -> {
+                SortingAndGrouping(
+                    sort = if (reverse) SortBirthdayList.ZodiacAscending()
+                    else SortBirthdayList.ZodiacDescending(),
+
+                    group = if (group) GroupBirthdayList.Base(
+                        split = SplitBirthdayList.Zodiac(zodiacGroupClassification),
+                        groupHeader = BirthdayGroupHeader.Zodiac(
+                            zodiacGroupClassification,
+                            zodiacTextFormat
+                        )
                     )
                     else unitGroup
                 )

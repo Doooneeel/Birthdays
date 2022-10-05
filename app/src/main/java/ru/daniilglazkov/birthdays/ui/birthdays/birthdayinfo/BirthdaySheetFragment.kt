@@ -23,7 +23,8 @@ class BirthdaySheetFragment(
             viewModel.changeStatus(newState.not())
         }
         viewModel.observe(viewLifecycleOwner) { birthdayUi ->
-            //Todo make views
+            //todo make views
+            birthdayUi.apply(binding.nameTextView, dateView = binding.dateTextView)
         }
         viewModel.observeError(viewLifecycleOwner) { error ->
             error.apply(CustomToast(requireContext()))

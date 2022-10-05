@@ -6,8 +6,8 @@ import ru.daniilglazkov.birthdays.R
 import ru.daniilglazkov.birthdays.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayInteractor
-import ru.daniilglazkov.birthdays.ui.birthdays.AboutBirthdate
-import ru.daniilglazkov.birthdays.ui.birthdays.AboutBirthdateCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdate
+import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdateCommunication
 import ru.daniilglazkov.birthdays.ui.core.ClearErrorMessage
 import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
 import ru.daniilglazkov.birthdays.ui.core.ErrorMessage
@@ -57,7 +57,8 @@ interface NewBirthdayViewModel : ErrorCommunication.Observe, ClearErrorMessage, 
         override fun create() {
             communication.validate(validate, handleSuccess, errorCommunication::map)
         }
-        override fun changeDate(date: LocalDate) = aboutBirthdateCommunication.map(AboutBirthdate.Base(
+        override fun changeDate(date: LocalDate) = aboutBirthdateCommunication.map(
+            AboutBirthdate.Base(
             provideString.quantityString(R.plurals.age, interactor.calculateAge(date)),
             provideString.quantityString(R.plurals.day, interactor.calculateDaysToBirthday(date)),
         ))

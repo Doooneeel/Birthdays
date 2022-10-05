@@ -18,13 +18,13 @@ import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.DependencyContainer
 import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.sl.module.BirthdaySheetModule
-import ru.daniilglazkov.birthdays.sl.module.BirthdaysMenuModule
+import ru.daniilglazkov.birthdays.sl.module.BirthdaysSettingsModule
 import ru.daniilglazkov.birthdays.sl.module.BirthdaysModule
 import ru.daniilglazkov.birthdays.sl.module.NewBirthdayModule
 import ru.daniilglazkov.birthdays.ui.birthdays.birthdayinfo.BirthdayViewModel
 import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysViewModel
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayViewModel
-import ru.daniilglazkov.birthdays.ui.birthdays.sheetmenu.MenuSheetViewModel
+import ru.daniilglazkov.birthdays.ui.birthdays.settings.SettingsViewModel
 import java.time.LocalDate
 
 /**
@@ -74,8 +74,8 @@ class BirthdaysDependencyContainer(
                 nextEvent, now
             )
         }
-        MenuSheetViewModel.Base::class.java -> {
-            BirthdaysMenuModule(showModeInteractor)
+        SettingsViewModel.Base::class.java -> {
+            BirthdaysSettingsModule(showModeInteractor)
         }
         else -> next.module(clazz)
     }

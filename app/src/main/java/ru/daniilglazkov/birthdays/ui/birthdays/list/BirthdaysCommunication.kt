@@ -1,6 +1,6 @@
-package ru.daniilglazkov.birthdays.ui.birthdays
+package ru.daniilglazkov.birthdays.ui.birthdays.list
 
-import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysUi
+import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
 import ru.daniilglazkov.birthdays.ui.core.Communication
 
 /**

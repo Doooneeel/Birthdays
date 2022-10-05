@@ -12,12 +12,13 @@ import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.ui.birthdays.*
-import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdayChipCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysViewModel
+import ru.daniilglazkov.birthdays.ui.birthdays.list.chips.*
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUp
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpBirthdayList
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpChain
-import ru.daniilglazkov.birthdays.ui.birthdays.list.RecyclerStateCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate.RecyclerStateCommunication
 import java.time.LocalDate
 
 /**
@@ -65,8 +66,11 @@ class BirthdaysModule(
                 now
             )
         )
-        val birthdayListDomainToChips = BirthdayListDomainToChipsMapper.OnlyName(
-            BirthdayDomain.CheckMapper.IsHeader()
+        val birthdayListDomainToChips = BirthdayListDomainToChipsMapper.Base(
+            BirthdayDomainToChipMapper.Base(ChipTextFormat.OnlyName()),
+            BirthdayDomain.CheckMapper.IsHeader(),
+            coreModule.resourcesManager(),
+            ChipTextFormat.NameWithCount()
         )
         return BirthdaysViewModel.Base(
             interactor,

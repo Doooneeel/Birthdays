@@ -14,7 +14,7 @@ import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayIntera
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.sl.core.Module
-import ru.daniilglazkov.birthdays.ui.birthdays.AboutBirthdateCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdateCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayDomainToUiMapper
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayUi

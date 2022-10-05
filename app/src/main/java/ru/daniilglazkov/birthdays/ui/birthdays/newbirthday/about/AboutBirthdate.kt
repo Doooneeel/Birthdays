@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays
+package ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about
 
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 

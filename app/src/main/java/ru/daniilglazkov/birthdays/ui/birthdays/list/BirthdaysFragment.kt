@@ -40,7 +40,7 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
         }
         binding.menuImageButton.setOnSingleClick {
             searchViewClearFocus.invoke()
-            viewModel.showMenu()
+            viewModel.showSettingsDialog()
         }
         binding.chipGroup.setOnChipClickListener {
             searchViewClearFocus.invoke()
@@ -60,6 +60,7 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
         viewModel.observeRecyclerState(viewLifecycleOwner) { recyclerState ->
             recyclerState.apply(binding.recyclerView)
         }
+        viewModel.init(savedInstanceState == null)
         viewModel.fetch()
     }
 }

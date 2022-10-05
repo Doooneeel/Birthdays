@@ -1,17 +1,17 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list
+package ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate
 
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 
 /**
  * @author Danil Glazkov on 04.10.2022, 09:55
  */
-interface RecyclerViewState {
+interface RecyclerState {
     fun apply(recyclerView: AbstractView.Recycler)
 
     abstract class Abstract(
         private val scrollUp: Boolean,
         private val nestedScrollEnabled: Boolean
-    ) : RecyclerViewState {
+    ) : RecyclerState {
         override fun apply(recyclerView: AbstractView.Recycler) {
             recyclerView.scrollUp(scrollUp)
             recyclerView.nestedScroll(nestedScrollEnabled)

@@ -13,17 +13,17 @@ interface BirthdayUi : Same<BirthdayUi> {
 
     fun apply(
         nameView: AbstractView.Text,
-        turnsView: AbstractView.Text = AbstractView.Text.Empty(),
-        dateView: AbstractView.Text = AbstractView.Text.Empty(),
-        untilView: AbstractView.Text = AbstractView.Text.Empty()
+        turnsView: AbstractView.Text = AbstractView.Text.Empty,
+        dateView: AbstractView.Text = AbstractView.Text.Empty,
+        untilView: AbstractView.Text = AbstractView.Text.Empty
     )
 
     abstract class Abstract(
         private val id: Int,
         private val name: String,
-        private val turns: String,
-        private val date: String,
-        private val until: String,
+        private val turns: String = "",
+        private val date: String = "",
+        private val until: String = "",
     ) : BirthdayUi {
         protected abstract val compareMapper: CheckMapper
 
@@ -39,14 +39,21 @@ interface BirthdayUi : Same<BirthdayUi> {
             untilView: AbstractView.Text
         ) = nameView.map(name)
     }
+    abstract class AbstractCompareName(name: String) : Abstract(id = -1, name) {
+        override val compareMapper = CheckMapper.CompareName(name)
+    }
+
+    abstract class AbstractCompareId(
+        id: Int, name: String, turns: String = "", date: String = "", until: String = ""
+    ) : Abstract(id, name, turns, date, until) {
+        override val compareMapper = CheckMapper.CompareId(id)
+    }
 
     class Base(id: Int, name: String,
         private val turns: String,
         private val date: String,
         private val until: String,
-    ) : Abstract(id, name, turns, date, until) {
-        override val compareMapper = CheckMapper.CompareId(id)
-
+    ) : AbstractCompareId(id, name, turns, date, until) {
         override fun apply(
             nameView: AbstractView.Text,
             turnsView: AbstractView.Text,
@@ -64,9 +71,7 @@ interface BirthdayUi : Same<BirthdayUi> {
         private val turns: String,
         private val date: String,
         private val until: String,
-    ) : Abstract(id, name, turns, date, until) {
-        override val compareMapper = CheckMapper.CompareId(id)
-
+    ) : AbstractCompareId(id, name, turns, date, until) {
         override fun apply(
             nameView: AbstractView.Text,
             turnsView: AbstractView.Text,
@@ -79,13 +84,8 @@ interface BirthdayUi : Same<BirthdayUi> {
             untilView.map(until)
         }
     }
-
-    class Header(name: String) : Abstract(-1, name, "", "", "") {
-        override val compareMapper = CheckMapper.CompareName(name)
-    }
-    class Message(message: String) : Abstract(-1, message, "", "", "") {
-        override val compareMapper = CheckMapper.CompareName(message)
-    }
+    class Header(name: String) : AbstractCompareName(name)
+    class Message(name: String) : AbstractCompareName(name)
 
     interface Mapper<T> {
         fun map(id: Int, name: String, turns: String, date: String, until: String): T

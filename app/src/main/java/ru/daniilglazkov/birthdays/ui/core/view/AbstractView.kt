@@ -10,16 +10,16 @@ interface AbstractView<T> : Mapper.Unit<T> {
 
     interface Text : AbstractView<String> {
 
-        class Empty : Text {
+        object Empty : Text {
             override fun map(source: String) = Unit
         }
     }
-
     interface Check : AbstractView<Boolean>
 
     interface Date : AbstractView<LocalDate>
 
-    interface TextList : AbstractView<List<String>>
+    interface List<T> : AbstractView<kotlin.collections.List<T>>
+
 
     interface Recycler {
         fun nestedScroll(enabled: Boolean)

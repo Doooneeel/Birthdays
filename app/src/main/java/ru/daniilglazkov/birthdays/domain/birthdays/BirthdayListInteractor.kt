@@ -11,8 +11,8 @@ interface BirthdayListInteractor {
 
     fun birthdays(
         result: (BirthdayListDomain) -> Unit,
-        filter: CharSequence,
-        notFound: () -> Unit,
+        filter: CharSequence = "",
+        notFound: () -> Unit = { },
         onEmptyCache: () -> Unit
     )
 
@@ -22,7 +22,6 @@ interface BirthdayListInteractor {
         private val transformBirthdayList: ShowModeDomain.Mapper<TransformBirthdayList>,
     ) : BirthdayListInteractor {
         private val default = BirthdayListDomain.Empty()
-        private val birthdayListDomain: BirthdayListDomain get() = repository.read(default)
 
         override fun birthdays(
             result: (BirthdayListDomain) -> Unit,
@@ -30,13 +29,14 @@ interface BirthdayListInteractor {
             notFound: () -> Unit,
             onEmptyCache: () -> Unit
         ) {
-            if (birthdayListDomain.isEmpty()) {
+            val cachedBirthdays: BirthdayListDomain = repository.read(default)
+            if (cachedBirthdays.isEmpty()) {
                 onEmptyCache.invoke()
                 return
             }
             val showMode: ShowModeDomain = showModeRepository.read()
             val transformBirthdays: TransformBirthdayList = showMode.map(transformBirthdayList)
-            val birthdays: BirthdayListDomain = transformBirthdays.transform(birthdayListDomain)
+            val birthdays: BirthdayListDomain = transformBirthdays.transform(cachedBirthdays)
 
             result.invoke(birthdays)
             //TODO make search

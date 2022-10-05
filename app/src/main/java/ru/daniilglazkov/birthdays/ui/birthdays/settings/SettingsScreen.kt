@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.sheetmenu
+package ru.daniilglazkov.birthdays.ui.birthdays.settings
 
 import ru.daniilglazkov.birthdays.ui.core.NavigationScreen
 import ru.daniilglazkov.birthdays.ui.core.NavigationStrategy
@@ -6,8 +6,8 @@ import ru.daniilglazkov.birthdays.ui.core.NavigationStrategy
 /**
  * @author Danil Glazkov on 21.07.2022, 22:44
  */
-class MenuScreen(onClosed: () -> Unit = { }) : NavigationScreen(
-    "MenuNavigationScreen",
-    MenuSheetFragment::class.java,
+class SettingsScreen(onClosed: () -> Unit = { }) : NavigationScreen(
+    "SettingsNavigationScreen",
+    SettingsSheetFragment::class.java,
     NavigationStrategy.Sheet(onClosed)
 )

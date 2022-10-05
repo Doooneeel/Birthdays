@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.sheetmenu
+package ru.daniilglazkov.birthdays.ui.birthdays.settings
 
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.BirthdayListShowModeInteractor
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeDomain
@@ -12,7 +12,7 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 /**
  * @author Danil Glazkov on 21.07.2022, 22:33
  */
-interface MenuSheetViewModel: Init {
+interface SettingsViewModel : Init {
 
     fun changeSortMode(sort: SortMode)
     fun changeAdditionalSettings(reverse: Boolean, group: Boolean)
@@ -22,7 +22,7 @@ interface MenuSheetViewModel: Init {
         private val communication: ShowModeCommunication,
         private val toUi: ShowModeDomainToUiMapper
     ) : BaseSheetViewModel<ShowModeUi>(communication),
-        MenuSheetViewModel
+        SettingsViewModel
     {
         private val change = { showModeDomain: ShowModeDomain ->
             communication.map(showModeDomain.map(toUi))

@@ -29,8 +29,8 @@ abstract class BaseFragment<VB: ViewBinding, VM: BaseViewModel<*>>(
     private var _binding: VB? = null
     private var _viewModel: VM? = null
 
-    protected fun View.setOnSingleClick(block: (View) -> Unit) {
-        setOnClickListener(OnDebouncedClickListener.Base(debounce, block))
+    protected fun View.setOnSingleClick(listener: View.OnClickListener) {
+        setOnClickListener(OnDebouncedClickListener.Base(debounce, listener::onClick))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

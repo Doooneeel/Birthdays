@@ -27,16 +27,17 @@ interface NewBirthdayUi : ValidateNewBirthday {
             successful: (NewBirthdayUi) -> Unit,
             onFailure: (ErrorMessage) -> Unit
         ) {
-            when (validate.isValid(name)) {
-                true -> successful.invoke(this)
-                else -> onFailure.invoke(
+            if (validate.isValid(name)) {
+                successful.invoke(this)
+            } else {
+                onFailure.invoke(
                     ErrorMessage.Base(validate.errorMessage())
                 )
             }
         }
     }
     class Base(name: String, date: LocalDate) : Abstract(name, date)
-    class Empty : Abstract("", LocalDate.now())
+    object Empty : Abstract("", LocalDate.now())
 
     interface Mapper<T> {
         fun map(name: String, date: LocalDate): T

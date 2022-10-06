@@ -1,5 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list.chips
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import ru.daniilglazkov.birthdays.core.Clear
 import ru.daniilglazkov.birthdays.ui.core.Communication
 
@@ -10,4 +12,9 @@ interface BirthdayChipCommunication: Communication.Mutable<BirthdayListChips>, C
     class Base : Communication.UiUpdate<BirthdayListChips>(), BirthdayChipCommunication {
         override fun clear() = map(BirthdayListChips.Empty())
     }
+
+    interface Observe {
+        fun observeChips(owner: LifecycleOwner, observer: Observer<BirthdayListChips>)
+    }
+
 }

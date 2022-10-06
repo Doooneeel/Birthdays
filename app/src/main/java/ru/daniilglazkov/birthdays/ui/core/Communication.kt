@@ -29,6 +29,8 @@ interface Communication {
     abstract class UiUpdate<T : Any>(
         liveData: MutableLiveData<T> = MutableLiveData()
     ) : Abstract<T>(liveData) {
+        constructor(initValue: T) : this(MutableLiveData(initValue))
+
         override fun map(source: T) { liveData.value = source }
     }
 

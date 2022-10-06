@@ -2,27 +2,20 @@ package ru.daniilglazkov.birthdays.ui.birthdays.newbirthday
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayInteractor
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdate
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdateCommunication
-import ru.daniilglazkov.birthdays.ui.core.ClearErrorMessage
-import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
-import ru.daniilglazkov.birthdays.ui.core.ErrorMessage
-import ru.daniilglazkov.birthdays.ui.core.Fetch
-import ru.daniilglazkov.birthdays.ui.core.textfilter.TextFilter
-import ru.daniilglazkov.birthdays.ui.core.validate.Validate
+import ru.daniilglazkov.birthdays.ui.core.*
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 import java.time.LocalDate
 
 /**
  * @author Danil Glazkov on 11.06.2022, 23:58
  */
-interface NewBirthdayViewModel : ErrorCommunication.Observe, ClearErrorMessage, Fetch {
-
-    fun observeAboutBirthday(owner: LifecycleOwner, observer: Observer<AboutBirthdate>)
+interface NewBirthdayViewModel : ErrorCommunication.Observe, ClearErrorMessage, Fetch,
+    AboutBirthdateCommunication.Observe
+{
     fun changeBirthday(name: String, date: LocalDate)
     fun changeDate(date: LocalDate)
     fun clearNewBirthday()
@@ -30,43 +23,39 @@ interface NewBirthdayViewModel : ErrorCommunication.Observe, ClearErrorMessage, 
 
     class Base(
         private val interactor: NewBirthdayInteractor,
-        private val communication: NewBirthdayCommunication,
+        private val newBirthdayCommunication: NewBirthdayCommunication,
         private val errorCommunication: ErrorCommunication,
         private val aboutBirthdateCommunication: AboutBirthdateCommunication,
-        private val nameFilter: TextFilter,
-        private val validate: Validate,
-        private val provideString: ProvideString,
-        private val toUi: NewBirthdayDomainToUiMapper,
-        private val toDomain: NewBirthdayUi.Mapper<NewBirthdayDomain>
-    ) : BaseSheetViewModel<NewBirthdayUi>(communication),
+        private val newBirthdayDomainToUiMapper: NewBirthdayDomainToUiMapper,
+        private val newBirthdayUiToDomainMapper: NewBirthdayUi.Mapper<NewBirthdayDomain>
+    ) : BaseSheetViewModel<NewBirthdayUi>(newBirthdayCommunication),
         NewBirthdayViewModel
     {
-        private val emptyNewBirthday = NewBirthdayUi.Empty()
         private val handleSuccess = { newBirthday: NewBirthdayUi ->
-            interactor.create(newBirthday.map(toDomain))
+            interactor.create(newBirthday.map(newBirthdayUiToDomainMapper))
             navigateBack()
         }
+        private val handleError = { errorMessage: ErrorMessage ->
+            errorCommunication.map(errorMessage)
+        }
+
         override fun fetch() {
             val latestNewBirthdayFromCache: NewBirthdayDomain = interactor.latestBirthday()
-            communication.map(latestNewBirthdayFromCache.map(toUi))
+            newBirthdayCommunication.map(latestNewBirthdayFromCache.map(newBirthdayDomainToUiMapper))
         }
         override fun clearErrorMessage() = errorCommunication.clear()
+        override fun clearNewBirthday() = newBirthdayCommunication.clear()
 
-        override fun clearNewBirthday() = communication.map(emptyNewBirthday)
+        override fun create() = newBirthdayCommunication.validate(handleSuccess, handleError)
 
-        override fun create() {
-            communication.validate(validate, handleSuccess, errorCommunication::map)
-        }
-        override fun changeDate(date: LocalDate) = aboutBirthdateCommunication.map(
-            AboutBirthdate.Base(
-            provideString.quantityString(R.plurals.age, interactor.calculateAge(date)),
-            provideString.quantityString(R.plurals.day, interactor.calculateDaysToBirthday(date)),
-        ))
+        override fun changeDate(date: LocalDate) = aboutBirthdateCommunication.makeNew(
+            interactor.calculateAge(date),
+            interactor.calculateDaysToBirthday(date)
+        )
         override fun changeBirthday(name: String, date: LocalDate) {
-            val birthday = NewBirthdayUi.Base(nameFilter.filter(name), date)
-
-            interactor.save(birthday.map(toDomain))
-            communication.map(birthday)
+            newBirthdayCommunication.filter(name, date) { newBirthday ->
+                interactor.save(newBirthday.map(newBirthdayUiToDomainMapper))
+            }
         }
         override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) {
             errorCommunication.observe(owner, observer)
@@ -75,5 +64,4 @@ interface NewBirthdayViewModel : ErrorCommunication.Observe, ClearErrorMessage, 
             aboutBirthdateCommunication.observe(owner, observer)
         }
     }
-
 }

@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.daniilglazkov.birthdays.core.ProvideViewModel
+import ru.daniilglazkov.birthdays.ui.core.Debounce
 import ru.daniilglazkov.birthdays.ui.core.HideKeyboard
 import ru.daniilglazkov.birthdays.ui.core.OnClosed
+import ru.daniilglazkov.birthdays.ui.core.click.OnDebouncedClickListener
 
 /**
  * @author Danil Glazkov on 12.06.2022, 20:02
@@ -18,6 +21,7 @@ import ru.daniilglazkov.birthdays.ui.core.OnClosed
 abstract class BaseSheetFragment<VB: ViewBinding, VM: BaseSheetViewModel<*>>(
     private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     private val viewModelClass: Class<VM>,
+    private val debounce: Debounce = Debounce.NoDelay()
 ) : BottomSheetDialogFragment(),
     OnClosed.Unit,
     HideKeyboard
@@ -34,6 +38,9 @@ abstract class BaseSheetFragment<VB: ViewBinding, VM: BaseSheetViewModel<*>>(
     private var _viewModel: VM? = null
     private var onClosed: () -> Unit = { }
 
+    protected fun View.setOnSingleClick(listener: OnClickListener) {
+        setOnClickListener(OnDebouncedClickListener.Base(debounce, listener::onClick))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

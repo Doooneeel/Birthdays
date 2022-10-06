@@ -20,12 +20,11 @@ interface BirthdayCompleteInfoInteractor : Delete {
             birthdayId: Int,
             successful: (BirthdayDomain) -> Unit,
             onFailure: () -> Unit
-        ) = repository.find(birthdayId).let { birthday ->
-            if (birthday is BirthdayDomain.Fail) {
-                onFailure.invoke()
-            } else {
-                successful.invoke(birthday)
-            }
+        ) = try {
+            successful.invoke(repository.find(birthdayId))
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            onFailure.invoke()
         }
         override fun delete(id: Int) = repository.delete(id)
     }

@@ -1,30 +1,23 @@
 <resources>
     <string name="app_name">Birthdays</string>
-    <string name="add">Add</string>
     <string name="birthday">Birthday</string>
     <string name="birthdays">Birthdays</string>
+
+    <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="turns">Turns</string>
+    <string name="search">Search</string>
+
     <string name="tomorrow">Tomorrow</string>
     <string name="today">Today</string>
+
     <string name="new_birthday">New\nbirthday</string>
-    <string name="by_name">By name</string>
-    <string name="by_date">By date</string>
-    <string name="by_month">By month</string>
-    <string name="by_age">By age</string>
-    <string name="by_year">By year</string>
-    <string name="by_zodiac">By zodiac</string>
 
     <string name="total">Total</string>
-    <string name="birthday_not_found">Nothing found</string>
-    <string name="search">Search</string>
-    <string name="is_reverse">Reverse</string>
-    <string name="is_grouped">Group</string>
-    <string name="name_min_length_error_message">Short name</string>
-    <string name="empty_name_error_message">Enter your name</string>
-    <string name="first_char_is_not_letter_error_message">Name must start with a letter</string>
-    <string name="element_removed">Element removed</string>
+
+
+
     <string name="date">Date</string>
     <string name="name">Name</string>
     <string name="age">Age</string>
@@ -33,9 +26,45 @@
     <string name="clear">Clear</string>
     <string name="list_is_empty">The list is empty</string>
 
+
+    <!--Error messages-->
+    <string name="name_min_length_error_message">Short name</string>
+    <string name="empty_name_error_message">Enter your name</string>
+    <string name="first_char_is_not_letter_error_message">Name must start with a letter</string>
+    <string name="element_removed">Element removed</string>
+    <string name="birthday_not_found">Nothing found</string>
+
+    <!--Sort mode-->
+    <string name="by_name">By name</string>
+    <string name="by_date">By date</string>
+    <string name="by_month">By month</string>
+    <string name="by_age">By age</string>
+    <string name="by_year">By year</string>
+    <string name="by_zodiac">By zodiac</string>
+
+    <string name="reverse">Reverse</string>
+    <string name="grouped">Group</string>
+
     <string name="sort">Sort</string>
     <string name="additional_parameters">Additional Parameters</string>
 
+
+    <!--Zodiacs-->
+    <string name="aries">Aries</string>
+    <string name="taurus">Taurus</string>
+    <string name="gemini">Gemini</string>
+    <string name="cancer">Cancer</string>
+    <string name="leo">Leo</string>
+    <string name="virgo">Virgo</string>
+    <string name="libra">Libra</string>
+    <string name="scorpio">Scorpio</string>
+    <string name="sagittarius">Sagittarius</string>
+    <string name="capricorn">Capricorn</string>
+    <string name="aquarius">Aquarius</string>
+    <string name="pisces">Pisces</string>
+
+
+    <!--Plurals-->
     <plurals name="left">
         <item quantity="one">%d</item>
         <item quantity="other">%d дня</item>

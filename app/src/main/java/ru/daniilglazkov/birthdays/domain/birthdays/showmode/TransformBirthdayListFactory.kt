@@ -1,5 +1,6 @@
 package ru.daniilglazkov.birthdays.domain.birthdays.showmode
 
+import ru.daniilglazkov.birthdays.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.domain.birthdays.AgeGroupClassification
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.TransformBirthdayList.SortingAndGrouping
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.group.BirthdayGroupHeader
@@ -18,12 +19,15 @@ import java.time.LocalDate
 interface TransformBirthdayListFactory {
     fun create(sort: SortMode, reverse: Boolean, group: Boolean): TransformBirthdayList
 
-    class Base(private val nextEvent: NextEvent) : TransformBirthdayListFactory {
+    class Base(
+        private val nextEvent: NextEvent,
+        provideString: ProvideString,
+    ) : TransformBirthdayListFactory {
         private val now = LocalDate.now()
 
         private val zodiacGroupClassification = ZodiacGroupClassification.Base()
         private val ageGroupClassification = AgeGroupClassification.Base()
-        private val zodiacTextFormat = ZodiacTextFormat.Base()
+        private val zodiacTextFormat = ZodiacTextFormat.Base(provideString)
         private val unitGroup = GroupBirthdayList.Unit()
         private val nextEventInDays = DateDifference.NextEventInDays(nextEvent)
         private val differenceInYears = DateDifference.Years()

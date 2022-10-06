@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import androidx.annotation.StyleableRes
 
 /**
  * @author Danil Glazkov on 03.10.2022, 16:14
@@ -41,7 +40,7 @@ interface ProvideAttributeDrawable {
 }
 
 interface ProvideAttributeResourceId {
-    fun id(@StyleableRes resourceId: Int): Int
+    fun id(resourceId: Int): Int
 }
 
 interface Recycle {

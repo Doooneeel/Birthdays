@@ -13,6 +13,7 @@ interface NewBirthdayInteractor : Save<NewBirthdayDomain> {
 
     fun create(Birthday: NewBirthdayDomain)
     fun latestBirthday(): NewBirthdayDomain
+
     fun calculateDaysToBirthday(date: LocalDate): Int
     fun calculateAge(date: LocalDate): Int
 
@@ -20,8 +21,8 @@ interface NewBirthdayInteractor : Save<NewBirthdayDomain> {
         private val baseRepository: Add<BirthdayDomain>,
         private val newBirthdayDomainCache: NewBirthdayRepository,
         private val toDomain: NewBirthdayDomain.Mapper<BirthdayDomain>,
-        private val dateDifference: DateDifference,
-        private val year: DateDifference,
+        private val daysToBirthdayDateDifference: DateDifference,
+        private val ageDateDifference: DateDifference,
         private val now: LocalDate
     ) : NewBirthdayInteractor {
         private var birthdayAdded = false
@@ -35,9 +36,12 @@ interface NewBirthdayInteractor : Save<NewBirthdayDomain> {
         override fun latestBirthday(): NewBirthdayDomain {
             return newBirthdayDomainCache.read(default = defaultBirthdayDomain)
         }
-        override fun calculateDaysToBirthday(date: LocalDate) = dateDifference.difference(now, date)
-        override fun calculateAge(date: LocalDate): Int = year.difference(now, date)
-
+        override fun calculateDaysToBirthday(date: LocalDate): Int {
+            return daysToBirthdayDateDifference.difference(now, date)
+        }
+        override fun calculateAge(date: LocalDate): Int {
+            return ageDateDifference.difference(now, date)
+        }
         override fun save(data: NewBirthdayDomain) {
             if (birthdayAdded.not()) {
                 newBirthdayDomainCache.save(data)

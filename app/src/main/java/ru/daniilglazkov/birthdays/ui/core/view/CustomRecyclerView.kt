@@ -15,9 +15,9 @@ class CustomRecyclerView @JvmOverloads constructor(
     attrs,
 ) , AbstractView.Recycler {
     override fun scrollUp(needToScroll: Boolean) {
-        if (needToScroll) {
-            smoothScrollToPosition(-10)
-        }
+       if (needToScroll) {
+           scrollToPosition(0)
+       }
     }
     override fun nestedScroll(enabled: Boolean) {
         isNestedScrollingEnabled = enabled

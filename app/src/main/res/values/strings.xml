@@ -10,9 +10,8 @@
     <string name="tomorrow">Завтра</string>
     <string name="total">Всего</string>
     <string name="search">Поиск</string>
-    <string name="sort">Сортировка</string>
-    <string name="clear">Очистить</string>
 
+    <string name="clear">Очистить</string>
     <string name="date">Дата</string>
     <string name="name">Имя</string>
     <string name="age">Возраст</string>
@@ -21,13 +20,12 @@
     
     <string name="list_is_empty">Список пуст</string>
 
-    <string name="additional_parameters">Дополнительные\nпараметры</string>
 
     <string name="birthday_not_found">¯\\_(ツ)_/¯\nНичего не найдено</string>
 
     <string name="new_birthday">Новый\nДень\nРождения</string>
 
-    <!--Sort mode-->
+    <!--Settings-->
     <string name="by_name">По имени</string>
     <string name="by_date">По дате</string>
     <string name="by_month">По месяцу</string>
@@ -35,8 +33,26 @@
     <string name="by_year">По году</string>
     <string name="by_zodiac">По зодиакту</string>
 
-    <string name="is_reverse">Обратный порядок</string>
-    <string name="is_grouped">Группировать</string>
+    <string name="sort">Сортировка</string>
+    <string name="additional_parameters">Дополнительные\nпараметры</string>
+
+    <string name="reverse">Обратный порядок</string>
+    <string name="grouped">Группировать</string>
+
+
+    <!--Zodiacs-->
+    <string name="aries">Овен</string>
+    <string name="taurus">Телец</string>
+    <string name="gemini">Близнецы</string>
+    <string name="cancer">Рак</string>
+    <string name="leo">Лев</string>
+    <string name="virgo">Дева</string>
+    <string name="libra">Весы</string>
+    <string name="scorpio">Скорпион</string>
+    <string name="sagittarius">Стрелец</string>
+    <string name="capricorn">Козерог</string>
+    <string name="aquarius">Водолей</string>
+    <string name="pisces">Рыбы</string>
 
 
     <!--Error messages-->

@@ -20,7 +20,7 @@ class BirthdaySheetFragment(
         super.onViewCreated(view, savedInstanceState)
 
         binding.deleteButton.setOnToggleListener { newState ->
-            viewModel.changeStatus(newState.not())
+            viewModel.changeDeleteState(newState.not())
         }
         viewModel.observe(viewLifecycleOwner) { birthdayUi ->
             //todo make views
@@ -35,6 +35,6 @@ class BirthdaySheetFragment(
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        viewModel.dismiss()
+        viewModel.complete()
     }
 }

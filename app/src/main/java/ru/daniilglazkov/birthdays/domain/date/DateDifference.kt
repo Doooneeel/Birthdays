@@ -28,6 +28,6 @@ interface DateDifference {
         private val nextEvent: NextEvent,
     ) : Abstract(ChronoUnit.DAYS) {
         override fun difference(before: LocalDate, after: LocalDate): Int =
-            super.difference(nextEvent.nextEvent(after), before)
+            super.difference(before, nextEvent.nextEvent(after))
     }
 }

@@ -14,6 +14,7 @@ import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.ui.birthdays.*
 import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysViewModel
+import ru.daniilglazkov.birthdays.ui.birthdays.list.QueryCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.list.chips.*
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUp
 import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpBirthdayList
@@ -37,7 +38,7 @@ class BirthdaysModule(
             repository,
             showStrategyInteractor,
             ShowModeDomain.Mapper.Transform(
-                TransformBirthdayListFactory.Base(nextEvent)
+                TransformBirthdayListFactory.Base(nextEvent, coreModule.resourcesManager())
             )
         )
         val recyclerStateCommunication = RecyclerStateCommunication.Base(
@@ -77,6 +78,7 @@ class BirthdaysModule(
             BirthdaysCommunication.Base(),
             BirthdayChipCommunication.Base(),
             recyclerStateCommunication,
+            QueryCommunication.Base(),
             coreModule.navigation(),
             coreModule.resourcesManager(),
             birthdayListDomainToUi,

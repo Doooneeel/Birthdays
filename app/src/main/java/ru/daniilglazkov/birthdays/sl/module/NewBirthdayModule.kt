@@ -74,12 +74,9 @@ class NewBirthdayModule(
 
         return NewBirthdayViewModel.Base(
             interactor,
-            NewBirthdayCommunication.Base(),
+            NewBirthdayCommunication.Base(validate, nameFilter),
             ErrorCommunication.Base(),
-            AboutBirthdateCommunication.Base(),
-            nameFilter,
-            validate,
-            resourceManager,
+            AboutBirthdateCommunication.Base(resourceManager),
             NewBirthdayDomainToUiMapper.Base(),
             NewBirthdayUi.Mapper.ToDomain()
         )

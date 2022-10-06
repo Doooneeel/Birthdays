@@ -78,7 +78,7 @@
             <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
                 android:id="@+id/group_switch"
                 style="@style/SwitchStyle"
-                android:text="@string/is_grouped" />
+                android:text="@string/grouped" />
         </LinearLayout>
 
         <LinearLayout style="@style/MenuItemBackgroundStyle">
@@ -86,7 +86,7 @@
             <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
                 android:id="@+id/reverse_switch"
                 style="@style/SwitchStyle"
-                android:text="@string/is_reverse" />
+                android:text="@string/reverse" />
         </LinearLayout>
 
     </GridLayout>

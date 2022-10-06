@@ -1,5 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.settings
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdaysSettingsSheetFragmentBinding
@@ -24,16 +25,14 @@ class SettingsSheetFragment :
                 binding.groupSwitch.isChecked
             )
         }
-        val sortModeMap by lazy {
-            mapOf(
-                binding.byDateRadioButton to SortMode.DATE,
-                binding.byNameRadioButton to SortMode.NAME,
-                binding.byMonthRadioButton to SortMode.MONTH,
-                binding.byAgeRadioButton to SortMode.AGE,
-                binding.byYearRadioButton to SortMode.YEAR,
-                binding.byZodiacRadioButton to SortMode.ZODIAC
-            )
-        }
+        val sortModeMap = mapOf(
+            binding.byDateRadioButton to SortMode.DATE,
+            binding.byNameRadioButton to SortMode.NAME,
+            binding.byMonthRadioButton to SortMode.MONTH,
+            binding.byAgeRadioButton to SortMode.AGE,
+            binding.byYearRadioButton to SortMode.YEAR,
+            binding.byZodiacRadioButton to SortMode.ZODIAC
+        )
         sortModeMap.forEach { (checkView: View, sortMode: SortMode) ->
             val backgroundLayout = checkView.parent as View
             val onClickListener = View.OnClickListener {
@@ -49,5 +48,10 @@ class SettingsSheetFragment :
             showModeUi.apply(sortModeMap.toMap(), binding.reverseSwitch, binding.groupSwitch)
         }
         viewModel.init(savedInstanceState == null)
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        viewModel.complete()
     }
 }

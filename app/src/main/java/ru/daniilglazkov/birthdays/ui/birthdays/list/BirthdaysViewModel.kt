@@ -23,45 +23,44 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 /**
  * @author Danil Glazkov on 10.06.2022, 01:22
  */
-interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init {
-
+interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
+    RecyclerStateCommunication.Observe,
+    BirthdayChipCommunication.Observe
+{
     fun changeSearchQuery(text: CharSequence)
-    fun observeChips(owner: LifecycleOwner, observer: Observer<BirthdayListChips>)
-    fun observeRecyclerState(owner: LifecycleOwner, observer: Observer<RecyclerState>)
-
 
     class Base(
         private val interactor: BirthdayListInteractor,
-        private val communication: BirthdaysCommunication,
+        private val birthdaysCommunication: BirthdaysCommunication,
         private val chipCommunication: BirthdayChipCommunication,
         private val recyclerStateCommunication: RecyclerStateCommunication,
+        private val queryCommunication: QueryCommunication,
         navigation: Navigation.Mutable,
-        private val provideString: ProvideString,
+        private val resources: ProvideString,
         private val birthdayListDomainToUi: BirthdayListDomainToUiMapper,
         private val birthdayListDomainToChips: BirthdayListDomainToChipsMapper,
-    ) : BaseSheetViewModel<BirthdaysUi>(communication, navigation),
+    ) : BaseSheetViewModel<BirthdaysUi>(birthdaysCommunication, navigation),
         BirthdaysViewModel
     {
-        private var query: CharSequence = ""
         private val settingsScreen = SettingsScreen(onClosed = ::fetch)
         private val newBirthdayScreen = NewBirthdayScreen(onClosed = ::fetch)
         private val notFoundMessage by lazy {
-            BirthdayUi.Message(provideString.string(R.string.birthday_not_found))
+            BirthdayUi.Message(resources.string(R.string.birthday_not_found))
         }
         private val handleNotFound = {
-            communication.map(notFoundMessage)
+            birthdaysCommunication.map(notFoundMessage)
         }
         private val handleResult: (BirthdayListDomain) -> Unit = { birthdayListDomain ->
-            communication.map(birthdayListDomain.map(birthdayListDomainToUi))
+            birthdaysCommunication.map(birthdayListDomain.map(birthdayListDomainToUi))
             chipCommunication.map(birthdayListDomain.map(birthdayListDomainToChips))
             recyclerStateCommunication.changeList(birthdayListDomain)
         }
         private val handleEmptyList = {
-            communication.map(BirthdayUi.Message(provideString.string(R.string.list_is_empty)))
+            birthdaysCommunication.map(BirthdayUi.Message(resources.string(R.string.list_is_empty)))
             recyclerStateCommunication.map(RecyclerState.Disable())
             chipCommunication.clear()
         }
-        override fun fetch() {
+        override fun fetch() = queryCommunication.executeQuery { query ->
             interactor.birthdays(handleResult, query, handleNotFound, handleEmptyList)
         }
         override fun init(isFirstRun: Boolean) {
@@ -69,9 +68,7 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init {
                 interactor.birthdays(handleResult, onEmptyCache = ::showNewBirthdayDialog)
             }
         }
-        override fun changeSearchQuery(text: CharSequence) {
-            query = text
-        }
+        override fun changeSearchQuery(text: CharSequence) = queryCommunication.map(text)
         override fun showSettingsDialog() = navigate(settingsScreen)
         override fun showNewBirthdayDialog() = navigate(newBirthdayScreen)
 

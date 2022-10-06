@@ -6,7 +6,7 @@ import ru.daniilglazkov.birthdays.databinding.BirthdaysFragmentBinding
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
 import ru.daniilglazkov.birthdays.ui.core.Debounce
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
-import ru.daniilglazkov.birthdays.ui.core.view.listener.OnSingleQueryTextListener
+import ru.daniilglazkov.birthdays.ui.core.view.listener.SingleOnQueryTextListener
 import ru.daniilglazkov.birthdays.ui.main.BaseFragment
 
 /**
@@ -45,7 +45,7 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
         binding.chipGroup.setOnChipClickListener {
             searchViewClearFocus.invoke()
         }
-        binding.searchView.setOnQueryTextListener(OnSingleQueryTextListener { newText ->
+        binding.searchView.setOnQueryTextListener(SingleOnQueryTextListener { newText ->
             viewModel.changeSearchQuery(newText)
             viewModel.fetch()
         })

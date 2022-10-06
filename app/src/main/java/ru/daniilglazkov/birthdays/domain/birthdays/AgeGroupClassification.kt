@@ -9,11 +9,11 @@ interface AgeGroupClassification : RangeGroup<AgeRangeCategory, Int> {
 
     class Base : RangeGroup.Abstract<AgeRangeCategory, Int>(), AgeGroupClassification {
         override val ranges: List<AgeRangeCategory> = listOf(
-            AgeRangeCategory.Child(),
-            AgeRangeCategory.Teenage(),
-            AgeRangeCategory.Young(),
-            AgeRangeCategory.Adult(),
-            AgeRangeCategory.Senior()
+            AgeRangeCategory.Child,
+            AgeRangeCategory.Teenage,
+            AgeRangeCategory.Young,
+            AgeRangeCategory.Adult,
+            AgeRangeCategory.Senior
         )
     }
 }

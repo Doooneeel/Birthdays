@@ -11,6 +11,7 @@ import ru.daniilglazkov.birthdays.ui.birthdays.BirthdateTextFormat
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayDomainToUiMapper
 import ru.daniilglazkov.birthdays.ui.birthdays.birthdayinfo.BirthdayViewModel
+import ru.daniilglazkov.birthdays.ui.birthdays.birthdayinfo.DeleteStateCommunication
 import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
 import java.time.LocalDate
 
@@ -37,6 +38,7 @@ class BirthdaySheetModule(
             interactor,
             BirthdayCommunication.Base(),
             ErrorCommunication.Base(),
+            DeleteStateCommunication.Base(),
             birthdayDomainToUiMapper,
             provideString
         )

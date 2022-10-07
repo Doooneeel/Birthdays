@@ -10,4 +10,29 @@
         <item name="android:background">@drawable/panel</item>
     </style>
 
+
+    <style name="RadioButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+        <item name="android:paddingVertical">@dimen/normal_distance</item>
+        <item name="android:background">@drawable/panel</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="drawableTint">@color/text</item>
+        <item name="android:button">@drawable/radio_button_inset</item>
+    </style>
+
+    <style name="SwitchStyle" parent="Theme.MaterialComponents">
+        <item name="android:textColor">@color/text</item>
+        <item name="drawableTint">@color/text</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/panel</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+    </style>
+
 </resources>

@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.domain.birthdays
 
-import ru.daniilglazkov.birthdays.core.Read
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.FetchShowMode
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.TransformBirthdayList
 
@@ -18,7 +18,7 @@ interface BirthdayListInteractor {
 
     class Base(
         private val repository: BirthdayListRepository,
-        private val showModeRepository: Read<ShowModeDomain>,
+        private val showModeRepository: FetchShowMode,
         private val transformBirthdayList: ShowModeDomain.Mapper<TransformBirthdayList>,
     ) : BirthdayListInteractor {
         private val default = BirthdayListDomain.Empty()
@@ -34,7 +34,7 @@ interface BirthdayListInteractor {
                 onEmptyCache.invoke()
                 return
             }
-            val showMode: ShowModeDomain = showModeRepository.read()
+            val showMode: ShowModeDomain = showModeRepository.fetchShowMode()
             val transformBirthdays: TransformBirthdayList = showMode.map(transformBirthdayList)
             val birthdays: BirthdayListDomain = transformBirthdays.transform(cachedBirthdays)
 

@@ -46,5 +46,4 @@ interface NewBirthdayUi : ValidateNewBirthday {
             override fun map(name: String, date: LocalDate) = NewBirthdayDomain.Base(name, date)
         }
     }
-
 }

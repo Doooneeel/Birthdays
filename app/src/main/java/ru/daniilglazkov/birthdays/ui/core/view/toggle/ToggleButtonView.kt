@@ -1,14 +1,13 @@
-package ru.daniilglazkov.birthdays.ui.core.view
+package ru.daniilglazkov.birthdays.ui.core.view.toggle
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.os.Bundle
 import android.util.AttributeSet
-import android.widget.Button
 import ru.daniilglazkov.birthdays.R
+import ru.daniilglazkov.birthdays.ui.core.view.AbstractButtonCustomView
+import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
+import ru.daniilglazkov.birthdays.ui.core.view.ManageAttributeResources
 import ru.daniilglazkov.birthdays.ui.core.view.listener.OnToggleListener
 import ru.daniilglazkov.birthdays.ui.core.view.listener.SetOnToggleListener
-
 /**
  * @author Danil Glazkov on 02.10.2022, 18:19
  */
@@ -20,16 +19,10 @@ class ToggleButtonView(
     attributeSet,
     R.styleable.ToggleButtonView
 ) , SetOnToggleListener,
+    AbstractView.Check,
     Toggle
 {
     override val resources = ManageAttributeResources.Base(typedArray)
-
-    override val handleOnRestoreInstanceState = { bundle: Bundle ->
-        buttonState = bundle.getBoolean(TOGGLE_STATE_KEY)
-    }
-    override val handleOnSaveInstanceState = { bundle: Bundle ->
-        bundle.putBoolean(TOGGLE_STATE_KEY, buttonState)
-    }
 
     private val toggleButtonStateEnabled = ToggleButtonState.Base(
         resources.string(R.styleable.ToggleButtonView_enableText),
@@ -71,27 +64,8 @@ class ToggleButtonView(
         this.onToggleListener = onToggleListener
     }
 
-    companion object {
-        private const val TOGGLE_STATE_KEY = "toggleState"
-    }
-}
-
-interface Toggle {
-    fun toggle()
-}
-
-interface ToggleButtonState {
-    fun apply(view: Button)
-
-    class Base(
-        private val text: String,
-        private val backgroundTint: ColorStateList,
-        private val drawableId: Int,
-    ) : ToggleButtonState {
-        override fun apply(view: Button) {
-            view.text = text
-            view.backgroundTintList = backgroundTint
-            view.setCompoundDrawablesWithIntrinsicBounds(drawableId, 0, 0, 0)
-        }
+    override fun map(source: Boolean) {
+        buttonState = source
+        updateView()
     }
 }

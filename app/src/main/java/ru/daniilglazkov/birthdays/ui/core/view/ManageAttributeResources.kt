@@ -35,6 +35,7 @@ interface ProvideAttributeColor {
     fun color(id: Int): Int
     fun colorState(id: Int): ColorStateList
 }
+
 interface ProvideAttributeDrawable {
     fun drawable(id: Int): Drawable?
 }

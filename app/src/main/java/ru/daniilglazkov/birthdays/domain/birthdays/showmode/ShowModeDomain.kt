@@ -5,7 +5,7 @@ import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
 /**
  * @author Danil Glazkov on 04.08.2022, 03:03
  */
-interface ShowModeDomain : ChangeShowMode {
+interface ShowModeDomain : ChangeAndReturnShowMode {
     fun <T> map(mapper: Mapper<T>): T
 
     abstract class Abstract(
@@ -20,7 +20,7 @@ interface ShowModeDomain : ChangeShowMode {
 
     class Base(sort: SortMode, reverse: Boolean, group: Boolean) : Abstract(sort, reverse, group)
 
-    class Default : Abstract(SortMode.DATE, reverse = false, group = true)
+    object Default : Abstract(SortMode.DATE, reverse = false, group = true)
 
     interface Mapper<T> {
         fun map(sort: SortMode, reverse: Boolean, group: Boolean): T

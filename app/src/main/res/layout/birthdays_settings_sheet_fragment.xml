@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingHorizontal="@dimen/normal_distance"
     android:paddingBottom="@dimen/large_distance"
     android:theme="@style/Theme.Birthdays"
     tools:ignore="RtlSymmetry,TextContrastCheck">
@@ -12,94 +13,84 @@
 
     <TextView
         style="@style/TextWithIconStyle"
-        android:paddingStart="@dimen/very_large_distance"
-        android:paddingTop="@dimen/small_distance"
-        android:paddingBottom="@dimen/normal_distance"
+        android:drawablePadding="@dimen/normal_distance"
+        android:paddingTop="@dimen/medium_distance"
+        android:paddingBottom="@dimen/large_distance"
+        android:paddingStart="@dimen/medium_distance"
         android:text="@string/sort"
         app:drawableStartCompat="@drawable/ic_sort" />
 
-    <GridLayout style="@style/MenuGridLayoutStyle">
+    <ru.daniilglazkov.birthdays.ui.core.view.SortModeGridLayout
+        android:id="@+id/sort_mode_grid_layout"
+        style="@style/MenuGridLayoutStyle">
 
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
+        <ru.daniilglazkov.birthdays.ui.core.view.SortByNameRadioButton
+            android:id="@+id/by_name_radio_button"
+            style="@style/RadioButtonStyle"
+            android:layout_marginEnd="@dimen/very_small_distance"
+            android:text="@string/by_name" />
 
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomRadioButton
-                android:id="@+id/by_date_radio_button"
-                style="@style/RadioButtonStyle"
-                android:text="@string/by_date" />
+        <ru.daniilglazkov.birthdays.ui.core.view.SortByDateRadioButton
+            android:id="@+id/by_date_radio_button"
+            style="@style/RadioButtonStyle"
+            android:layout_marginStart="@dimen/very_small_distance"
+            android:text="@string/by_date" />
 
-        </LinearLayout>
+        <ru.daniilglazkov.birthdays.ui.core.view.SortByYearRadioButton
+            android:id="@+id/by_year_radio_button"
+            style="@style/RadioButtonStyle"
+            android:layout_marginTop="@dimen/small_distance"
+            android:layout_marginEnd="@dimen/very_small_distance"
+            android:text="@string/by_year" />
 
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
+        <ru.daniilglazkov.birthdays.ui.core.view.SortByAgeRadioButton
+            android:id="@+id/by_age_radio_button"
+            style="@style/RadioButtonStyle"
+            android:layout_marginStart="@dimen/very_small_distance"
+            android:layout_marginTop="@dimen/small_distance"
+            android:text="@string/by_age" />
 
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomRadioButton
-                android:id="@+id/by_name_radio_button"
-                style="@style/RadioButtonStyle"
-                android:text="@string/by_name" />
+        <ru.daniilglazkov.birthdays.ui.core.view.SortByZodiacRadioButton
+            android:id="@+id/by_zodiac_radio_button"
+            style="@style/RadioButtonStyle"
+            android:layout_marginTop="@dimen/small_distance"
+            android:layout_marginEnd="@dimen/very_small_distance"
+            android:text="@string/by_zodiac" />
 
-        </LinearLayout>
+        <ru.daniilglazkov.birthdays.ui.core.view.SortByMonthRadioButton
+            android:id="@+id/by_month_radio_button"
+            style="@style/RadioButtonStyle"
+            android:layout_marginStart="@dimen/very_small_distance"
+            android:layout_marginTop="@dimen/small_distance"
+            android:text="@string/by_month" />
 
-
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
-
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomRadioButton
-                android:id="@+id/by_year_radio_button"
-                style="@style/RadioButtonStyle"
-                android:text="@string/by_year" />
-        </LinearLayout>
-
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
-
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomRadioButton
-                android:id="@+id/by_month_radio_button"
-                style="@style/RadioButtonStyle"
-                android:text="@string/by_month" />
-        </LinearLayout>
-
-
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomRadioButton
-                android:id="@+id/by_age_radio_button"
-                style="@style/RadioButtonStyle"
-                android:pointerIcon="none"
-                android:text="@string/by_age" />
-        </LinearLayout>
-
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomRadioButton
-                android:id="@+id/by_zodiac_radio_button"
-                style="@style/RadioButtonStyle"
-                android:pointerIcon="none"
-                android:text="@string/by_zodiac" />
-        </LinearLayout>
-
-    </GridLayout>
+    </ru.daniilglazkov.birthdays.ui.core.view.SortModeGridLayout>
 
     <TextView
         style="@style/TextWithIconStyle"
-        android:paddingVertical="@dimen/normal_distance"
-        android:paddingStart="@dimen/very_large_distance"
+        android:drawablePadding="@dimen/normal_distance"
+        android:paddingVertical="@dimen/large_distance"
+        android:paddingStart="@dimen/medium_distance"
         android:text="@string/additional_parameters"
         app:drawableStartCompat="@drawable/ic_settings" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <GridLayout style="@style/MenuGridLayoutStyle">
+        <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
+            android:id="@+id/group_switch"
+            style="@style/SwitchStyle"
+            android:layout_marginEnd="@dimen/very_small_distance"
+            android:paddingVertical="@dimen/large_distance"
+            android:text="@string/grouped" />
 
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
+        <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
+            android:id="@+id/reverse_switch"
+            style="@style/SwitchStyle"
+            android:layout_marginStart="@dimen/very_small_distance"
+            android:text="@string/reverse" />
 
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
-                android:id="@+id/group_switch"
-                style="@style/SwitchStyle"
-                android:text="@string/grouped" />
-        </LinearLayout>
-
-        <LinearLayout style="@style/MenuItemBackgroundStyle">
-
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
-                android:id="@+id/reverse_switch"
-                style="@style/SwitchStyle"
-                android:text="@string/reverse" />
-        </LinearLayout>
-
-    </GridLayout>
+    </LinearLayout>
 
 </LinearLayout>

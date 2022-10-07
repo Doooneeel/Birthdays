@@ -77,22 +77,27 @@
 
 
     <style name="SwitchStyle" parent="Theme.MaterialComponents">
-        <item name="android:layoutDirection">ltr</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@color/text</item>
         <item name="drawableTint">@color/text</item>
-        <item name="android:layout_marginStart">@dimen/small_distance</item>
-        <item name="android:textSize">@dimen/very_small_text</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/panel</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
     </style>
 
     <style name="RadioButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+        <item name="android:paddingVertical">@dimen/large_distance</item>
+        <item name="android:background">@drawable/panel</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/small_text</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginEnd">@dimen/small_distance</item>
         <item name="drawableTint">@color/text</item>
+        <item name="android:button">@drawable/radio_button_inset</item>
     </style>
 
 
@@ -127,14 +132,12 @@
 
 
     <style name="MenuGridLayoutStyle">
+        <item name="android:layoutDirection">rtl</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:columnCount">@integer/menu_column_count</item>
-        <item name="android:layout_marginHorizontal">@dimen/medium_distance</item>
-        <item name="android:useDefaultMargins">true</item>
         <item name="android:orientation">horizontal</item>
     </style>
-
 
     <style name="RecyclerViewStyle">
         <item name="android:layout_width">match_parent</item>
@@ -160,6 +163,8 @@
 
     <style name="AppBottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">@color/background</item>
     </style>
 
     <style name="AppModalStyle">

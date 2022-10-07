@@ -8,7 +8,7 @@ import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
  */
 interface ShowModeUi {
 
-    fun applySortMode(views: List<SortModeAbstractView>)
+    fun applySortMode(views: AbstractView<SortMode>)
     fun applyAdditionalSettings(reverse: AbstractView.Check, group: AbstractView.Check)
 
     class Base(
@@ -16,15 +16,11 @@ interface ShowModeUi {
         private val reverse: Boolean,
         private val group: Boolean,
     ) : ShowModeUi {
-        override fun applySortMode(views: List<SortModeAbstractView>) = views.forEach { view ->
-            view.map(sort)
-        }
+        override fun applySortMode(views: AbstractView<SortMode>) = views.map(sort)
+
         override fun applyAdditionalSettings(reverse: AbstractView.Check, group: AbstractView.Check) {
             reverse.map(this.reverse)
             group.map(this.group)
         }
     }
-}
-interface SortModeAbstractView : AbstractView<SortMode> {
-    fun setOnSortModeRadioButtonClick(block: (SortMode) -> Unit)
 }

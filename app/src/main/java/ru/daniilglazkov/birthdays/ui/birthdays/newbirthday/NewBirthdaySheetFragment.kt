@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import ru.daniilglazkov.birthdays.R
 import ru.daniilglazkov.birthdays.databinding.NewBirthdaySheetFragmentBinding
+import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdate
+import ru.daniilglazkov.birthdays.ui.core.ErrorMessage
 import ru.daniilglazkov.birthdays.ui.core.click.OnDebouncedClickListener
 import ru.daniilglazkov.birthdays.ui.main.BaseNotDraggableSheetFragment
 
@@ -38,13 +40,13 @@ class NewBirthdaySheetFragment :
             viewModel.changeBirthday(binding.nameInputEditText.text, binding.datePicker.date)
             viewModel.create()
         })
-        viewModel.observeAboutBirthday(viewLifecycleOwner) { aboutBirthdate ->
+        viewModel.observeAboutBirthday(viewLifecycleOwner) { aboutBirthdate: AboutBirthdate ->
             aboutBirthdate.apply(binding.turnAgeTextView, binding.untilDayTextView)
         }
-        viewModel.observe(viewLifecycleOwner) { newBirthdayUi ->
+        viewModel.observe(viewLifecycleOwner) { newBirthdayUi: NewBirthdayUi ->
             newBirthdayUi.apply(binding.nameInputEditText, binding.datePicker)
         }
-        viewModel.observeError(viewLifecycleOwner) { errorMessage ->
+        viewModel.observeError(viewLifecycleOwner) { errorMessage: ErrorMessage ->
             errorMessage.apply(binding.nameTextInputLayout)
         }
         viewModel.changeDate(binding.datePicker.date)

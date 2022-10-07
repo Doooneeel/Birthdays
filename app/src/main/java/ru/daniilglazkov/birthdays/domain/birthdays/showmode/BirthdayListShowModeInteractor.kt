@@ -1,35 +1,30 @@
 package ru.daniilglazkov.birthdays.domain.birthdays.showmode
 
-import ru.daniilglazkov.birthdays.core.Read
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
 
 /**
  * @author Danil Glazkov on 04.08.2022, 04:49
  */
-interface BirthdayListShowModeInteractor : Read<ShowModeDomain>, ChangeShowMode {
-    fun saveToCache()
+interface BirthdayListShowModeInteractor : FetchShowMode, ChangeShowMode {
 
-    abstract class Abstract(
+    class Base(
         private val repository: BirthdayListShowModeRepository,
     ) : BirthdayListShowModeInteractor {
-        private var newShowMode: ShowModeDomain = ShowModeDomain.Default()
+        private var showMode = repository.read(ShowModeDomain.Default)
 
-        protected fun updateSortMode(showMode: (ShowModeDomain) -> ShowModeDomain): ShowModeDomain {
-            return showMode(newShowMode).also { changedShowMode ->
-                newShowMode = changedShowMode
-            }
+        override fun fetchShowMode(): ShowModeDomain = showMode
+
+        override fun changeSortMode(sort: SortMode) {
+            showMode = showMode.changeSortMode(sort)
+            repository.save(showMode)
         }
-        override fun read(): ShowModeDomain = repository.read(newShowMode)
-
-        override fun saveToCache() = repository.save(newShowMode)
-    }
-
-    class Base(repository: BirthdayListShowModeRepository) : Abstract(repository) {
-        override fun changeSortMode(sort: SortMode) = updateSortMode {
-            it.changeSortMode(sort)
-        }
-        override fun changeAdditionalSettings(reverse: Boolean, group: Boolean) = updateSortMode {
-            it.changeAdditionalSettings(reverse, group)
+        override fun changeAdditionalSettings(reverse: Boolean, group: Boolean) {
+            showMode = showMode.changeAdditionalSettings(reverse, group)
+            repository.save(showMode)
         }
     }
+}
+
+interface FetchShowMode {
+    fun fetchShowMode(): ShowModeDomain
 }

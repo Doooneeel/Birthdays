@@ -19,14 +19,14 @@ class CustomChipGroup @JvmOverloads constructor(
 ) , AbstractView.List<String>,
     SetOnChipClickListener
 {
-    private val chips: List<Chip> = mutableListOf<Chip>().apply {
+    private val chips = buildList {
         repeat(childCount) { add(getChildAt(it) as Chip) }
     }
     private var onChipClickListener = OnClickListener { }
 
     override fun setOnChipClickListener(onClickListener: OnClickListener) {
-        onChipClickListener = onClickListener
         chips.forEach { chip -> chip.setOnClickListener(onClickListener) }
+        onChipClickListener = onClickListener
     }
     override fun map(source: List<String>) {
         removeAllViews()

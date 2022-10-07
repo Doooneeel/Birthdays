@@ -12,7 +12,9 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 /**
  * @author Danil Glazkov on 10.06.2022, 21:49
  */
-interface BirthdayViewModel : ErrorCommunication.Observe, Fetch, Completion {
+interface BirthdayViewModel : ErrorCommunication.Observe, Fetch, Completion,
+    DeleteStateCommunication.Observe
+{
 
     fun init(isFirstRun: Boolean, id: Int)
     fun changeDeleteState(isDelete: Boolean)
@@ -43,6 +45,9 @@ interface BirthdayViewModel : ErrorCommunication.Observe, Fetch, Completion {
 
         override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) {
             errorCommunication.observe(owner, observer)
+        }
+        override fun observeDeleteState(owner: LifecycleOwner, observer: Observer<Boolean>) {
+            deleteStateCommunication.observe(owner, observer)
         }
         override fun complete() = deleteStateCommunication.handleTrue {
             interactor.delete(id)

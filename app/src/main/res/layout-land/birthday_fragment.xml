@@ -24,7 +24,7 @@
         tools:text="Username Username" />
 
 
-    <ru.daniilglazkov.birthdays.ui.core.view.ToggleButtonView
+    <ru.daniilglazkov.birthdays.ui.core.view.toggle.ToggleButtonView
         android:id="@+id/delete_button"
         style="@style/ButtonWithIcon"
         android:paddingVertical="@dimen/small_distance"

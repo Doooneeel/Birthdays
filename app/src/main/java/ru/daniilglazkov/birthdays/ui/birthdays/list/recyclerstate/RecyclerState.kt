@@ -6,15 +6,15 @@ import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
  * @author Danil Glazkov on 04.10.2022, 09:55
  */
 interface RecyclerState {
-    fun apply(recyclerView: AbstractView.Recycler)
+    fun apply(view: AbstractView.Recycler)
 
     abstract class Abstract(
         private val scrollUp: Boolean,
         private val nestedScrollEnabled: Boolean
     ) : RecyclerState {
-        override fun apply(recyclerView: AbstractView.Recycler) {
-            recyclerView.scrollUp(scrollUp)
-            recyclerView.nestedScroll(nestedScrollEnabled)
+        override fun apply(view: AbstractView.Recycler) {
+            view.scrollUp(scrollUp)
+            view.nestedScroll(nestedScrollEnabled)
         }
     }
     class Base(

@@ -1,10 +1,10 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.settings
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdaysSettingsSheetFragmentBinding
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
+import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.ShowModeUi
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
 
 /**
@@ -21,37 +21,19 @@ class SettingsSheetFragment :
 
         val checkBoxClickListener = View.OnClickListener {
             viewModel.changeAdditionalSettings(
-                binding.reverseSwitch.isChecked,
-                binding.groupSwitch.isChecked
+                binding.reverseSwitch.isChecked, binding.groupSwitch.isChecked
             )
-        }
-        val sortModeMap = mapOf(
-            binding.byDateRadioButton to SortMode.DATE,
-            binding.byNameRadioButton to SortMode.NAME,
-            binding.byMonthRadioButton to SortMode.MONTH,
-            binding.byAgeRadioButton to SortMode.AGE,
-            binding.byYearRadioButton to SortMode.YEAR,
-            binding.byZodiacRadioButton to SortMode.ZODIAC
-        )
-        sortModeMap.forEach { (checkView: View, sortMode: SortMode) ->
-            val backgroundLayout = checkView.parent as View
-            val onClickListener = View.OnClickListener {
-                viewModel.changeSortMode(sortMode)
-            }
-            checkView.setOnClickListener(onClickListener)
-            backgroundLayout.setOnClickListener(onClickListener)
         }
         binding.reverseSwitch.setOnClickListener(checkBoxClickListener)
         binding.groupSwitch.setOnClickListener(checkBoxClickListener)
 
-        viewModel.observe(viewLifecycleOwner) { showModeUi ->
-            showModeUi.apply(sortModeMap.toMap(), binding.reverseSwitch, binding.groupSwitch)
+        binding.sortModeGridLayout.setOnSortModeRadioButtonClick { sortMode: SortMode ->
+            viewModel.changeSortMode(sortMode)
         }
-        viewModel.init(savedInstanceState == null)
-    }
-
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
-        viewModel.complete()
+        viewModel.observe(viewLifecycleOwner) { showModeUi: ShowModeUi ->
+            showModeUi.applyAdditionalSettings(binding.reverseSwitch, binding.groupSwitch)
+            showModeUi.applySortMode(binding.sortModeGridLayout)
+        }
+        viewModel.fetch()
     }
 }

@@ -1,22 +1,15 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.settings
 
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.BirthdayListShowModeInteractor
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeDomain
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.*
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
-import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.ShowModeCommunication
-import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.ShowModeDomainToUiMapper
-import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.ShowModeUi
-import ru.daniilglazkov.birthdays.ui.core.Completion
-import ru.daniilglazkov.birthdays.ui.core.Init
+import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.*
+import ru.daniilglazkov.birthdays.ui.core.Fetch
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 
 /**
  * @author Danil Glazkov on 21.07.2022, 22:33
  */
-interface SettingsViewModel : Init, Completion {
-
-    fun changeSortMode(sort: SortMode)
-    fun changeAdditionalSettings(reverse: Boolean, group: Boolean)
+interface SettingsViewModel : Fetch, ChangeShowMode {
 
     class Base(
         private val interactor: BirthdayListShowModeInteractor,
@@ -25,18 +18,16 @@ interface SettingsViewModel : Init, Completion {
     ) : BaseSheetViewModel<ShowModeUi>(communication),
         SettingsViewModel
     {
-        private val change = { showModeDomain: ShowModeDomain ->
-            communication.map(showModeDomain.map(showModeDomainToUiMapper))
-        }
-        override fun init(isFirstRun: Boolean) {
-            if (isFirstRun) change(interactor.read())
+        override fun fetch() = interactor.fetchShowMode().let { result: ShowModeDomain ->
+            communication.map(result.map(showModeDomainToUiMapper))
         }
         override fun changeSortMode(sort: SortMode) {
-            change(interactor.changeSortMode(sort))
+            interactor.changeSortMode(sort)
+            fetch()
         }
         override fun changeAdditionalSettings(reverse: Boolean, group: Boolean) {
-            change(interactor.changeAdditionalSettings(reverse, group))
+            interactor.changeAdditionalSettings(reverse, group)
+            fetch()
         }
-        override fun complete() = interactor.saveToCache()
     }
 }

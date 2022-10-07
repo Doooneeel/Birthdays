@@ -3,9 +3,9 @@ package ru.daniilglazkov.birthdays.ui.birthdays.settings
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.BirthdayListShowModeInteractor
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
-import ru.daniilglazkov.birthdays.ui.birthdays.showmode.ShowModeCommunication
-import ru.daniilglazkov.birthdays.ui.birthdays.showmode.ShowModeDomainToUiMapper
-import ru.daniilglazkov.birthdays.ui.birthdays.showmode.ShowModeUi
+import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.ShowModeCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.ShowModeDomainToUiMapper
+import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.ShowModeUi
 import ru.daniilglazkov.birthdays.ui.core.Completion
 import ru.daniilglazkov.birthdays.ui.core.Init
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel

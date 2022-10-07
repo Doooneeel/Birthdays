@@ -3,12 +3,10 @@ package ru.daniilglazkov.birthdays.ui.birthdays.list
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListDomain
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListInteractor
 import ru.daniilglazkov.birthdays.ui.birthdays.list.chips.BirthdayListDomainToChipsMapper
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayListDomainToUiMapper
-import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
 import ru.daniilglazkov.birthdays.ui.birthdays.list.chips.BirthdayChipCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate.RecyclerStateCommunication
 import ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate.RecyclerState
@@ -27,7 +25,7 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
     RecyclerStateCommunication.Observe,
     BirthdayChipCommunication.Observe
 {
-    fun changeSearchQuery(text: CharSequence)
+    fun changeSearchQuery(query: CharSequence)
 
     class Base(
         private val interactor: BirthdayListInteractor,
@@ -36,7 +34,6 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
         private val recyclerStateCommunication: RecyclerStateCommunication,
         private val queryCommunication: QueryCommunication,
         navigation: Navigation.Mutable,
-        private val resources: ProvideString,
         private val birthdayListDomainToUi: BirthdayListDomainToUiMapper,
         private val birthdayListDomainToChips: BirthdayListDomainToChipsMapper,
     ) : BaseSheetViewModel<BirthdaysUi>(birthdaysCommunication, navigation),
@@ -44,11 +41,9 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
     {
         private val settingsScreen = SettingsScreen(onClosed = ::fetch)
         private val newBirthdayScreen = NewBirthdayScreen(onClosed = ::fetch)
-        private val notFoundMessage by lazy {
-            BirthdayUi.Message(resources.string(R.string.birthday_not_found))
-        }
+
         private val handleNotFound = {
-            birthdaysCommunication.map(notFoundMessage)
+            birthdaysCommunication.showMessage(R.string.birthday_not_found)
         }
         private val handleResult: (BirthdayListDomain) -> Unit = { birthdayListDomain ->
             birthdaysCommunication.map(birthdayListDomain.map(birthdayListDomainToUi))
@@ -56,19 +51,20 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
             recyclerStateCommunication.changeList(birthdayListDomain)
         }
         private val handleEmptyList = {
-            birthdaysCommunication.map(BirthdayUi.Message(resources.string(R.string.list_is_empty)))
+            birthdaysCommunication.showMessage(R.string.list_is_empty)
             recyclerStateCommunication.map(RecyclerState.Disable())
             chipCommunication.clear()
         }
-        override fun fetch() = queryCommunication.executeQuery { query ->
+
+        override fun fetch() = queryCommunication.executeQuery { query: CharSequence ->
             interactor.birthdays(handleResult, query, handleNotFound, handleEmptyList)
         }
         override fun init(isFirstRun: Boolean) {
-            if (isFirstRun) {
-                interactor.birthdays(handleResult, onEmptyCache = ::showNewBirthdayDialog)
-            }
+            if (isFirstRun) interactor.birthdays(handleResult,
+                onEmptyCache = ::showNewBirthdayDialog
+            )
         }
-        override fun changeSearchQuery(text: CharSequence) = queryCommunication.map(text)
+        override fun changeSearchQuery(query: CharSequence) = queryCommunication.map(query)
         override fun showSettingsDialog() = navigate(settingsScreen)
         override fun showNewBirthdayDialog() = navigate(newBirthdayScreen)
 

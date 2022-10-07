@@ -37,10 +37,9 @@ class BirthdaySheetModule(
         return BirthdayViewModel.Base(
             interactor,
             BirthdayCommunication.Base(),
-            ErrorCommunication.Base(),
+            ErrorCommunication.Base(provideString),
             DeleteStateCommunication.Base(),
-            birthdayDomainToUiMapper,
-            provideString
+            birthdayDomainToUiMapper
         )
     }
 }

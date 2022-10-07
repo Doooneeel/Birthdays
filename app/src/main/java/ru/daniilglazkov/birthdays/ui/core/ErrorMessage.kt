@@ -14,5 +14,5 @@ interface ErrorMessage {
 
     class Base(error: String) : Abstract(error)
 
-    class Empty : Abstract("")
+    object Empty : Abstract("")
 }

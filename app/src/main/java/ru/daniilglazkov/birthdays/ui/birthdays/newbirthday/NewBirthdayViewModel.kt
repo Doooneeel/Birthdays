@@ -13,7 +13,7 @@ import java.time.LocalDate
 /**
  * @author Danil Glazkov on 11.06.2022, 23:58
  */
-interface NewBirthdayViewModel : ErrorCommunication.Observe, ClearErrorMessage, Fetch,
+interface NewBirthdayViewModel : ErrorCommunication.Observe, ErrorCommunication.Clear, Fetch,
     AboutBirthdateCommunication.Observe
 {
     fun changeBirthday(name: String, date: LocalDate)
@@ -53,7 +53,7 @@ interface NewBirthdayViewModel : ErrorCommunication.Observe, ClearErrorMessage, 
             interactor.calculateDaysToBirthday(date)
         )
         override fun changeBirthday(name: String, date: LocalDate) {
-            newBirthdayCommunication.filter(name, date) { newBirthday ->
+            newBirthdayCommunication.filter(name, date) { newBirthday: NewBirthdayUi ->
                 interactor.save(newBirthday.map(newBirthdayUiToDomainMapper))
             }
         }

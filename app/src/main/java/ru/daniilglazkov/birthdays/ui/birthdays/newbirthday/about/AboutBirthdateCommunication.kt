@@ -15,12 +15,10 @@ interface AboutBirthdateCommunication : Communication.Mutable<AboutBirthdate> {
     class Base(
         private val resources: ProvideString
     ) : Communication.UiUpdate<AboutBirthdate>(), AboutBirthdateCommunication {
-        override fun makeNew(age: Int, daysToBirthday: Int) = map(
-            AboutBirthdate.Base(
-                resources.quantityString(R.plurals.age, age),
-                resources.quantityString(R.plurals.day, daysToBirthday),
-            )
-        )
+        override fun makeNew(age: Int, daysToBirthday: Int) = map(AboutBirthdate.Base(
+            resources.quantityString(R.plurals.age, age),
+            resources.quantityString(R.plurals.day, daysToBirthday),
+        ))
     }
 
     interface Observe {

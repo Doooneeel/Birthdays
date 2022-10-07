@@ -1,5 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list
 
+import androidx.annotation.StringRes
+import ru.daniilglazkov.birthdays.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
 import ru.daniilglazkov.birthdays.ui.core.Communication
 
@@ -8,8 +10,15 @@ import ru.daniilglazkov.birthdays.ui.core.Communication
  */
 interface BirthdaysCommunication : Communication.Mutable<BirthdaysUi> {
     fun map(birthdayUi: BirthdayUi) = map(BirthdaysUi.Base(listOf(birthdayUi)))
+    fun showMessage(@StringRes id: Int)
 
-    class Base : Communication.PostUpdate<BirthdaysUi>(), BirthdaysCommunication {
-        override fun map(source: BirthdaysUi) = liveData.postValue(source)
+    class Base(
+        private val provideString: ProvideString,
+    ) : Communication.PostUpdate<BirthdaysUi>(),
+        BirthdaysCommunication
+    {
+        override fun showMessage(id: Int) {
+            map(BirthdayUi.Message(provideString.string(id)))
+        }
     }
 }

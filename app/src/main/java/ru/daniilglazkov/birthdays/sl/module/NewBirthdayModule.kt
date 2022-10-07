@@ -4,9 +4,7 @@ import ru.daniilglazkov.birthdays.R
 import ru.daniilglazkov.birthdays.core.HandleException
 import ru.daniilglazkov.birthdays.core.resources.ResourceManager
 import ru.daniilglazkov.birthdays.data.main.ProvideNewBirthdayAccess
-import ru.daniilglazkov.birthdays.data.newbirthday.BaseNewBirthdayRepository
-import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayData
-import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayDomainToDataMapper
+import ru.daniilglazkov.birthdays.data.newbirthday.*
 import ru.daniilglazkov.birthdays.data.newbirthday.cache.NewBirthdayCacheDataSource
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListRepository
 import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayDomain
@@ -15,18 +13,10 @@ import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdateCommunication
-import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayCommunication
-import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayDomainToUiMapper
-import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayUi
-import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayViewModel
+import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.*
 import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
-import ru.daniilglazkov.birthdays.ui.core.textfilter.TextFilterChain
-import ru.daniilglazkov.birthdays.ui.core.textfilter.TextFilterTrim
-import ru.daniilglazkov.birthdays.ui.core.textfilter.TextFilterWhitespaces
-import ru.daniilglazkov.birthdays.ui.core.validate.ValidateChain
-import ru.daniilglazkov.birthdays.ui.core.validate.ValidateFirstCharIsLetter
-import ru.daniilglazkov.birthdays.ui.core.validate.ValidateMinLength
-import ru.daniilglazkov.birthdays.ui.core.validate.ValidateNotEmpty
+import ru.daniilglazkov.birthdays.ui.core.textfilter.*
+import ru.daniilglazkov.birthdays.ui.core.validate.*
 import java.time.LocalDate
 
 /**
@@ -75,7 +65,7 @@ class NewBirthdayModule(
         return NewBirthdayViewModel.Base(
             interactor,
             NewBirthdayCommunication.Base(validate, nameFilter),
-            ErrorCommunication.Base(),
+            ErrorCommunication.Base(resourceManager),
             AboutBirthdateCommunication.Base(resourceManager),
             NewBirthdayDomainToUiMapper.Base(),
             NewBirthdayUi.Mapper.ToDomain()

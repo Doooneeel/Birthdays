@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.showmode
+package ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode
 
 import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeDomain
 

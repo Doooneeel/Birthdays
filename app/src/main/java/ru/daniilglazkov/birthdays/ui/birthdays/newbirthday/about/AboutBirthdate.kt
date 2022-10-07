@@ -9,9 +9,6 @@ interface AboutBirthdate {
     fun apply(age: AbstractView.Text, until: AbstractView.Text)
 
     class Base(private val age: String, private val until: String) : AboutBirthdate {
-
-        constructor(age: Int, until: Int) : this(age.toString(), until.toString())
-
         override fun apply(age: AbstractView.Text, until: AbstractView.Text) {
             age.map(this.age)
             until.map(this.until)

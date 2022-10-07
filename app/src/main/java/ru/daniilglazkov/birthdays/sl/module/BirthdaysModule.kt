@@ -75,12 +75,11 @@ class BirthdaysModule(
         )
         return BirthdaysViewModel.Base(
             interactor,
-            BirthdaysCommunication.Base(),
+            BirthdaysCommunication.Base(coreModule.resourcesManager()),
             BirthdayChipCommunication.Base(),
             recyclerStateCommunication,
             QueryCommunication.Base(),
             coreModule.navigation(),
-            coreModule.resourcesManager(),
             birthdayListDomainToUi,
             birthdayListDomainToChips
         )

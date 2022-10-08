@@ -1,9 +1,12 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdaysFragmentBinding
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
+import ru.daniilglazkov.birthdays.ui.birthdays.list.chips.BirthdayListChips
+import ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate.RecyclerState
 import ru.daniilglazkov.birthdays.ui.core.Debounce
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
 import ru.daniilglazkov.birthdays.ui.core.view.listener.SingleOnQueryTextListener
@@ -45,19 +48,19 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
         binding.chipGroup.setOnChipClickListener {
             searchViewClearFocus.invoke()
         }
-        binding.searchView.setOnQueryTextListener(SingleOnQueryTextListener { newText ->
-            viewModel.changeSearchQuery(newText)
+        binding.searchView.setOnQueryTextListener(SingleOnQueryTextListener { query: String ->
+            viewModel.changeSearchQuery(query)
             viewModel.fetch()
         })
         binding.recyclerView.adapter = adapter
 
-        viewModel.observe(viewLifecycleOwner) { birthdaysUi ->
-            birthdaysUi.apply(adapter)
+        viewModel.observe(viewLifecycleOwner) { birthdayListUi: BirthdayListUi ->
+            birthdayListUi.apply(adapter)
         }
-        viewModel.observeChips(viewLifecycleOwner) { chips ->
+        viewModel.observeChips(viewLifecycleOwner) { chips: BirthdayListChips ->
             chips.apply(binding.chipGroup)
         }
-        viewModel.observeRecyclerState(viewLifecycleOwner) { recyclerState ->
+        viewModel.observeRecyclerState(viewLifecycleOwner) { recyclerState: RecyclerState ->
             recyclerState.apply(binding.recyclerView)
         }
         viewModel.init(savedInstanceState == null)

@@ -36,7 +36,7 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
         navigation: Navigation.Mutable,
         private val birthdayListDomainToUi: BirthdayListDomainToUiMapper,
         private val birthdayListDomainToChips: BirthdayListDomainToChipsMapper,
-    ) : BaseSheetViewModel<BirthdaysUi>(birthdaysCommunication, navigation),
+    ) : BaseSheetViewModel<BirthdayListUi>(birthdaysCommunication, navigation),
         BirthdaysViewModel
     {
         private val settingsScreen = SettingsScreen(onClosed = ::fetch)
@@ -44,6 +44,8 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
 
         private val handleNotFound = {
             birthdaysCommunication.showMessage(R.string.birthday_not_found)
+            recyclerStateCommunication.map(RecyclerState.DisableAndScrollUp)
+            chipCommunication.clear()
         }
         private val handleResult: (BirthdayListDomain) -> Unit = { birthdayListDomain ->
             birthdaysCommunication.map(birthdayListDomain.map(birthdayListDomainToUi))
@@ -52,7 +54,7 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
         }
         private val handleEmptyList = {
             birthdaysCommunication.showMessage(R.string.list_is_empty)
-            recyclerStateCommunication.map(RecyclerState.Disable())
+            recyclerStateCommunication.map(RecyclerState.Disable)
             chipCommunication.clear()
         }
 

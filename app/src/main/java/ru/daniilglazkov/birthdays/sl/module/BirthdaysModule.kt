@@ -1,24 +1,17 @@
 package ru.daniilglazkov.birthdays.sl.module
 
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListInteractor
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListRepository
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.BirthdayListShowModeInteractor
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.TransformBirthdayListFactory
+import ru.daniilglazkov.birthdays.domain.birthdays.*
+import ru.daniilglazkov.birthdays.domain.birthdays.search.*
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.*
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
+import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.ui.birthdays.*
-import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysCommunication
-import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysViewModel
-import ru.daniilglazkov.birthdays.ui.birthdays.list.QueryCommunication
+import ru.daniilglazkov.birthdays.ui.birthdays.list.*
 import ru.daniilglazkov.birthdays.ui.birthdays.list.chips.*
-import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUp
-import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpBirthdayList
-import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpChain
+import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.*
 import ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate.RecyclerStateCommunication
 import java.time.LocalDate
 
@@ -34,12 +27,25 @@ class BirthdaysModule(
 ) : Module<BirthdaysViewModel.Base> {
 
     override fun viewModel(): BirthdaysViewModel.Base {
+        val birthdayMatchesQuery = BirthdayMatchesQueryChain(
+            BirthdayMatchesQuery.Name(),
+            BirthdayMatchesQueryChain(
+                BirthdayMatchesQuery.DateFormat(DateTextFormat.Month()),
+                BirthdayMatchesQuery.RawDate()
+            )
+        )
+        val searchWrapper = BirthdayListDomainToSearchMapper.Base(
+            birthdayMatchesQuery,
+            BirthdayDomain.CheckMapper.IsNotHeader(),
+            PrepareQuery.Base(),
+        )
         val interactor = BirthdayListInteractor.Base(
             repository,
             showStrategyInteractor,
             ShowModeDomain.Mapper.Transform(
                 TransformBirthdayListFactory.Base(nextEvent, coreModule.resourcesManager())
-            )
+            ),
+            searchWrapper
         )
         val recyclerStateCommunication = RecyclerStateCommunication.Base(
             NeedToScrollUpBirthdayList.Base(
@@ -51,7 +57,7 @@ class BirthdaysModule(
                 )
             )
         )
-        val birthdayListDomainToUi = BirthdayListDomainToUiMapper.Base(
+        val birthdayListDomainToUi = BirthdayListDomainToUiMapper(
             BirthdayDomainToUiMapper.Base(
                 BirthdateTextFormat.Age(
                     coreModule.resourcesManager(),

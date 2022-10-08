@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.sl.module
 
-import ru.daniilglazkov.birthdays.core.resources.ProvideString
+import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayCompleteInfoInteractor
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListRepository
 import ru.daniilglazkov.birthdays.domain.date.DateDifference

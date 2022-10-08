@@ -1,8 +1,7 @@
 package ru.daniilglazkov.birthdays.domain.birthdays
 
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.FetchShowMode
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.TransformBirthdayList
+import ru.daniilglazkov.birthdays.domain.birthdays.search.*
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.*
 
 /**
  * @author Danil Glazkov on 10.06.2022, 00:53
@@ -11,7 +10,7 @@ interface BirthdayListInteractor {
 
     fun birthdays(
         result: (BirthdayListDomain) -> Unit,
-        filter: CharSequence = "",
+        query: CharSequence = "",
         notFound: () -> Unit = { },
         onEmptyCache: () -> Unit
     )
@@ -20,12 +19,13 @@ interface BirthdayListInteractor {
         private val repository: BirthdayListRepository,
         private val showModeRepository: FetchShowMode,
         private val transformBirthdayList: ShowModeDomain.Mapper<TransformBirthdayList>,
+        private val toSearchMapper: BirthdayListDomainToSearchMapper,
     ) : BirthdayListInteractor {
         private val default = BirthdayListDomain.Empty()
 
         override fun birthdays(
             result: (BirthdayListDomain) -> Unit,
-            filter: CharSequence,
+            query: CharSequence,
             notFound: () -> Unit,
             onEmptyCache: () -> Unit
         ) {
@@ -36,10 +36,19 @@ interface BirthdayListInteractor {
             }
             val showMode: ShowModeDomain = showModeRepository.fetchShowMode()
             val transformBirthdays: TransformBirthdayList = showMode.map(transformBirthdayList)
-            val birthdays: BirthdayListDomain = transformBirthdays.transform(cachedBirthdays)
 
-            result.invoke(birthdays)
-            //TODO make search
+            if (query.isNotEmpty()) {
+                val searchWrapper: BirthdayListSearchWrapper = cachedBirthdays.map(toSearchMapper)
+                val found: BirthdayListDomain = searchWrapper.search(query)
+                    
+                if (found.isEmpty()) {
+                    notFound.invoke()
+                } else {
+                    result.invoke(transformBirthdays.transform(found))
+                }
+            } else {
+                result.invoke(transformBirthdays.transform(cachedBirthdays))
+            }
         }
     }
 }

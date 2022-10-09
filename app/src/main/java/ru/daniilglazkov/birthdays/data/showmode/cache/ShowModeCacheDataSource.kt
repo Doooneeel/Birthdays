@@ -1,26 +1,29 @@
 package ru.daniilglazkov.birthdays.data.showmode.cache
 
-import ru.daniilglazkov.birthdays.core.HandleException
-import ru.daniilglazkov.birthdays.data.core.cache.CacheDataSource
-import ru.daniilglazkov.birthdays.data.main.ProvideShowModeAccess
-import ru.daniilglazkov.birthdays.data.showmode.ShowModeAccess
 import ru.daniilglazkov.birthdays.data.showmode.ShowModeData
-import ru.daniilglazkov.birthdays.data.showmode.ShowModeEntity
+import ru.daniilglazkov.birthdays.domain.core.exceptions.EmptyCacheException
 
 /**
  * @author Danil Glazkov on 08.09.2022, 04:20
  */
-interface ShowModeCacheDataSource : CacheDataSource<ShowModeData> {
+interface ShowModeCacheDataSource {
+
+    fun showMode(): ShowModeData
+    fun saveToCache(showMode: ShowModeData)
+
 
     class Base(
-        provideAccess: ProvideShowModeAccess,
-        private val dataToDatabaseModel: ShowModeData.Mapper<ShowModeEntity>,
-        handleException: HandleException
-    ) : CacheDataSource.AbstractDatabase<ShowModeData, ShowModeEntity, ShowModeAccess>(
-        provideAccess.showModeAccess(),
-        handleException
-    ) , ShowModeCacheDataSource {
-        override fun dataToEntity(data: ShowModeData) = data.map(dataToDatabaseModel)
-        override fun getDataFromDatabase(): ShowModeEntity? = dataAccess.showMode()
+        private val showModeDao: ShowModeDao,
+        private val mapperToCache: ShowModeDataToCacheMapper,
+    ) : ShowModeCacheDataSource {
+
+        override fun saveToCache(showMode: ShowModeData) {
+            showModeDao.insert(showMode.map(mapperToCache))
+        }
+
+        override fun showMode(): ShowModeData {
+            val showMode = showModeDao.showMode() ?: throw EmptyCacheException()
+            return ShowModeData.Base(showMode.sort, showMode.reverse, showMode.group)
+        }
     }
 }

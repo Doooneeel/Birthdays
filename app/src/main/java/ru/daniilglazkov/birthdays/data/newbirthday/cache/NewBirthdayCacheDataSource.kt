@@ -1,28 +1,30 @@
 package ru.daniilglazkov.birthdays.data.newbirthday.cache
 
-import ru.daniilglazkov.birthdays.core.HandleException
-import ru.daniilglazkov.birthdays.data.core.cache.CacheDataSource
-import ru.daniilglazkov.birthdays.data.main.ProvideNewBirthdayAccess
-import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayAccess
-import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayData
-import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayEntity
+import ru.daniilglazkov.birthdays.data.newbirthday.*
+import ru.daniilglazkov.birthdays.domain.core.exceptions.EmptyCacheException
 
 /**
  * @author Danil Glazkov on 08.09.2022, 04:13
  */
-interface NewBirthdayCacheDataSource : CacheDataSource<NewBirthdayData> {
+interface NewBirthdayCacheDataSource  {
+
+    fun saveToCache(newBirthday: NewBirthdayData)
+    fun newBirthday(): NewBirthdayData
+
 
     class Base(
-        provideAccess: ProvideNewBirthdayAccess,
-        private val dataToDatabaseModel: NewBirthdayData.Mapper<NewBirthdayEntity>,
-        handleException: HandleException
-    ) : CacheDataSource.AbstractDatabase<NewBirthdayData, NewBirthdayEntity, NewBirthdayAccess>(
-        provideAccess.newBirthdayAccess(),
-        handleException
-    ) , NewBirthdayCacheDataSource {
-        override fun dataToEntity(data: NewBirthdayData): NewBirthdayEntity =
-            data.map(dataToDatabaseModel)
+        private val newBirthdayDao: NewBirthdayDao,
+        private val mapperToCache: NewBirthdayDataToCacheMapper,
+    ) : NewBirthdayCacheDataSource {
 
-        override fun getDataFromDatabase(): NewBirthdayEntity? = dataAccess.newBirthday()
+        override fun saveToCache(newBirthday: NewBirthdayData) {
+            newBirthdayDao.insert(newBirthday.map(mapperToCache))
+        }
+
+        override fun newBirthday(): NewBirthdayData {
+            val newBirthday = newBirthdayDao.newBirthday() ?: throw EmptyCacheException()
+            return NewBirthdayData.Base(newBirthday.name, newBirthday.date)
+        }
     }
+
 }

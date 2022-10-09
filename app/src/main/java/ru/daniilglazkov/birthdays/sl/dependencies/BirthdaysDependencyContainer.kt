@@ -2,25 +2,21 @@ package ru.daniilglazkov.birthdays.sl.dependencies
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import ru.daniilglazkov.birthdays.core.HandleException
-import ru.daniilglazkov.birthdays.data.birthdays.BaseBirthdayListRepository
-import ru.daniilglazkov.birthdays.data.birthdays.BirthdayData
-import ru.daniilglazkov.birthdays.data.birthdays.BirthdayDomainToDataMapper
-import ru.daniilglazkov.birthdays.data.birthdays.cache.BirthdayListCacheDataSource
-import ru.daniilglazkov.birthdays.data.database.ProvideDatabase
-import ru.daniilglazkov.birthdays.data.showmode.BaseShowModeRepository
-import ru.daniilglazkov.birthdays.data.showmode.ShowModeData
-import ru.daniilglazkov.birthdays.data.showmode.ShowModeDomainToDataMapper
+import ru.daniilglazkov.birthdays.BuildConfig
+import ru.daniilglazkov.birthdays.data.birthdays.*
+import ru.daniilglazkov.birthdays.data.birthdays.cache.*
+import ru.daniilglazkov.birthdays.data.core.cache.BirthdaysDatabase
+import ru.daniilglazkov.birthdays.data.main.ProvideBirthdayDatabase
+import ru.daniilglazkov.birthdays.data.showmode.*
 import ru.daniilglazkov.birthdays.data.showmode.cache.ShowModeCacheDataSource
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.BirthdayListShowModeInteractor
+import ru.daniilglazkov.birthdays.data.showmode.cache.ShowModeDataToCacheMapper
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.HandleShowModeException
+import ru.daniilglazkov.birthdays.domain.birthdays.showmode.ShowModeInteractor
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.DependencyContainer
 import ru.daniilglazkov.birthdays.sl.core.Module
-import ru.daniilglazkov.birthdays.sl.module.BirthdaySheetModule
-import ru.daniilglazkov.birthdays.sl.module.BirthdaysSettingsModule
-import ru.daniilglazkov.birthdays.sl.module.BirthdaysModule
-import ru.daniilglazkov.birthdays.sl.module.NewBirthdayModule
+import ru.daniilglazkov.birthdays.sl.module.*
 import ru.daniilglazkov.birthdays.ui.birthdays.birthdayinfo.BirthdayViewModel
 import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysViewModel
 import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.NewBirthdayViewModel
@@ -35,48 +31,62 @@ class BirthdaysDependencyContainer(
     context: Context,
     private val next: DependencyContainer = DependencyContainer.Error()
 ) : DependencyContainer {
+
     private val now get() = LocalDate.now()
-
-    private val database = ProvideDatabase.Birthdays(context, DATABASE_NAME)
-        .provideDatabase()
-
     private val nextEvent = NextEvent.Base(now)
+    private val database: BirthdaysDatabase
+
+    init {
+        val provideDataBase = if (BuildConfig.DEBUG) {
+            ProvideBirthdayDatabase.Debug(context)
+        } else {
+            ProvideBirthdayDatabase.Release(context, DATABASE_NAME)
+        }
+        database = provideDataBase.provideDatabase()
+    }
 
     private val birthdaysRepository = BaseBirthdayListRepository(
         BirthdayListCacheDataSource.Base(
-            database,
-            BirthdayData.Mapper.ToDatabaseModel()
+            database.provideBirthdaysDao(),
+            BirthdayDataToCacheMapper.Base()
         ),
-        BirthdayData.Mapper.ToDomain(),
+        BirthdayDataToDomainMapper.Base(),
         BirthdayDomainToDataMapper.Base(),
     )
 
-    private val showModeInteractor = BirthdayListShowModeInteractor.Base(
+    private val showModeInteractor = ShowModeInteractor.Base(
         BaseShowModeRepository(
             ShowModeCacheDataSource.Base(
-                database,
-                ShowModeData.Mapper.ToDatabaseModel(),
-                HandleException.Empty()
+                database.provideShowModeDao(),
+                ShowModeDataToCacheMapper.Base()
             ),
-            ShowModeData.Mapper.ToDomain(),
-            ShowModeDomainToDataMapper.Base()
-        )
+            ShowModeDomainToDataMapper.Base(),
+            ShowModeDataToDomainMapper.Base()
+        ),
+        HandleShowModeException.Base()
     )
     override fun <VM : ViewModel> module(clazz: Class<VM>): Module<*> = when (clazz) {
-        BirthdaysViewModel.Base::class.java -> {
-            BirthdaysModule(coreModule, birthdaysRepository, showModeInteractor, nextEvent, now)
-        }
-        BirthdayViewModel.Base::class.java -> {
-            BirthdaySheetModule(coreModule.resourcesManager(), birthdaysRepository, nextEvent, now)
-        }
-        NewBirthdayViewModel.Base::class.java -> {
-            NewBirthdayModule(coreModule.resourcesManager(), database, birthdaysRepository,
-                nextEvent, now
-            )
-        }
-        SettingsViewModel.Base::class.java -> {
-            BirthdaysSettingsModule(showModeInteractor)
-        }
+        BirthdaysViewModel.Base::class.java -> BirthdaysModule(
+            coreModule,
+            birthdaysRepository,
+            showModeInteractor,
+            nextEvent,
+            now
+        )
+        BirthdayViewModel.Base::class.java -> BirthdaySheetModule(
+            coreModule.resourcesManager(),
+            birthdaysRepository,
+            nextEvent,
+            now
+        )
+        NewBirthdayViewModel.Base::class.java -> NewBirthdayModule(
+            coreModule.resourcesManager(),
+            database.provideNewBirthdayDao(),
+            birthdaysRepository,
+            nextEvent,
+            now
+        )
+        SettingsViewModel.Base::class.java -> BirthdaysSettingsModule(showModeInteractor)
         else -> next.module(clazz)
     }
 

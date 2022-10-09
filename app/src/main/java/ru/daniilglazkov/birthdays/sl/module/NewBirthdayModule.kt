@@ -1,13 +1,11 @@
 package ru.daniilglazkov.birthdays.sl.module
 
 import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.core.HandleException
-import ru.daniilglazkov.birthdays.core.resources.ResourceManager
-import ru.daniilglazkov.birthdays.data.main.ProvideNewBirthdayAccess
+import ru.daniilglazkov.birthdays.ui.core.resources.ResourceManager
 import ru.daniilglazkov.birthdays.data.newbirthday.*
-import ru.daniilglazkov.birthdays.data.newbirthday.cache.NewBirthdayCacheDataSource
+import ru.daniilglazkov.birthdays.data.newbirthday.cache.*
 import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListRepository
-import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayHandleException
 import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayInteractor
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
@@ -24,7 +22,7 @@ import java.time.LocalDate
  */
 class NewBirthdayModule(
     private val resourceManager: ResourceManager,
-    private val database: ProvideNewBirthdayAccess,
+    private val newBirthdayDao: NewBirthdayDao,
     private val repository: BirthdayListRepository,
     private val nextEvent: NextEvent,
     private val now: LocalDate
@@ -33,10 +31,12 @@ class NewBirthdayModule(
         val validate = ValidateChain(
             ValidateNotEmpty(
                 resourceManager.string(R.string.empty_name_error_message)
-            ), ValidateChain(
+            ),
+            ValidateChain(
                 ValidateFirstCharIsLetter(
                     resourceManager.string(R.string.first_char_is_not_letter_error_message)
-                ), ValidateMinLength(
+                ),
+                ValidateMinLength(
                     resourceManager.number(R.integer.name_min_length),
                     resourceManager.string(R.string.name_min_length_error_message)
                 )
@@ -46,28 +46,25 @@ class NewBirthdayModule(
             repository,
             BaseNewBirthdayRepository(
                 NewBirthdayCacheDataSource.Base(
-                    database,
-                    NewBirthdayData.Mapper.ToDatabaseModel(),
-                    HandleException.Empty()
+                    newBirthdayDao,
+                    NewBirthdayDataToCacheMapper.Base(),
                 ),
-                NewBirthdayData.Mapper.ToDomain(),
+                NewBirthdayDataToDomainMapper.Base(),
                 NewBirthdayDomainToDataMapper.Base()
             ),
-            NewBirthdayDomain.Mapper.Create(),
             DateDifference.NextEventInDays(nextEvent),
             DateDifference.YearsPlusOne(),
+            NewBirthdayHandleException.Base(now),
             now
         )
-        val nameFilter = TextFilterChain(
-            TextFilterTrim(), TextFilterWhitespaces()
-        )
+        val nameFilter = TextFilterChain(TextFilterTrim(), TextFilterWhitespaces())
 
         return NewBirthdayViewModel.Base(
             interactor,
             NewBirthdayCommunication.Base(validate, nameFilter),
             ErrorCommunication.Base(resourceManager),
             AboutBirthdateCommunication.Base(resourceManager),
-            NewBirthdayDomainToUiMapper.Base(),
+            NewBirthdayDomainToUiMapper(),
             NewBirthdayUi.Mapper.ToDomain()
         )
     }

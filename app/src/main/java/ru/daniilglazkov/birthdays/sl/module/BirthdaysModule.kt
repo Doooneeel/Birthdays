@@ -21,7 +21,7 @@ import java.time.LocalDate
 class BirthdaysModule(
     private val coreModule: CoreModule,
     private val repository: BirthdayListRepository,
-    private val showStrategyInteractor: BirthdayListShowModeInteractor,
+    private val showStrategyInteractor: ShowModeInteractor,
     private val nextEvent: NextEvent,
     private val now: LocalDate
 ) : Module<BirthdaysViewModel.Base> {

@@ -14,11 +14,9 @@ abstract class AbstractButtonCustomView @JvmOverloads constructor(
 ) : AppCompatButton(
     context,
     attributeSet
-) {
-    protected val typedArray = context.obtainStyledAttributes(attributeSet, attrsArray)
-
+) , UpdateView {
     protected abstract val resources: ManageAttributeResources
 
-    protected abstract fun updateView()
+    protected val typedArray = context.obtainStyledAttributes(attributeSet, attrsArray)
 }
 

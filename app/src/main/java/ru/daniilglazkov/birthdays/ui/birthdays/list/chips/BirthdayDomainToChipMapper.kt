@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list.chips
 
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayType
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
 import java.time.LocalDate
 
 /**

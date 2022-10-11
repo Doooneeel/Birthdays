@@ -1,18 +1,19 @@
 package ru.daniilglazkov.birthdays.sl.module
 
 import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.ui.core.resources.ResourceManager
 import ru.daniilglazkov.birthdays.data.newbirthday.*
 import ru.daniilglazkov.birthdays.data.newbirthday.cache.*
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListRepository
-import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayHandleException
-import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayInteractor
+import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListRepository
+import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayInteractor
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
+import ru.daniilglazkov.birthdays.domain.newbirthday.HandleNewBirthdayRepositoryResponse
 import ru.daniilglazkov.birthdays.sl.core.Module
-import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.about.AboutBirthdateCommunication
-import ru.daniilglazkov.birthdays.ui.birthdays.newbirthday.*
+import ru.daniilglazkov.birthdays.ui.newbirthday.*
+import ru.daniilglazkov.birthdays.ui.newbirthday.about.AboutBirthdateCommunication
+import ru.daniilglazkov.birthdays.ui.newbirthday.about.AboutBirthdateDomainToUiMapper
 import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
+import ru.daniilglazkov.birthdays.ui.core.resources.ResourceManager
 import ru.daniilglazkov.birthdays.ui.core.textfilter.*
 import ru.daniilglazkov.birthdays.ui.core.validate.*
 import java.time.LocalDate
@@ -52,9 +53,9 @@ class NewBirthdayModule(
                 NewBirthdayDataToDomainMapper.Base(),
                 NewBirthdayDomainToDataMapper.Base()
             ),
+            HandleNewBirthdayRepositoryResponse.Base(now),
             DateDifference.NextEventInDays(nextEvent),
             DateDifference.YearsPlusOne(),
-            NewBirthdayHandleException.Base(now),
             now
         )
         val nameFilter = TextFilterChain(TextFilterTrim(), TextFilterWhitespaces())
@@ -63,9 +64,10 @@ class NewBirthdayModule(
             interactor,
             NewBirthdayCommunication.Base(validate, nameFilter),
             ErrorCommunication.Base(resourceManager),
-            AboutBirthdateCommunication.Base(resourceManager),
-            NewBirthdayDomainToUiMapper(),
-            NewBirthdayUi.Mapper.ToDomain()
+            AboutBirthdateCommunication.Base(),
+            AboutBirthdateDomainToUiMapper.Base(resourceManager),
+            NewBirthdayDomainToUiMapper.Base(),
+            NewBirthdayUiToDomainMapper.Base()
         )
     }
 }

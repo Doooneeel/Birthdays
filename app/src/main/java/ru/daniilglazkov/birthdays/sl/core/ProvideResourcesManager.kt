@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.sl.core
 
-import ru.daniilglazkov.birthdays.core.resources.ResourceManager
+import ru.daniilglazkov.birthdays.ui.core.resources.ResourceManager
 
 /**
  * @author Danil Glazkov on 10.06.2022, 17:18

@@ -3,8 +3,8 @@ package ru.daniilglazkov.birthdays.data.newbirthday.cache
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.TypeConverters
-import ru.daniilglazkov.birthdays.data.core.cache.converttype.LocalDateConvertType
 import ru.daniilglazkov.birthdays.data.core.cache.AbstractSingleInstanceCache
+import ru.daniilglazkov.birthdays.data.core.cache.converttype.LocalDateConvertType
 import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayData
 import java.time.LocalDate
 
@@ -14,8 +14,6 @@ import java.time.LocalDate
 @Entity(tableName = "new_birthday")
 @TypeConverters(LocalDateConvertType::class)
 class NewBirthdayCache(
-    @ColumnInfo(name = "name")
-    var name: String,
-    @ColumnInfo(name = "date")
-    var date: LocalDate
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "date") var date: LocalDate
 ) : AbstractSingleInstanceCache<NewBirthdayData>()

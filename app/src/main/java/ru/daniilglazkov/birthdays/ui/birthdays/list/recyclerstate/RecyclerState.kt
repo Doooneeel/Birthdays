@@ -24,5 +24,5 @@ interface RecyclerState {
         scrollUp,
         nestedScrollEnabled
     )
-    class Disable : Abstract(scrollUp = false, nestedScrollEnabled = false)
+    object Disable : Abstract(scrollUp = false, nestedScrollEnabled = false)
 }

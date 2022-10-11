@@ -12,5 +12,5 @@ interface BirthdayListChips {
         override fun apply(view: AbstractView.List<String>) = view.map(chips)
     }
     class Base(chips: List<String>) : Abstract(chips)
-    class Empty : Abstract(emptyList())
+    object Empty : Abstract(emptyList())
 }

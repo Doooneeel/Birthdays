@@ -29,10 +29,10 @@ interface BirthdayListCacheDataSource : Delete {
         }
 
         override fun find(id: Int): BirthdayData {
-            val found = birthdaysDao.find(id) ?: throw NotFoundException("not found: $id")
+            val found = birthdaysDao.find(id) ?: throw NotFoundException("ID: $id")
             return BirthdayData.Base(found.id, found.name, found.date)
         }
 
-        override fun delete(id: Int) = birthdaysDao.delete(id)
+        override fun deleteById(id: Int) = birthdaysDao.delete(id)
     }
 }

@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.data.newbirthday.cache
 
-import ru.daniilglazkov.birthdays.data.newbirthday.*
+import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayData
 import ru.daniilglazkov.birthdays.domain.core.exceptions.EmptyCacheException
 
 /**

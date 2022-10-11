@@ -4,8 +4,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import ru.daniilglazkov.birthdays.ui.core.Communication
-import ru.daniilglazkov.birthdays.ui.core.Navigation
-import ru.daniilglazkov.birthdays.ui.core.NavigationScreen
+import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
+import ru.daniilglazkov.birthdays.ui.core.navigation.NavigationScreen
 
 /**
  * @author Danil Glazkov on 10.06.2022, 01:11

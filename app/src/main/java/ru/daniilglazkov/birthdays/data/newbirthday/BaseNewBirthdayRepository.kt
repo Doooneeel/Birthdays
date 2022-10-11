@@ -1,8 +1,8 @@
 package ru.daniilglazkov.birthdays.data.newbirthday
 
 import ru.daniilglazkov.birthdays.data.newbirthday.cache.NewBirthdayCacheDataSource
-import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayRepository
+import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayDomain
+import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayRepository
 
 /**
  * @author Danil Glazkov on 28.08.2022, 19:36

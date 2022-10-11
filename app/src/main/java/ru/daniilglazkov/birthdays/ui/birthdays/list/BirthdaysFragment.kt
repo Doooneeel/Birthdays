@@ -1,7 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdaysFragmentBinding
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
@@ -28,7 +27,7 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
         }
         val itemOnClick = OnSingleClickCallback.Base<BirthdayUi>(debounce) { birthdayUi ->
             birthdayUi.map(BirthdayUi.Mapper.DisplaySheet(childFragmentManager) {
-                viewModel.fetch()
+                viewModel.reloadAndFetch()
             })
             searchViewClearFocus.invoke()
         }
@@ -49,6 +48,7 @@ class BirthdaysFragment : BaseFragment<BirthdaysFragmentBinding, BirthdaysViewMo
             searchViewClearFocus.invoke()
         }
         binding.searchView.setOnQueryTextListener(SingleOnQueryTextListener { query: String ->
+            binding.appbar.setExpanded(true)
             viewModel.changeSearchQuery(query)
             viewModel.fetch()
         })

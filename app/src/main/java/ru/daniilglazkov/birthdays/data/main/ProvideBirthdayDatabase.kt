@@ -12,9 +12,9 @@ sealed class ProvideBirthdayDatabase(
     context: Context,
     name: String,
 ) : ProvideDatabase.Abstract<BirthdaysDatabase>(
+    BirthdaysDatabase::class.java,
     context,
-    name,
-    BirthdaysDatabase::class.java
+    name
 ) {
     class Release(context: Context, name: String) : ProvideBirthdayDatabase(context, name) {
         override fun RoomDatabase.Builder<BirthdaysDatabase>.configuration() =

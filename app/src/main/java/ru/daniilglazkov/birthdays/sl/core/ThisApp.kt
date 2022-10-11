@@ -4,9 +4,9 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
-import ru.daniilglazkov.birthdays.core.ProvideViewModel
 import ru.daniilglazkov.birthdays.sl.dependencies.BirthdaysDependencyContainer
 import ru.daniilglazkov.birthdays.sl.dependencies.MainDependencyContainer
+import ru.daniilglazkov.birthdays.ui.core.ProvideViewModel
 
 /**
  * @author Danil Glazkov on 10.06.2022, 01:59

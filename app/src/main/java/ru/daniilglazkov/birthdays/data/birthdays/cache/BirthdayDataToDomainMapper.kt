@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.data.birthdays.cache
 
 import ru.daniilglazkov.birthdays.data.birthdays.BirthdayData
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import java.time.LocalDate
 
 /**

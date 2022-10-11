@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import ru.daniilglazkov.birthdays.core.ProvideViewModel
 import ru.daniilglazkov.birthdays.ui.core.Debounce
 import ru.daniilglazkov.birthdays.ui.core.HideKeyboard
 import ru.daniilglazkov.birthdays.ui.core.OnClosed
+import ru.daniilglazkov.birthdays.ui.core.ProvideViewModel
 import ru.daniilglazkov.birthdays.ui.core.click.OnDebouncedClickListener
 
 /**

@@ -1,16 +1,15 @@
 package ru.daniilglazkov.birthdays.sl.core
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import ru.daniilglazkov.birthdays.core.resources.ProvidePreferences
-import ru.daniilglazkov.birthdays.core.resources.ResourceManager
-import ru.daniilglazkov.birthdays.ui.core.Navigation
+import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
+import ru.daniilglazkov.birthdays.ui.core.resources.ProvidePreferences
+import ru.daniilglazkov.birthdays.ui.core.resources.ResourceManager
 
 /**
  * @author Danil Glazkov on 10.06.2022, 03:16
  */
-interface CoreModule: ProvideResourcesManager, ProvidePreferences, ProvideNavigation {
+interface CoreModule : ProvideResourcesManager, ProvidePreferences, ProvideNavigation {
 
     class Base(private val context: Context) : CoreModule {
 
@@ -20,7 +19,7 @@ interface CoreModule: ProvideResourcesManager, ProvidePreferences, ProvideNaviga
         override fun resourcesManager(): ResourceManager = resourcesManager
 
         override fun preferences(fileName: String): SharedPreferences {
-            return context.getSharedPreferences(fileName, MODE_PRIVATE)
+            return context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
         }
         override fun navigation(): Navigation.Mutable = navigation
     }

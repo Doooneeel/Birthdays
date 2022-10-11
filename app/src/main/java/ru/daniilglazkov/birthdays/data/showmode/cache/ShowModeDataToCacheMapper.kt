@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.data.showmode.cache
 
 import ru.daniilglazkov.birthdays.data.showmode.ShowModeData
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
+import ru.daniilglazkov.birthdays.domain.showmode.sort.SortMode
 
 /**
  * @author Danil Glazkov on 09.10.2022, 19:36

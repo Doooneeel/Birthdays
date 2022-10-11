@@ -1,6 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup
 
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListDomain
+import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
+import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListCountMapper
 import kotlin.math.abs
 
 /**
@@ -17,7 +18,7 @@ interface NeedToScrollUp {
     }
 
     class AddOrDelete(
-        private val countWithoutHeaders: BirthdayListDomain.CountMapper
+        private val countWithoutHeaders: BirthdayListCountMapper
     ) : NeedToScrollUp {
         override fun needToScrollUp(
             before: BirthdayListDomain,

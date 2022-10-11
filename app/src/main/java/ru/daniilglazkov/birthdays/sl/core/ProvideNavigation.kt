@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.sl.core
 
-import ru.daniilglazkov.birthdays.ui.core.Navigation
+import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
 
 /**
  * @author Danil Glazkov on 09.08.2022, 02:08

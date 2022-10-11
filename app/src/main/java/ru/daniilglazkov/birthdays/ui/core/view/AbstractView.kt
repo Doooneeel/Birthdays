@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.core.view
 
-import ru.daniilglazkov.birthdays.core.Mapper
+import ru.daniilglazkov.birthdays.ui.core.Mapper
 import java.time.LocalDate
 
 /**

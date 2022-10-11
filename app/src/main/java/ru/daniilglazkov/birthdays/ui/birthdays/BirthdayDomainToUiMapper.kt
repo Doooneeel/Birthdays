@@ -1,8 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.birthdays
 
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayType
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
 import java.time.LocalDate
 
 /**
@@ -10,35 +9,58 @@ import java.time.LocalDate
  */
 interface BirthdayDomainToUiMapper : BirthdayDomain.Mapper<BirthdayUi> {
 
-    //TODO refactoring!!!
-    class Base(
-        private val turnsTextMapper: BirthdateTextFormat,
-        private val dateTextMapper: BirthdateTextFormat,
-        private val untilTextMapper: BirthdateTextFormat,
-        private val dateDifference: DateDifference,
-        private val now: LocalDate
+    class Factory(private val factory: BirthdayDomainToUiMapperFactory) : BirthdayDomainToUiMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi =
+            factory.create(type).map(id, name, date, type)
+    }
+
+    class BaseSheet(
+        private val turnsAgeTextFormat: BirthdateTextFormat,
+        private val dateTextFormat: BirthdateTextFormat,
+        private val daysToBirthdayTextFormat: BirthdateTextFormat,
+        //TODO zodiac
     ) : BirthdayDomainToUiMapper {
-        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
-            if (type.matches(BirthdayType.Base)) {
-                BirthdayUi.Base(id, name,
-                    turns = turnsTextMapper.format(date),
-                    date = dateTextMapper.format(date),
-                    until = untilTextMapper.format(date),
-                )
-            }
-            else if (type.matches(BirthdayType.Today)) {
-                BirthdayUi.Today(id, name,
-                    turns = dateDifference.difference(now, date).toString(),
-                    date = dateTextMapper.format(date),
-                    until = untilTextMapper.format(date)
-                )
-            }
-            else if (type.matches(BirthdayType.Header)) {
-                BirthdayUi.Header(name)
-            }
-            else if (type.matches(BirthdayType.Error)) {
-                BirthdayUi.Header("Error")
-            }
-            else throw IllegalStateException()
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi {
+            return BirthdayUi.Base(id, name,
+                turnsAgeTextFormat.format(date),
+                dateTextFormat.format(date),
+                daysToBirthdayTextFormat.format(date)
+            )
+        }
+    }
+
+    class TodaySheet(
+        private val turnsAgeTextFormat: BirthdateTextFormat,
+        private val dateTextFormat: BirthdateTextFormat,
+        private val daysToBirthdayTextFormat: BirthdateTextFormat,
+        //TODO zodiac
+    ) : BirthdayDomainToUiMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi {
+            return BirthdayUi.Today(id, name,
+                turnsAgeTextFormat.format(date),
+                dateTextFormat.format(date),
+                daysToBirthdayTextFormat.format(date)
+            )
+        }
+    }
+
+    class Base(
+        private val turnsAgeTextFormat: BirthdateTextFormat,
+        private val daysToBirthdayTextFormat: BirthdateTextFormat,
+    ) : BirthdayDomainToUiMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi =
+            BirthdayUi.Base(id, name, turnsAgeTextFormat.format(date), "",
+                daysToBirthdayTextFormat.format(date)
+            )
+    }
+
+    class Header : BirthdayDomainToUiMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi =
+            BirthdayUi.Header(name)
+    }
+
+    class Today(private val turnsAgeTextFormat: BirthdateTextFormat) : BirthdayDomainToUiMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi =
+            BirthdayUi.Today(id, name,turnsAgeTextFormat.format(date))
     }
 }

@@ -11,9 +11,9 @@ interface ProvideDatabase<T : RoomDatabase> {
     fun provideDatabase(): T
 
     abstract class Abstract<T : RoomDatabase>(
+        private val type: Class<T>,
         private val context: Context,
-        private val name: String,
-        private val type: Class<T>
+        private val name: String
     ) : ProvideDatabase<T> {
         protected abstract fun RoomDatabase.Builder<T>.configuration(): RoomDatabase.Builder<T>
 

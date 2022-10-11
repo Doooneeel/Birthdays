@@ -1,9 +1,10 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list.chips
 
 import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.core.resources.ProvideString
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayDomain
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListDomain
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayCheckMapper
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
+import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 
 /**
  * @author Danil Glazkov on 01.09.2022, 21:25
@@ -12,13 +13,13 @@ interface BirthdayListDomainToChipsMapper : BirthdayListDomain.Mapper<BirthdayLi
 
     abstract class Abstract(
         private val birthdayDomainToChipMapper: BirthdayDomainToChipMapper,
-        private val chipPredicate: BirthdayDomain.CheckMapper
+        private val chipFilterPredicate: BirthdayCheckMapper,
     ) : BirthdayListDomainToChipsMapper {
         protected abstract fun firstChip(totalCount: Int): String
         protected abstract fun handleEmptyList(): BirthdayListChips
 
         override fun map(list: List<BirthdayDomain>): BirthdayListChips {
-            val headers = list.filter { it.map(chipPredicate) }
+            val headers = list.filter { it.map(chipFilterPredicate) }
 
             return if (headers.isEmpty()) handleEmptyList() else BirthdayListChips.Base(buildList {
                 add(firstChip(totalCount = list.size - headers.size))
@@ -31,14 +32,14 @@ interface BirthdayListDomainToChipsMapper : BirthdayListDomain.Mapper<BirthdayLi
 
     class Base(
         birthdayDomainToChipMapper: BirthdayDomainToChipMapper,
-        chipPredicate: BirthdayDomain.CheckMapper,
+        chipPredicate: BirthdayCheckMapper,
         private val provideString: ProvideString,
         private val firstChipTextFormat: ChipTextFormat
     ) : Abstract(
         birthdayDomainToChipMapper,
         chipPredicate
     ) {
-        override fun handleEmptyList() = BirthdayListChips.Empty()
+        override fun handleEmptyList() = BirthdayListChips.Empty
 
         override fun firstChip(totalCount: Int) = firstChipTextFormat.format(
             provideString.string(R.string.total),

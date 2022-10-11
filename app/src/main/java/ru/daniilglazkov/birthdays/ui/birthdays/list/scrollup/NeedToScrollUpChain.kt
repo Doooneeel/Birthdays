@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup
 
-import ru.daniilglazkov.birthdays.domain.birthdays.BirthdayListDomain
+import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
 
 /**
  * @author Danil Glazkov on 30.08.2022, 22:33

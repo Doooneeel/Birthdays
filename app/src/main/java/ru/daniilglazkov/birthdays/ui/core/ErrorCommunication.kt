@@ -3,8 +3,7 @@ package ru.daniilglazkov.birthdays.ui.core
 import androidx.annotation.StringRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import ru.daniilglazkov.birthdays.core.Clear
-import ru.daniilglazkov.birthdays.core.resources.ProvideString
+import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 
 /**
  * @author Danil Glazkov on 25.08.2022, 14:38
@@ -14,7 +13,7 @@ interface ErrorCommunication : Communication.Mutable<ErrorMessage>, Clear {
 
     class Base(
         private val provideString: ProvideString,
-    ) : Communication.UiUpdate<ErrorMessage>(),
+    ) : Communication.Ui<ErrorMessage>(),
         ErrorCommunication
     {
         override fun throwErrorMessage(id: Int) = map(
@@ -23,6 +22,7 @@ interface ErrorCommunication : Communication.Mutable<ErrorMessage>, Clear {
         override fun clear() = map(ErrorMessage.Empty)
     }
 
+
     interface Observe {
         fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>)
     }
@@ -30,5 +30,4 @@ interface ErrorCommunication : Communication.Mutable<ErrorMessage>, Clear {
     interface Clear {
         fun clearErrorMessage()
     }
-
 }

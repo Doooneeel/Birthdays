@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.TypeConverters
 import ru.daniilglazkov.birthdays.data.birthdays.BirthdayData
-import ru.daniilglazkov.birthdays.data.core.cache.converttype.LocalDateConvertType
 import ru.daniilglazkov.birthdays.data.core.cache.AbstractCache
+import ru.daniilglazkov.birthdays.data.core.cache.converttype.LocalDateConvertType
 import java.time.LocalDate
 
 /**
@@ -14,8 +14,6 @@ import java.time.LocalDate
 @Entity(tableName = "birthdays")
 @TypeConverters(LocalDateConvertType::class)
 class BirthdayCache(
-    @ColumnInfo(name = "name")
-    val name: String,
-    @ColumnInfo(name = "date")
-    val date: LocalDate,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "date") val date: LocalDate,
 ) : AbstractCache<BirthdayData>()

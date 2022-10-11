@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.birthdays
 
 import androidx.fragment.app.FragmentManager
-import ru.daniilglazkov.birthdays.ui.birthdays.birthdayinfo.BirthdaySheetFragment
+import ru.daniilglazkov.birthdays.ui.birthdayinfo.BirthdaySheetFragment
 import ru.daniilglazkov.birthdays.ui.core.Same
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 
@@ -13,9 +13,9 @@ interface BirthdayUi : Same<BirthdayUi> {
 
     fun apply(
         nameView: AbstractView.Text,
-        turnsView: AbstractView.Text = AbstractView.Text.Empty,
+        turnedYearsView: AbstractView.Text = AbstractView.Text.Empty,
         dateView: AbstractView.Text = AbstractView.Text.Empty,
-        untilView: AbstractView.Text = AbstractView.Text.Empty
+        daysToBirthdayView: AbstractView.Text = AbstractView.Text.Empty
     )
 
     abstract class Abstract(
@@ -34,9 +34,9 @@ interface BirthdayUi : Same<BirthdayUi> {
 
         override fun apply(
             nameView: AbstractView.Text,
-            turnsView: AbstractView.Text,
+            turnedYearsView: AbstractView.Text,
             dateView: AbstractView.Text,
-            untilView: AbstractView.Text
+            daysToBirthdayView: AbstractView.Text
         ) = nameView.map(name)
     }
     abstract class AbstractCompareName(name: String) : Abstract(id = -1, name) {
@@ -56,32 +56,34 @@ interface BirthdayUi : Same<BirthdayUi> {
     ) : AbstractCompareId(id, name, turns, date, until) {
         override fun apply(
             nameView: AbstractView.Text,
-            turnsView: AbstractView.Text,
+            turnedYearsView: AbstractView.Text,
             dateView: AbstractView.Text,
-            untilView: AbstractView.Text
+            daysToBirthdayView: AbstractView.Text
         ) {
-            super.apply(nameView, turnsView, dateView, untilView)
-            turnsView.map(turns)
+            super.apply(nameView, turnedYearsView, dateView, daysToBirthdayView)
+            turnedYearsView.map(turns)
             dateView.map(date)
-            untilView.map(until)
+            daysToBirthdayView.map(until)
         }
     }
 
-    class Today(id: Int, name: String,
-        private val turns: String,
-        private val date: String,
-        private val until: String,
-    ) : AbstractCompareId(id, name, turns, date, until) {
+    class Today(
+        id: Int,
+        private val name: String,
+        private val turnedYears: String = "",
+        private val date: String = "",
+        private val daysToBirthday: String = "",
+    ) : AbstractCompareId(id, name, turnedYears, date, daysToBirthday) {
         override fun apply(
             nameView: AbstractView.Text,
-            turnsView: AbstractView.Text,
+            turnedYearsView: AbstractView.Text,
             dateView: AbstractView.Text,
-            untilView: AbstractView.Text
+            daysToBirthdayView: AbstractView.Text
         ) {
-            super.apply(nameView, turnsView, dateView, untilView)
-            turnsView.map(turns)
+            nameView.map(name)
+            turnedYearsView.map(turnedYears)
             dateView.map(date)
-            untilView.map(until)
+            daysToBirthdayView.map(daysToBirthday)
         }
     }
     class Header(name: String) : AbstractCompareName(name)
@@ -122,12 +124,10 @@ interface BirthdayUi : Same<BirthdayUi> {
                 private val turns: String,
                 private val date: String,
                 private val until: String,
-            ) : Mapper<Boolean> {
+            ) : CheckMapper {
                 override fun map(id: Int, name: String, turns: String, date: String, until: String) =
-                    (this.id == id).and(this.name == name)
-                        .and(this.turns == turns)
-                        .and(this.date == date)
-                        .and(this.until == until)
+                    this.id == id && this.name == name && this.turns == turns && 
+                            this.date == date && this.until == until
             }
         }
     }

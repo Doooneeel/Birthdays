@@ -3,7 +3,7 @@ package ru.daniilglazkov.birthdays.ui.main
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ru.daniilglazkov.birthdays.core.Mapper
+import ru.daniilglazkov.birthdays.ui.core.Mapper
 import ru.daniilglazkov.birthdays.ui.core.Same
 
 /**

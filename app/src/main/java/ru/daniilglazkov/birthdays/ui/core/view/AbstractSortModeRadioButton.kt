@@ -3,8 +3,8 @@ package ru.daniilglazkov.birthdays.ui.core.view
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatRadioButton
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
-import ru.daniilglazkov.birthdays.ui.birthdays.settings.showmode.SortModeAbstractView
+import ru.daniilglazkov.birthdays.domain.showmode.sort.SortMode
+import ru.daniilglazkov.birthdays.ui.settings.showmode.SortModeAbstractView
 
 /**
  * @author Danil Glazkov on 16.08.2022, 03:09

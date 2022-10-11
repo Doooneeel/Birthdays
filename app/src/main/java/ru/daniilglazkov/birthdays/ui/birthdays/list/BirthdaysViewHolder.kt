@@ -2,10 +2,7 @@ package ru.daniilglazkov.birthdays.ui.birthdays.list
 
 import android.view.View
 import androidx.viewbinding.ViewBinding
-import ru.daniilglazkov.birthdays.databinding.BirthdayItemLayoutBinding
-import ru.daniilglazkov.birthdays.databinding.BirthdayItemMessageBinding
-import ru.daniilglazkov.birthdays.databinding.BirthdayTodayItemLayoutBinding
-import ru.daniilglazkov.birthdays.databinding.HeaderLayoutBinding
+import ru.daniilglazkov.birthdays.databinding.*
 import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
 import ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
@@ -57,8 +54,8 @@ abstract class BirthdaysViewHolder(itemView: View) : BaseViewHolder<BirthdayUi>(
             }
             data.apply(
                 nameView = binding.nameTextView,
-                turnsView = binding.turnAgeTextView,
-                untilView = binding.untilDayTextView
+                turnedYearsView = binding.turnAgeTextView,
+                daysToBirthdayView = binding.untilDayTextView
             )
         }
     }
@@ -73,7 +70,7 @@ abstract class BirthdaysViewHolder(itemView: View) : BaseViewHolder<BirthdayUi>(
             }
             data.apply(
                 nameView = binding.nameTextView,
-                turnsView = binding.turnAgeTextView
+                turnedYearsView = binding.turnAgeTextView
             )
         }
     }

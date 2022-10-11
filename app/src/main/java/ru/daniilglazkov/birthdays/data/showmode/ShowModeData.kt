@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.data.showmode
 
-import ru.daniilglazkov.birthdays.domain.birthdays.showmode.sort.SortMode
+import ru.daniilglazkov.birthdays.domain.showmode.sort.SortMode
 
 /**
  * @author Danil Glazkov on 05.08.2022, 02:53

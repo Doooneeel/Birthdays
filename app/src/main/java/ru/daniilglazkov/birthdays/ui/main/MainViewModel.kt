@@ -3,7 +3,7 @@ package ru.daniilglazkov.birthdays.ui.main
 import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysScreen
 import ru.daniilglazkov.birthdays.ui.core.Communication
 import ru.daniilglazkov.birthdays.ui.core.Init
-import ru.daniilglazkov.birthdays.ui.core.Navigation
+import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
 
 /**
  * @author Danil Glazkov on 10.06.2022, 21:55

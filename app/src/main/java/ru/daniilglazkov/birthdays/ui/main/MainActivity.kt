@@ -7,11 +7,11 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import ru.daniilglazkov.birthdays.core.ProvideViewModel
 import ru.daniilglazkov.birthdays.databinding.ActivityMainBinding
 import ru.daniilglazkov.birthdays.ui.core.FragmentFactory
 import ru.daniilglazkov.birthdays.ui.core.HideKeyboard
 import ru.daniilglazkov.birthdays.ui.core.ProvideFragmentFactory
+import ru.daniilglazkov.birthdays.ui.core.ProvideViewModel
 
 class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideFragmentFactory, HideKeyboard {
 

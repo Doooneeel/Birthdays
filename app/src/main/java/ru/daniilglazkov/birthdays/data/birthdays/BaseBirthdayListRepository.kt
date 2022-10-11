@@ -1,8 +1,8 @@
 package ru.daniilglazkov.birthdays.data.birthdays
 
-import ru.daniilglazkov.birthdays.data.birthdays.cache.BirthdayDataToDomainMapper
-import ru.daniilglazkov.birthdays.data.birthdays.cache.BirthdayListCacheDataSource
-import ru.daniilglazkov.birthdays.domain.birthdays.*
+import ru.daniilglazkov.birthdays.data.birthdays.cache.*
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthdaylist.*
 
 /**
  * @author Danil Glazkov on 10.06.2022, 00:51
@@ -18,7 +18,7 @@ class BaseBirthdayListRepository(
             birthdayData.map(mapperToDomain)
         }
     )
-    override fun delete(id: Int) = cacheDataSource.delete(id)
+    override fun delete(id: Int) = cacheDataSource.deleteById(id)
 
     override fun find(id: Int): BirthdayDomain = cacheDataSource.find(id)
         .map(mapperToDomain)

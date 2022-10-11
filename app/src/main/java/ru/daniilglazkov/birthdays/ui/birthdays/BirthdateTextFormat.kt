@@ -1,10 +1,10 @@
 package ru.daniilglazkov.birthdays.ui.birthdays
 
 import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
+import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 import java.time.LocalDate
 
 /**
@@ -36,7 +36,7 @@ interface BirthdateTextFormat {
         override fun format(date: LocalDate) = string.quantityString(R.plurals.age, range(date))
     }
 
-    class DaysUntilBirthday(
+    class DaysToBirthday(
         private val provideString: ProvideString,
         nextEvent: NextEvent,
         before: LocalDate
@@ -48,7 +48,7 @@ interface BirthdateTextFormat {
         }
     }
 
-    class DaysUntilBirthdaySheet(
+    class DaysToBirthdaySheet(
         private val provideString: ProvideString,
         nextEvent: NextEvent,
         before: LocalDate

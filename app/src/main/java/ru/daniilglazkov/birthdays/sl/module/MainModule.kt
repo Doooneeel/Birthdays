@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.sl.module
 
 import ru.daniilglazkov.birthdays.sl.core.Module
-import ru.daniilglazkov.birthdays.ui.core.Navigation
+import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
 import ru.daniilglazkov.birthdays.ui.main.MainViewModel
 
 /**

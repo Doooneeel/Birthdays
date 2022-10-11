@@ -8,7 +8,7 @@ import ru.daniilglazkov.birthdays.ui.core.Communication
 interface QueryCommunication : Communication.Mutable<CharSequence> {
     fun executeQuery(query: (CharSequence) -> Unit)
 
-    class Base : Communication.UiUpdate<CharSequence>(""), QueryCommunication {
+    class Base : Communication.Ui<CharSequence>(initValue = ""), QueryCommunication {
         override fun executeQuery(query: (CharSequence) -> Unit) = query.invoke(value)
     }
 }

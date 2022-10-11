@@ -4,7 +4,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import ru.daniilglazkov.birthdays.ui.core.Communication
-import ru.daniilglazkov.birthdays.ui.core.Navigation
+import ru.daniilglazkov.birthdays.ui.core.navigation.NavigateBack
+import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
+import ru.daniilglazkov.birthdays.ui.core.ObserveCloseDialog
 
 /**
  * @author Danil Glazkov on 04.09.2022, 21:23
@@ -12,11 +14,14 @@ import ru.daniilglazkov.birthdays.ui.core.Navigation
 abstract class BaseSheetViewModel<VT : Any>(
     communication: Communication.Mutable<VT>,
     navigation: Navigation.Mutable = Navigation.Unit(),
-) : BaseViewModel<VT>(communication, navigation) {
+) : BaseViewModel<VT>(communication, navigation), NavigateBack,
+    ObserveCloseDialog
+{
     private val closeDialogLiveData = MutableLiveData<Unit>()
 
-    protected fun navigateBack() = closeDialogLiveData.setValue(Unit)
-
-    fun observeCloseDialog(owner: LifecycleOwner, observer: Observer<Unit>) =
+    override fun navigateBack() {
+        closeDialogLiveData.value = Unit
+    }
+    override fun observeCloseDialog(owner: LifecycleOwner, observer: Observer<Unit>) =
         closeDialogLiveData.observe(owner, observer)
 }

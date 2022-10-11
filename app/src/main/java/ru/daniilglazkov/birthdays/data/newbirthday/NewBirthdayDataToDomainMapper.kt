@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.data.newbirthday
 
-import ru.daniilglazkov.birthdays.domain.birthdays.newbirthday.NewBirthdayDomain
+import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayDomain
 import java.time.LocalDate
 
 /**

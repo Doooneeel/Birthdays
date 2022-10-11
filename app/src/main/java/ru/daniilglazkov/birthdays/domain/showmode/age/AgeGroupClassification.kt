@@ -1,6 +1,6 @@
-package ru.daniilglazkov.birthdays.domain.birthdaylist
+package ru.daniilglazkov.birthdays.domain.showmode.age
 
-import ru.daniilglazkov.birthdays.domain.birthdaylist.AgeRangeCategory.*
+import ru.daniilglazkov.birthdays.domain.showmode.age.AgeRangeCategory.*
 import ru.daniilglazkov.birthdays.domain.range.RangeGroup
 
 /**

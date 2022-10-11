@@ -1,14 +1,13 @@
 package ru.daniilglazkov.birthdays.domain.showmode
 
-import ru.daniilglazkov.birthdays.domain.birthdaylist.AgeGroupClassification
+import ru.daniilglazkov.birthdays.domain.showmode.age.AgeGroupClassification
 import ru.daniilglazkov.birthdays.domain.showmode.TransformBirthdayList.SortingAndGrouping
 import ru.daniilglazkov.birthdays.domain.showmode.group.BirthdayGroupHeader
 import ru.daniilglazkov.birthdays.domain.showmode.group.GroupBirthdayList
 import ru.daniilglazkov.birthdays.domain.showmode.sort.SortBirthdayList
 import ru.daniilglazkov.birthdays.domain.showmode.sort.SortMode
 import ru.daniilglazkov.birthdays.domain.showmode.split.SplitBirthdayList
-import ru.daniilglazkov.birthdays.domain.birthdaylist.zodiac.ZodiacGroupClassification
-import ru.daniilglazkov.birthdays.domain.birthdaylist.zodiac.ZodiacTextFormat
+import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacGroupClassification
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
@@ -29,7 +28,6 @@ interface TransformBirthdayListFactory {
 
         private val zodiacGroupClassification = ZodiacGroupClassification.Base()
         private val ageGroupClassification = AgeGroupClassification.Base()
-        private val zodiacTextFormat = ZodiacTextFormat.Base(provideString)
         private val unitGroup = GroupBirthdayList.Unit()
         private val nextEventInDays = DateDifference.NextEventInDays(nextEvent)
         private val differenceInYears = DateDifference.Years()
@@ -94,10 +92,7 @@ interface TransformBirthdayListFactory {
 
                     group = if (group) GroupBirthdayList.Base(
                         split = SplitBirthdayList.Zodiac(zodiacGroupClassification),
-                        groupHeader = BirthdayGroupHeader.Zodiac(
-                            zodiacGroupClassification,
-                            zodiacTextFormat
-                        )
+                        groupHeader = BirthdayGroupHeader.Zodiac(zodiacGroupClassification)
                     )
                     else unitGroup
                 )

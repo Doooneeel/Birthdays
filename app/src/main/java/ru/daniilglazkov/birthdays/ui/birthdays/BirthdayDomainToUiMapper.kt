@@ -59,6 +59,11 @@ interface BirthdayDomainToUiMapper : BirthdayDomain.Mapper<BirthdayUi> {
             BirthdayUi.Header(name)
     }
 
+    class Zodiac(private val zodiacName: String) : BirthdayDomainToUiMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi =
+            BirthdayUi.Header(zodiacName)
+    }
+
     class Today(private val turnsAgeTextFormat: BirthdateTextFormat) : BirthdayDomainToUiMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayUi =
             BirthdayUi.Today(id, name,turnsAgeTextFormat.format(date))

@@ -26,11 +26,13 @@ class BirthdayListModule(
 ) : Module<BirthdaysViewModel.Base> {
 
     override fun viewModel(): BirthdaysViewModel.Base {
+        val zodiacTextFormat = ZodiacTextFormat.Base(coreModule.resourcesManager())
 
         val birthdayListDomainToUiMapper = BirthdayListDomainToUiMapper.Base(
             BirthdayDomainToUiMapper.Factory(
                 BirthdayDomainToUiMapperFactory.Base(
                     coreModule.resourcesManager(),
+                    zodiacTextFormat,
                     nextEvent,
                     now
                 )
@@ -70,7 +72,7 @@ class BirthdayListModule(
             )
         )
         val birthdayListDomainToChips = BirthdayListDomainToChipsMapper.Base(
-            BirthdayDomainToChipMapper.Base(ChipTextFormat.OnlyName()),
+            BirthdayDomainToChipMapper.Base(zodiacTextFormat),
             BirthdayCheckMapper.IsHeader(),
             coreModule.resourcesManager(),
             ChipTextFormat.NameWithCount()

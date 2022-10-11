@@ -1,6 +1,7 @@
 package ru.daniilglazkov.birthdays.domain.showmode.group
 
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
 import ru.daniilglazkov.birthdays.domain.range.RangeTextFormat
 
 /**
@@ -13,6 +14,12 @@ interface MakeHeader {
         override fun make(list: List<BirthdayDomain>): BirthdayDomain = BirthdayDomain.Header(
             list.first().map(predicate).toString()
         )
+    }
+    class ZodiacBaseOnFirst(
+        private val predicate: BirthdayGroupPredicate<BirthdayType.Zodiac>,
+    ) : MakeHeader {
+        override fun make(list: List<BirthdayDomain>): BirthdayDomain =
+            BirthdayDomain.HeaderZodiac(list.first().map(predicate))
     }
 
     class Range<T: Comparable<T>>(

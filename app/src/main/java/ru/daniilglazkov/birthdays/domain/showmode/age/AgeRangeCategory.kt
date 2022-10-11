@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.domain.birthdaylist
+package ru.daniilglazkov.birthdays.domain.showmode.age
 
 import ru.daniilglazkov.birthdays.domain.range.RangeCategory
 

@@ -10,9 +10,9 @@ import androidx.core.content.res.ResourcesCompat
 /**
  * @author Danil Glazkov on 10.06.2022, 00:44
  */
-interface ResourceManager : ProvideString, DrawableProvider, ProvidePreferences, ProvideNumber {
+interface ManageResources : ProvideString, DrawableProvider, ProvidePreferences, ProvideNumber {
 
-    class Base(private val context: Context) : ResourceManager {
+    class Base(private val context: Context) : ManageResources {
         private val resources: Resources = context.resources
 
         override fun string(id: Int): String = context.getString(id)

@@ -1,11 +1,11 @@
 package ru.daniilglazkov.birthdays.domain.showmode.split
 
-import ru.daniilglazkov.birthdays.domain.birthdaylist.AgeGroupClassification
-import ru.daniilglazkov.birthdays.domain.birthdaylist.AgeRangeCategory
+import ru.daniilglazkov.birthdays.domain.showmode.age.AgeGroupClassification
+import ru.daniilglazkov.birthdays.domain.showmode.age.AgeRangeCategory
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.birthdaylist.zodiac.ZodiacGroupClassification
-import ru.daniilglazkov.birthdays.domain.birthdaylist.zodiac.ZodiacRangeCategory
+import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacRangeCategory
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.domain.range.RangeCategory

@@ -22,15 +22,19 @@ interface BirthdayDomainToUiMapperFactory {
 
     class Base(
         private val resources: ProvideString,
+        private val zodiacTextFormat: ZodiacTextFormat,
         private val nextEvent: NextEvent,
         private val now: LocalDate,
         private val next: BirthdayDomainToUiMapperFactory = Error
     ) : Abstract(resources, now) {
         override fun create(type: BirthdayType): BirthdayDomainToUiMapper = when (type) {
-            is BirthdayType.Header -> BirthdayDomainToUiMapper.Header()
-            is BirthdayType.Today -> BirthdayDomainToUiMapper.Today(ageTextFormat)
             is BirthdayType.Base -> BirthdayDomainToUiMapper.Base(ageTextFormat,
                 BirthdateTextFormat.DaysToBirthday(resources, nextEvent, now)
+            )
+            is BirthdayType.Header -> BirthdayDomainToUiMapper.Header()
+            is BirthdayType.Today -> BirthdayDomainToUiMapper.Today(ageTextFormat)
+            is BirthdayType.Zodiac -> BirthdayDomainToUiMapper.Zodiac(
+                zodiacTextFormat.format(type)
             )
             else -> next.create(type)
         }

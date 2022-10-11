@@ -1,6 +1,6 @@
-package ru.daniilglazkov.birthdays.domain.birthdaylist.zodiac
+package ru.daniilglazkov.birthdays.domain.showmode.zodiac
 
-import ru.daniilglazkov.birthdays.domain.birthdaylist.zodiac.ZodiacRangeCategory.*
+import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacRangeCategory.*
 import ru.daniilglazkov.birthdays.domain.range.RangeGroup
 
 /**

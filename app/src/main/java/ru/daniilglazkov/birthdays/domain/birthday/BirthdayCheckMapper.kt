@@ -9,12 +9,12 @@ interface BirthdayCheckMapper : BirthdayDomain.Mapper<Boolean> {
 
     class IsHeader : BirthdayCheckMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
-            type.matches(BirthdayType.Header)
+            type.matches(BirthdayType.Header) || type is BirthdayType.Zodiac
     }
 
     class IsNotHeader : BirthdayCheckMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
-            type.matches(BirthdayType.Header).not()
+            type.matches(BirthdayType.Header).not() && type !is BirthdayType.Zodiac
     }
 
     class Compare(

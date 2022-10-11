@@ -2,6 +2,7 @@ package ru.daniilglazkov.birthdays.ui.birthdays.list.chips
 
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
+import ru.daniilglazkov.birthdays.ui.birthdays.ZodiacTextFormat
 import java.time.LocalDate
 
 /**
@@ -9,8 +10,13 @@ import java.time.LocalDate
  */
 interface BirthdayDomainToChipMapper : BirthdayDomain.Mapper<String> {
 
-    class Base(private val chipTextFormat: ChipTextFormat) : BirthdayDomainToChipMapper {
-        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
-            chipTextFormat.format(name, count = 0)
+    class Base(
+        private val zodiacFactory: ZodiacTextFormat
+    ) : BirthdayDomainToChipMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): String {
+            return if (type is BirthdayType.Zodiac) {
+                zodiacFactory.format(type)
+            } else name
+        }
     }
 }

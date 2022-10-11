@@ -13,7 +13,7 @@ import ru.daniilglazkov.birthdays.ui.newbirthday.*
 import ru.daniilglazkov.birthdays.ui.newbirthday.about.AboutBirthdateCommunication
 import ru.daniilglazkov.birthdays.ui.newbirthday.about.AboutBirthdateDomainToUiMapper
 import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
-import ru.daniilglazkov.birthdays.ui.core.resources.ResourceManager
+import ru.daniilglazkov.birthdays.ui.core.resources.ManageResources
 import ru.daniilglazkov.birthdays.ui.core.textfilter.*
 import ru.daniilglazkov.birthdays.ui.core.validate.*
 import java.time.LocalDate
@@ -22,7 +22,7 @@ import java.time.LocalDate
  * @author Danil Glazkov on 19.06.2022, 15:01
  */
 class NewBirthdayModule(
-    private val resourceManager: ResourceManager,
+    private val manageResources: ManageResources,
     private val newBirthdayDao: NewBirthdayDao,
     private val repository: BirthdayListRepository,
     private val nextEvent: NextEvent,
@@ -31,15 +31,15 @@ class NewBirthdayModule(
     override fun viewModel(): NewBirthdayViewModel.Base {
         val validate = ValidateChain(
             ValidateNotEmpty(
-                resourceManager.string(R.string.empty_name_error_message)
+                manageResources.string(R.string.empty_name_error_message)
             ),
             ValidateChain(
                 ValidateFirstCharIsLetter(
-                    resourceManager.string(R.string.first_char_is_not_letter_error_message)
+                    manageResources.string(R.string.first_char_is_not_letter_error_message)
                 ),
                 ValidateMinLength(
-                    resourceManager.number(R.integer.name_min_length),
-                    resourceManager.string(R.string.name_min_length_error_message)
+                    manageResources.number(R.integer.name_min_length),
+                    manageResources.string(R.string.name_min_length_error_message)
                 )
             )
         )
@@ -63,9 +63,9 @@ class NewBirthdayModule(
         return NewBirthdayViewModel.Base(
             interactor,
             NewBirthdayCommunication.Base(validate, nameFilter),
-            ErrorCommunication.Base(resourceManager),
+            ErrorCommunication.Base(manageResources),
             AboutBirthdateCommunication.Base(),
-            AboutBirthdateDomainToUiMapper.Base(resourceManager),
+            AboutBirthdateDomainToUiMapper.Base(manageResources),
             NewBirthdayDomainToUiMapper.Base(),
             NewBirthdayUiToDomainMapper.Base()
         )

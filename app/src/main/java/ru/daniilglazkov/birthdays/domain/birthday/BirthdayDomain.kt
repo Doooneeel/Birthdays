@@ -41,6 +41,9 @@ interface BirthdayDomain : Matches<BirthdayDomain> {
 
     class Header(name: String) : Abstract(-1, name, LocalDate.MIN, BirthdayType.Header)
 
+    class HeaderZodiac(type: BirthdayType.Zodiac) : Abstract(-2, "", LocalDate.MIN, type)
+
+
     interface Mapper<T> {
         fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): T
     }

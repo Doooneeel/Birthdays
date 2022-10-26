@@ -26,9 +26,6 @@ interface SortBirthdayList : Sort<BirthdayListDomain> {
         BirthdayListSortMapper.Descending(predicate)
     )
 
-    class MonthAscending : Ascending<Int>(Predicate.Month())
-    class MonthDescending : Descending<Int>(Predicate.Month())
-
     class RangeAscending(range: DateDifference, before: LocalDate) : Ascending<Int>(
         Predicate.Range(range, before)
     )
@@ -43,8 +40,8 @@ interface SortBirthdayList : Sort<BirthdayListDomain> {
     class NameAscending : Ascending<String>(Predicate.Name())
     class NameDescending : Descending<String>(Predicate.Name())
 
-    class ZodiacAscending : Ascending<Int>(Predicate.Zodiac())
-    class ZodiacDescending : Descending<Int>(Predicate.Zodiac())
+    class DayOfYearAscending : Ascending<Int>(Predicate.DayOfYear())
+    class DayOfYearDescending : Descending<Int>(Predicate.DayOfYear())
 
     class Unit : Sort.Unit<BirthdayListDomain>(), SortBirthdayList
 }

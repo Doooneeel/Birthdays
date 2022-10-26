@@ -1,7 +1,6 @@
 package ru.daniilglazkov.birthdays.domain.showmode.group
 
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
-import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
 import ru.daniilglazkov.birthdays.domain.range.RangeTextFormat
 
 /**
@@ -10,25 +9,24 @@ import ru.daniilglazkov.birthdays.domain.range.RangeTextFormat
 interface MakeHeader {
     fun make(list: List<BirthdayDomain>): BirthdayDomain
 
-    class BasedOnFirst<T>(private val predicate: BirthdayGroupPredicate<T>) : MakeHeader {
-        override fun make(list: List<BirthdayDomain>): BirthdayDomain = BirthdayDomain.Header(
-            list.first().map(predicate).toString()
-        )
+    abstract class Abstract : MakeHeader {
+        protected abstract fun text(list: List<BirthdayDomain>): String
+        private var id: Int = 0
+
+        override fun make(list: List<BirthdayDomain>) =
+            BirthdayDomain.Header(--id, text(list))
     }
-    class ZodiacBaseOnFirst(
-        private val predicate: BirthdayGroupPredicate<BirthdayType.Zodiac>,
-    ) : MakeHeader {
-        override fun make(list: List<BirthdayDomain>): BirthdayDomain =
-            BirthdayDomain.HeaderZodiac(list.first().map(predicate))
+
+    class BasedOnFirst<T>(private val predicate: BirthdayGroupHeaderPredicate<T>) : Abstract() {
+        override fun text(list: List<BirthdayDomain>) = list.first().map(predicate).toString()
     }
 
     class Range<T: Comparable<T>>(
         private val rangeTextFormat: RangeTextFormat,
-        private val predicate: BirthdayGroupPredicate<T>
-    ) : MakeHeader {
-        override fun make(list: List<BirthdayDomain>): BirthdayDomain {
-            val range = list.first().map(predicate)..list.last().map(predicate)
-            return BirthdayDomain.Header(rangeTextFormat.format(range))
-        }
+        private val predicate: BirthdayGroupHeaderPredicate<T>,
+    ) : Abstract() {
+        override fun text(list: List<BirthdayDomain>): String = rangeTextFormat.format(
+            range = list.first().map(predicate)..list.last().map(predicate)
+        )
     }
 }

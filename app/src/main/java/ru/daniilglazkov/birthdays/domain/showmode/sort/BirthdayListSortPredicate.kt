@@ -17,20 +17,19 @@ interface BirthdayListSortPredicate<T : Comparable<T>> : BirthdayDomain.Mapper<T
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): Int =
             range.difference(before, date)
     }
-    class Month : BirthdayListSortPredicate<Int> {
-        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): Int =
-            date.dayOfYear
-    }
+
     class Age : BirthdayDomain.Mapper<Long> {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): Long =
             -date.toEpochDay()
     }
+
     class Name : BirthdayListSortPredicate<String> {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): String =
             name
     }
-    class Zodiac : BirthdayListSortPredicate<Int> {
-        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+
+    class DayOfYear : BirthdayListSortPredicate<Int> {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): Int =
             date.dayOfYear
     }
 }

@@ -11,29 +11,39 @@
 
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/name_text_view"
-        android:layout_gravity="center"
         style="@style/BaseTextStyle"
+        android:layout_gravity="center"
         android:textSize="@dimen/large_text"
         tools:text="Username Username" />
 
+    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextWithIconView
+        android:id="@+id/zodiac_text_view"
+        style="@style/TextWithBackgroundStyle"
+        app:drawableTint="@color/text"
+        android:layout_marginHorizontal="@dimen/normal_distance"
+        android:drawableStart="@drawable/ic_zodiac_aquarius"
+        android:paddingVertical="@dimen/medium_distance"
+        android:textColor="@color/text"
+        tools:text="Zodiac" />
+
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/date_text_view"
-        android:layout_gravity="center"
         style="@style/BaseTextStyle"
+        android:layout_gravity="center"
         android:textSize="@dimen/large_text"
         tools:text="22.02.2022" />
 
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/days_to_birthday_text_view"
-        android:layout_gravity="center"
         style="@style/BaseTextStyle"
+        android:layout_gravity="center"
         android:textSize="@dimen/large_text"
         tools:text="200 days" />
 
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/age_text_view"
-        android:layout_gravity="center"
         style="@style/BaseTextStyle"
+        android:layout_gravity="center"
         android:textSize="@dimen/large_text"
         tools:text="20 age" />
 
@@ -42,13 +52,12 @@
         android:id="@+id/delete_button"
         style="@style/ButtonWithIcon"
         android:paddingVertical="@dimen/small_distance"
-        app:enableDrawable="@drawable/ic_person_remove_fill"
-        app:disableDrawable="@drawable/ic_close"
         app:baseBackground="@drawable/panel"
         app:disableBackgroundTint="@color/gray"
+        app:disableDrawable="@drawable/ic_close"
         app:disableText="@string/cancel"
         app:enableBackgroundTint="@color/red"
+        app:enableDrawable="@drawable/ic_person_remove_fill"
         app:enableText="@string/delete" />
 
-    <!--TODO-->
 </LinearLayout>

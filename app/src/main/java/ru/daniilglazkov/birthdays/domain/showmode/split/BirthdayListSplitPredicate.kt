@@ -4,12 +4,12 @@ import ru.daniilglazkov.birthdays.domain.showmode.age.AgeGroupClassification
 import ru.daniilglazkov.birthdays.domain.showmode.age.AgeRangeCategory
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacGroupClassification
-import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacRangeCategory
+import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacGroupClassification
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.domain.range.RangeCategory
 import ru.daniilglazkov.birthdays.domain.range.RangeGroup
+import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacDomain
 import java.time.LocalDate
 
 /**
@@ -57,8 +57,8 @@ interface BirthdayListSplitPredicate<T> : BirthdayDomain.Mapper<T> {
 
     class Zodiac(
         private val classification: ZodiacGroupClassification,
-    ) : BirthdayListSplitPredicate<ZodiacRangeCategory> {
-        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+    ) : BirthdayListSplitPredicate<ZodiacDomain> {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): ZodiacDomain =
             classification.group(date.dayOfYear)
     }
 }

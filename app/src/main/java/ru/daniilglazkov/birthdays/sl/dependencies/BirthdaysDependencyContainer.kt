@@ -11,17 +11,20 @@ import ru.daniilglazkov.birthdays.data.main.ProvideBirthdayDatabase
 import ru.daniilglazkov.birthdays.data.showmode.*
 import ru.daniilglazkov.birthdays.data.showmode.cache.ShowModeCacheDataSource
 import ru.daniilglazkov.birthdays.data.showmode.cache.ShowModeDataToCacheMapper
+import ru.daniilglazkov.birthdays.domain.date.IsLeapDay
 import ru.daniilglazkov.birthdays.domain.showmode.HandleShowModeRepositoryResponse
 import ru.daniilglazkov.birthdays.domain.showmode.ShowModeInteractor
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
+import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacGroupClassification
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.DependencyContainer
 import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.sl.module.*
-import ru.daniilglazkov.birthdays.ui.birthdayinfo.BirthdayViewModel
-import ru.daniilglazkov.birthdays.ui.birthdays.list.BirthdaysViewModel
+import ru.daniilglazkov.birthdays.ui.birthday.BirthdayViewModel
+import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListViewModel
 import ru.daniilglazkov.birthdays.ui.newbirthday.NewBirthdayViewModel
 import ru.daniilglazkov.birthdays.ui.settings.SettingsViewModel
+import ru.daniilglazkov.birthdays.ui.zodiac.BaseZodiacDomainList
 import java.time.LocalDate
 
 /**
@@ -34,7 +37,7 @@ class BirthdaysDependencyContainer(
 ) : DependencyContainer {
 
     private val now get() = LocalDate.now()
-    private val nextEvent = NextEvent.Base(now)
+    private val nextEvent = NextEvent.Base(IsLeapDay.Base(), now)
     private val database: BirthdaysDatabase
 
     init {
@@ -45,6 +48,9 @@ class BirthdaysDependencyContainer(
         }
         database = provideDataBase.provideDatabase()
     }
+    private val zodiacGroupClassification = ZodiacGroupClassification.Base(
+        BaseZodiacDomainList(coreModule.resourcesManager())
+    )
 
     private val birthdaysRepository = BaseBirthdayListRepository(
         BirthdayListCacheDataSource.Base(
@@ -67,15 +73,17 @@ class BirthdaysDependencyContainer(
         HandleShowModeRepositoryResponse.Base()
     )
     override fun <VM : ViewModel> module(clazz: Class<VM>): Module<*> = when (clazz) {
-        BirthdaysViewModel.Base::class.java -> BirthdayListModule(
+        BirthdayListViewModel.Base::class.java -> BirthdayListModule(
             coreModule,
             birthdaysRepository,
+            zodiacGroupClassification,
             showModeInteractor,
             nextEvent,
             now
         )
         BirthdayViewModel.Base::class.java -> BirthdayModule(
             coreModule,
+            zodiacGroupClassification,
             birthdaysRepository,
             nextEvent,
             now

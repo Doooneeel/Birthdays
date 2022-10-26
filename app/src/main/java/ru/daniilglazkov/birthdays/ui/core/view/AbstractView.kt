@@ -1,5 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.core.view
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import ru.daniilglazkov.birthdays.ui.core.Mapper
 import java.time.LocalDate
 
@@ -20,10 +22,16 @@ interface AbstractView<T> : Mapper.Unit<T> {
 
     interface List<T> : AbstractView<kotlin.collections.List<T>>
 
-
     interface Recycler {
         fun nestedScroll(enabled: Boolean)
         fun scrollUp(needToScroll: Boolean)
     }
 
+    class Unit<T> : AbstractView<T> {
+        override fun map(source: T) = Unit
+    }
+}
+
+interface AbstractViewTextWithIcon {
+    fun map(@StringRes textId: Int, @DrawableRes iconId: Int)
 }

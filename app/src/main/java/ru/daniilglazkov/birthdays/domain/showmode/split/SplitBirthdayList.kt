@@ -4,10 +4,10 @@ import ru.daniilglazkov.birthdays.domain.showmode.age.AgeGroupClassification
 import ru.daniilglazkov.birthdays.domain.showmode.age.AgeRangeCategory
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
 import ru.daniilglazkov.birthdays.domain.showmode.group.BirthdayGroupDomain
-import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacGroupClassification
-import ru.daniilglazkov.birthdays.domain.showmode.zodiac.ZodiacRangeCategory
+import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacGroupClassification
 import ru.daniilglazkov.birthdays.domain.core.Split
 import ru.daniilglazkov.birthdays.domain.date.NextEvent
+import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacDomain
 import java.time.LocalDate
 
 /**
@@ -38,8 +38,7 @@ interface SplitBirthdayList : Split<BirthdayListDomain, List<BirthdayGroupDomain
         BirthdayListSplitPredicate.MonthsByYears(nextEvent)
     )
 
-    class Zodiac(zodiacRangeCategory: ZodiacGroupClassification) : Abstract<ZodiacRangeCategory>(
-        BirthdayListSplitPredicate.Zodiac(zodiacRangeCategory)
+    class Zodiac(classification: ZodiacGroupClassification) : Abstract<ZodiacDomain>(
+        BirthdayListSplitPredicate.Zodiac(classification)
     )
-
 }

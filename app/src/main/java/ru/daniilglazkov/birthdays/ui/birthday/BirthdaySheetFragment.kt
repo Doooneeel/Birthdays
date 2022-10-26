@@ -1,13 +1,13 @@
-package ru.daniilglazkov.birthdays.ui.birthdayinfo
+package ru.daniilglazkov.birthdays.ui.birthday
 
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdaySheetFragmentBinding
-import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
 import ru.daniilglazkov.birthdays.ui.core.ErrorMessage
 import ru.daniilglazkov.birthdays.ui.core.view.CustomToast
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
+import ru.daniilglazkov.birthdays.ui.zodiac.ZodiacUi
 
 /**
  * @author Danil Glazkov on 10.06.2022, 21:48
@@ -28,6 +28,9 @@ class BirthdaySheetFragment(
             binding.apply {
                 birthdayUi.apply(nameTextView, ageTextView, dateTextView, daysToBirthdayTextView)
             }
+        }
+        viewModel.observeZodiacUi(viewLifecycleOwner) { zodiacUi: ZodiacUi ->
+            zodiacUi.apply(binding.zodiacTextView)
         }
         viewModel.observeError(viewLifecycleOwner) { error: ErrorMessage ->
             error.apply(CustomToast(requireContext()))

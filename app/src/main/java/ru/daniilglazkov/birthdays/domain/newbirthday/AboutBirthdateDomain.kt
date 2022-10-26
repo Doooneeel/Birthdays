@@ -7,14 +7,14 @@ interface AboutBirthdateDomain {
     fun <T> map(mapper: Mapper<T>): T
 
     class Base(
-        private val turnedYear: Int,
+        private val turnsYearsOld: Int,
         private val daysToBirthday: Int,
     ) : AboutBirthdateDomain {
         override fun <T> map(mapper: Mapper<T>): T =
-            mapper.map(turnedYear, daysToBirthday)
+            mapper.map(turnsYearsOld, daysToBirthday)
     }
 
     interface Mapper<T> {
-        fun map(turnedYear: Int, daysToBirthday: Int): T
+        fun map(turnsYearsOld: Int, daysToBirthday: Int): T
     }
 }

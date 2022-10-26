@@ -1,6 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list
-
-import ru.daniilglazkov.birthdays.ui.core.Communication
+package ru.daniilglazkov.birthdays.ui.core
 
 /**
  * @author Danil Glazkov on 06.10.2022, 14:59

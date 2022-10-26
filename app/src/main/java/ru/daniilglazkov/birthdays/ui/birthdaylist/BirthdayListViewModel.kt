@@ -1,25 +1,26 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list
+package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ru.daniilglazkov.birthdays.R
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListInteractor
-import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayListDomainToUiMapper
-import ru.daniilglazkov.birthdays.ui.birthdays.list.chips.*
-import ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate.RecyclerState
-import ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate.RecyclerStateCommunication
+import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.*
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayListDomainToItemsUiMapper
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate.RecyclerState
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate.RecyclerStateCommunication
 import ru.daniilglazkov.birthdays.ui.newbirthday.NewBirthdayScreen
 import ru.daniilglazkov.birthdays.ui.settings.SettingsScreen
 import ru.daniilglazkov.birthdays.ui.core.Fetch
 import ru.daniilglazkov.birthdays.ui.core.Init
+import ru.daniilglazkov.birthdays.ui.core.QueryCommunication
 import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 
 /**
  * @author Danil Glazkov on 10.06.2022, 01:22
  */
-interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
+interface BirthdayListViewModel : BaseSheetViewModel<BirthdayItemUiList>, BirthdayListNavigation, Fetch, Init,
     RecyclerStateCommunication.Observe,
     BirthdayChipCommunication.Observe
 {
@@ -29,21 +30,21 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
 
     class Base(
         private val interactor: BirthdayListInteractor,
-        private val birthdaysCommunication: BirthdaysCommunication,
+        private val birthdayListCommunication: BirthdayListCommunication,
         private val chipCommunication: BirthdayChipCommunication,
         private val recyclerStateCommunication: RecyclerStateCommunication,
         private val queryCommunication: QueryCommunication,
         navigation: Navigation.Mutable,
-        private val birthdayListDomainToUi: BirthdayListDomainToUiMapper,
+        private val birthdayListDomainToUi: BirthdayListDomainToItemsUiMapper,
         private val birthdayListDomainToChips: BirthdayListDomainToChipsMapper,
-    ) : BaseSheetViewModel<BirthdayListUi>(birthdaysCommunication, navigation),
-        BirthdaysViewModel
+    ) : BaseSheetViewModel.Abstract<BirthdayItemUiList>(birthdayListCommunication, navigation),
+        BirthdayListViewModel
     {
         private val settingsScreen = SettingsScreen(::reloadAndFetch)
         private val newBirthdayScreen = NewBirthdayScreen(::reloadAndFetch)
 
         private val handleFailure: (Int) -> Unit = { messageId: Int ->
-            birthdaysCommunication.showMessage(messageId)
+            birthdayListCommunication.showMessage(messageId)
             recyclerStateCommunication.map(RecyclerState.Disable)
             chipCommunication.clear()
         }
@@ -51,7 +52,7 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
         private val handleEmptyList = { handleFailure(R.string.list_is_empty) }
 
         private val handleResult: (BirthdayListDomain) -> Unit = { birthdayListDomain ->
-            birthdaysCommunication.map(birthdayListDomain.map(birthdayListDomainToUi))
+            birthdayListCommunication.map(birthdayListDomain.map(birthdayListDomainToUi))
             chipCommunication.map(birthdayListDomain.map(birthdayListDomainToChips))
             recyclerStateCommunication.changeList(birthdayListDomain)
         }
@@ -80,9 +81,4 @@ interface BirthdaysViewModel : BirthdaysNavigation, Fetch, Init,
             recyclerStateCommunication.observe(owner, observer)
         }
     }
-}
-
-interface BirthdaysNavigation {
-    fun showNewBirthdayDialog()
-    fun showSettingsDialog()
 }

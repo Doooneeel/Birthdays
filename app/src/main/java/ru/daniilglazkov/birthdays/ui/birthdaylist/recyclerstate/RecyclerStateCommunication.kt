@@ -1,9 +1,9 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list.recyclerstate
+package ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
-import ru.daniilglazkov.birthdays.ui.birthdays.list.scrollup.NeedToScrollUpBirthdayList
+import ru.daniilglazkov.birthdays.ui.birthdaylist.scrollup.NeedToScrollUpBirthdayList
 import ru.daniilglazkov.birthdays.ui.core.Communication
 
 /**
@@ -14,8 +14,7 @@ interface RecyclerStateCommunication : Communication.Mutable<RecyclerState> {
 
     class Base(
         private val needToScrollUp: NeedToScrollUpBirthdayList
-    ) : Communication.Post<RecyclerState>(),
-        RecyclerStateCommunication
+    ) : Communication.Post<RecyclerState>(), RecyclerStateCommunication
     {
         override fun changeList(list: BirthdayListDomain) = this.map(
             RecyclerState.Base(

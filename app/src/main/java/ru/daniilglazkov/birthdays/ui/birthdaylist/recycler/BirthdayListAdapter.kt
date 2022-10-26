@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list
+package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -6,7 +6,7 @@ import ru.daniilglazkov.birthdays.databinding.BirthdayItemLayoutBinding
 import ru.daniilglazkov.birthdays.databinding.BirthdayItemMessageBinding
 import ru.daniilglazkov.birthdays.databinding.BirthdayTodayItemLayoutBinding
 import ru.daniilglazkov.birthdays.databinding.HeaderLayoutBinding
-import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
+import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListViewHolder
 import ru.daniilglazkov.birthdays.ui.core.DiffUtilCallback
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
 import ru.daniilglazkov.birthdays.ui.main.BaseAdapter
@@ -14,26 +14,26 @@ import ru.daniilglazkov.birthdays.ui.main.BaseAdapter
 /**
  * @author Danil Glazkov on 10.06.2022, 02:14
  */
-class BirthdaysAdapter(
-    private val itemOnClickCallback: OnSingleClickCallback<BirthdayUi>,
+class BirthdayListAdapter(
+    private val itemOnClickCallback: OnSingleClickCallback<BirthdayItemUi>,
     private val onEmptySpaceClick: () -> Unit
-) : BaseAdapter<BirthdaysViewHolder, BirthdayUi>() {
+) : BaseAdapter<BirthdayListViewHolder, BirthdayItemUi>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdaysViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayListViewHolder {
         return when(viewType) {
-            BIRTHDAY -> BirthdaysViewHolder.Base(
+            BIRTHDAY -> BirthdayListViewHolder.Base(
                 BirthdayItemLayoutBinding.inflate(layoutInflater, parent, false),
                 itemOnClickCallback
             )
-            HEADER -> BirthdaysViewHolder.Header(
+            HEADER -> BirthdayListViewHolder.Header(
                 HeaderLayoutBinding.inflate(layoutInflater, parent, false),
                 onEmptySpaceClick
             )
-            MESSAGE -> BirthdaysViewHolder.Message(
+            MESSAGE -> BirthdayListViewHolder.Message(
                 BirthdayItemMessageBinding.inflate(layoutInflater, parent, false),
                 onEmptySpaceClick
             )
-            BIRTHDAY_TODAY -> BirthdaysViewHolder.Today(
+            BIRTHDAY_TODAY -> BirthdayListViewHolder.Today(
                 BirthdayTodayItemLayoutBinding.inflate(layoutInflater, parent, false),
                 itemOnClickCallback
             )
@@ -42,15 +42,15 @@ class BirthdaysAdapter(
     }
 
     override fun diffUtilCallback(
-        oldList: MutableList<BirthdayUi>,
-        newList: List<BirthdayUi>
+        oldList: MutableList<BirthdayItemUi>,
+        newList: List<BirthdayItemUi>
     ) : DiffUtil.Callback = DiffUtilCallback(oldList, newList)
 
-    override fun getViewType(data: BirthdayUi) = when(data) {
-        is BirthdayUi.Base -> BIRTHDAY
-        is BirthdayUi.Header -> HEADER
-        is BirthdayUi.Today -> BIRTHDAY_TODAY
-        is BirthdayUi.Message -> MESSAGE
+    override fun getViewType(data: BirthdayItemUi) = when(data) {
+        is BirthdayItemUi.Base -> BIRTHDAY
+        is BirthdayItemUi.Header -> HEADER
+        is BirthdayItemUi.Today -> BIRTHDAY_TODAY
+        is BirthdayItemUi.Message -> MESSAGE
         else -> -1
     }
 

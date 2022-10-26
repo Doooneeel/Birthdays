@@ -9,15 +9,14 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 /**
  * @author Danil Glazkov on 21.07.2022, 22:33
  */
-interface SettingsViewModel : Fetch, ChangeShowMode {
+interface SettingsViewModel : BaseSheetViewModel<ShowModeUi>, Fetch, ChangeShowMode {
 
     class Base(
         private val interactor: ShowModeInteractor,
         private val communication: ShowModeCommunication,
         private val showModeDomainToUiMapper: ShowModeDomainToUiMapper
-    ) : BaseSheetViewModel<ShowModeUi>(communication),
-        SettingsViewModel
-    {
+    ) : BaseSheetViewModel.Abstract<ShowModeUi>(communication), SettingsViewModel {
+
         override fun fetch() = interactor.fetchShowMode().let { result: ShowModeDomain ->
             communication.map(result.map(showModeDomainToUiMapper))
         }

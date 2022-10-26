@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list.chips
+package ru.daniilglazkov.birthdays.ui.birthdaylist.chips
 
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 

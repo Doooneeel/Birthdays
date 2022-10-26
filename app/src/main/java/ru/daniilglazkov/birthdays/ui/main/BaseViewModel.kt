@@ -10,16 +10,23 @@ import ru.daniilglazkov.birthdays.ui.core.navigation.NavigationScreen
 /**
  * @author Danil Glazkov on 10.06.2022, 01:11
  */
-abstract class BaseViewModel<VT : Any>(
-    private val communication: Communication.Mutable<VT>,
-    private val navigation: Navigation.Mutable = Navigation.Unit()
-) : ViewModel(), Communication.Observe<VT> {
+interface BaseViewModel<VT> : Communication.Observe<VT> {
 
-    override fun observe(owner: LifecycleOwner, observer: Observer<VT>) =
-        communication.observe(owner, observer)
+    fun navigate(screen: NavigationScreen)
+    fun observeNavigation(owner: LifecycleOwner, observer: Observer<NavigationScreen>)
 
-    fun navigate(screen: NavigationScreen) = navigation.map(screen)
 
-    fun observeNavigation(owner: LifecycleOwner, observer: Observer<NavigationScreen>) =
-        navigation.observe(owner, observer)
+    abstract class Abstract<VT : Any>(
+        private val communication: Communication.Mutable<VT>,
+        private val navigation: Navigation.Mutable = Navigation.Unit()
+    ) : ViewModel(), BaseViewModel<VT> {
+
+        override fun observe(owner: LifecycleOwner, observer: Observer<VT>) =
+            communication.observe(owner, observer)
+
+        override fun navigate(screen: NavigationScreen) = navigation.map(screen)
+
+        override fun observeNavigation(owner: LifecycleOwner, observer: Observer<NavigationScreen>) =
+            navigation.observe(owner, observer)
+    }
 }

@@ -12,8 +12,9 @@ import java.time.LocalDate
 /**
  * @author Danil Glazkov on 11.06.2022, 23:58
  */
-interface NewBirthdayViewModel : ErrorCommunication.Observe, ErrorCommunication.Clear, Create,
-    AboutBirthdateCommunication.Observe, NewBirthdayCommunication.Clear, Fetch
+interface NewBirthdayViewModel : BaseSheetViewModel<NewBirthdayUi>, ErrorCommunication.Observe,
+    ErrorCommunication.Clear, AboutBirthdateCommunication.Observe, NewBirthdayCommunication.Clear,
+    Fetch, Create
 {
     fun changeBirthday(name: String, date: LocalDate)
     fun changeDate(date: LocalDate)
@@ -27,9 +28,7 @@ interface NewBirthdayViewModel : ErrorCommunication.Observe, ErrorCommunication.
         private val aboutBirthdateDomainToUiMapper: AboutBirthdateDomainToUiMapper,
         private val newBirthdayDomainToUiMapper: NewBirthdayDomainToUiMapper,
         private val newBirthdayUiToDomainMapper: NewBirthdayUiToDomainMapper
-    ) : BaseSheetViewModel<NewBirthdayUi>(newBirthdayCommunication),
-        NewBirthdayViewModel
-    {
+    ) : BaseSheetViewModel.Abstract<NewBirthdayUi>(newBirthdayCommunication), NewBirthdayViewModel {
         private val handleSuccess = { newBirthday: NewBirthdayUi ->
             interactor.createNewBirthday(newBirthday.map(newBirthdayUiToDomainMapper))
             clearNewBirthday()

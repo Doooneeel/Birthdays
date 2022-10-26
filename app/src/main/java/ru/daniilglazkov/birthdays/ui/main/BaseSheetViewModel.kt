@@ -11,17 +11,21 @@ import ru.daniilglazkov.birthdays.ui.core.ObserveCloseDialog
 /**
  * @author Danil Glazkov on 04.09.2022, 21:23
  */
-abstract class BaseSheetViewModel<VT : Any>(
-    communication: Communication.Mutable<VT>,
-    navigation: Navigation.Mutable = Navigation.Unit(),
-) : BaseViewModel<VT>(communication, navigation), NavigateBack,
-    ObserveCloseDialog
-{
-    private val closeDialogLiveData = MutableLiveData<Unit>()
+interface BaseSheetViewModel<VT> : BaseViewModel<VT>, NavigateBack, ObserveCloseDialog {
 
-    override fun navigateBack() {
-        closeDialogLiveData.value = Unit
+    abstract class Abstract<VT : Any>(
+        communication: Communication.Mutable<VT>,
+        navigation: Navigation.Mutable = Navigation.Unit(),
+    ) : BaseViewModel.Abstract<VT>(communication, navigation),
+        NavigateBack,
+        ObserveCloseDialog
+    {
+        private val closeDialogLiveData = MutableLiveData<Unit>()
+
+        override fun navigateBack() {
+            closeDialogLiveData.value = Unit
+        }
+        override fun observeCloseDialog(owner: LifecycleOwner, observer: Observer<Unit>) =
+            closeDialogLiveData.observe(owner, observer)
     }
-    override fun observeCloseDialog(owner: LifecycleOwner, observer: Observer<Unit>) =
-        closeDialogLiveData.observe(owner, observer)
 }

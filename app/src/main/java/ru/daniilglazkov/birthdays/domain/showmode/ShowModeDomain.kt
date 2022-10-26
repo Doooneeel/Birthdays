@@ -13,14 +13,20 @@ interface ShowModeDomain : ChangeAndReturnShowMode {
         private val reverse: Boolean,
         private val group: Boolean,
     ) : ShowModeDomain {
-        override fun <T> map(mapper: Mapper<T>): T = mapper.map(sort, reverse, group)
-        override fun changeAdditionalSettings(reverse: Boolean, group: Boolean) = Base(sort, reverse, group)
-        override fun changeSortMode(sort: SortMode) = Base(sort, reverse, group)
+        override fun <T> map(mapper: Mapper<T>): T =
+            mapper.map(sort, reverse, group)
+
+        override fun changeAdditionalSettings(reverse: Boolean, group: Boolean) =
+            Base(sort, reverse, group)
+
+        override fun changeSortMode(sort: SortMode) =
+            Base(sort, reverse, group)
     }
 
     class Base(sort: SortMode, reverse: Boolean, group: Boolean) : Abstract(sort, reverse, group)
 
     object Default : Abstract(SortMode.DATE, reverse = false, group = true)
+
 
     interface Mapper<T> {
         fun map(sort: SortMode, reverse: Boolean, group: Boolean): T

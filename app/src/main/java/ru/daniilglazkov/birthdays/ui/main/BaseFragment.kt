@@ -16,7 +16,7 @@ import ru.daniilglazkov.birthdays.ui.core.click.OnDebouncedClickListener
 /**
  * @author Danil Glazkov on 10.06.2022, 01:09
  */
-abstract class BaseFragment<VB: ViewBinding, VM: BaseViewModel<*>>(
+abstract class BaseFragment<VB: ViewBinding, VM: BaseViewModel.Abstract<*>>(
     private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     private val viewModelClass: Class<VM>,
     protected val debounce: Debounce = Debounce.NoDelay()

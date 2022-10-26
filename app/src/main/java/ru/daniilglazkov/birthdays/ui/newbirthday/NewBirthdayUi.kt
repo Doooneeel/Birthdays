@@ -9,8 +9,10 @@ import java.time.LocalDate
  * @author Danil Glazkov on 01.09.2022, 21:52
  */
 interface NewBirthdayUi : ValidateNewBirthday {
+
     fun <T> map(mapper: Mapper<T>): T
     fun apply(name: AbstractView.Text, date: AbstractView.Date)
+
 
     abstract class Abstract(
         private val name: String,

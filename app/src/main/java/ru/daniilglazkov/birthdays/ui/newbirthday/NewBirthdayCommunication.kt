@@ -13,7 +13,6 @@ import java.time.LocalDate
 interface NewBirthdayCommunication : Communication.Mutable<NewBirthdayUi>, Clear {
 
     fun validate(successful: (NewBirthdayUi) -> Unit, onFailure: (ErrorMessage) -> Unit)
-
     fun filter(name: String, date: LocalDate, result: (NewBirthdayUi) -> Unit)
 
 

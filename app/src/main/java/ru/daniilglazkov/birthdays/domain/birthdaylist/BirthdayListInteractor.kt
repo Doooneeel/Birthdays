@@ -17,6 +17,7 @@ interface BirthdayListInteractor {
     )
     fun reload()
 
+
     class Base(
         private val repository: BirthdayListRepository,
         private val showModeRepository: FetchShowMode,

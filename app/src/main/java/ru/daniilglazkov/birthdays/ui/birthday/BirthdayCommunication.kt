@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays
+package ru.daniilglazkov.birthdays.ui.birthday
 
 import ru.daniilglazkov.birthdays.ui.core.Communication
 

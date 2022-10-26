@@ -11,12 +11,12 @@ interface BirthdayListDomainToSearchMapper : BirthdayListDomain.Mapper<BirthdayL
 
     class Base(
         private val birthdayMatchesQuery: BirthdayMatchesQuery,
-        private val itemPredicate: BirthdayCheckMapper,
+        private val itemFilterPredicate: BirthdayCheckMapper,
         private val prepareQuery: PrepareQuery,
     ) : BirthdayListDomainToSearchMapper {
 
         override fun map(list: List<BirthdayDomain>): BirthdayListSearchWrapper {
-            val filteredList = list.filter { it.map(itemPredicate) }
+            val filteredList = list.filter { it.map(itemFilterPredicate) }
             return BirthdayListSearchWrapper.Base(filteredList, birthdayMatchesQuery, prepareQuery)
         }
     }

@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list
+package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import ru.daniilglazkov.birthdays.ui.core.navigation.NavigationScreen
 import ru.daniilglazkov.birthdays.ui.core.navigation.NavigationStrategy
@@ -6,10 +6,10 @@ import ru.daniilglazkov.birthdays.ui.core.navigation.NavigationStrategy
 /**
  * @author Danil Glazkov on 19.06.2022, 12:50
  */
-class BirthdaysScreen(
+class BirthdayListScreen(
     strategy: NavigationStrategy<Any?> = NavigationStrategy.Replace
 ) : NavigationScreen(
     "BirthdaySheetNavigationScreen",
-    BirthdaysFragment::class.java,
+    BirthdayListFragment::class.java,
     strategy
 )

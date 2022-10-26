@@ -10,11 +10,9 @@ import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 interface AboutBirthdateDomainToUiMapper : AboutBirthdateDomain.Mapper<AboutBirthdateUi>{
 
     class Base(private val resources: ProvideString) : AboutBirthdateDomainToUiMapper {
-        override fun map(turnedYear: Int, daysToBirthday: Int): AboutBirthdateUi {
-            return AboutBirthdateUi.Base(
-                resources.quantityString(R.plurals.age, turnedYear),
-                resources.quantityString(R.plurals.day, daysToBirthday)
-            )
-        }
+        override fun map(turnsYearsOld: Int, daysToBirthday: Int) = AboutBirthdateUi.Base(
+            resources.quantityString(R.plurals.age, turnsYearsOld),
+            resources.quantityString(R.plurals.day, daysToBirthday)
+        )
     }
 }

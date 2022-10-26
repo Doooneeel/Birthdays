@@ -10,7 +10,7 @@ import ru.daniilglazkov.birthdays.ui.core.view.listener.OnSwipeListener
 /**
  * @author Danil Glazkov on 30.09.2022, 21:36
  */
-abstract class BaseNotDraggableSheetFragment<VB: ViewBinding, VM: BaseSheetViewModel<*>>(
+abstract class BaseNotDraggableSheetFragment<VB: ViewBinding, VM: BaseSheetViewModel.Abstract<*>>(
     inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     viewModelClass: Class<VM>,
 ) : BaseSheetFragment<VB, VM>(

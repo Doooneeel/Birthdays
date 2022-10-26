@@ -1,35 +1,36 @@
-package ru.daniilglazkov.birthdays.ui.birthdays.list
+package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import android.view.View
 import androidx.viewbinding.ViewBinding
 import ru.daniilglazkov.birthdays.databinding.*
-import ru.daniilglazkov.birthdays.ui.birthdays.BirthdayUi
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayItemUi
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
+import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 import ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
 import ru.daniilglazkov.birthdays.ui.main.BaseViewHolder
 
 /**
  * @author Danil Glazkov on 10.06.2022, 02:14
  */
-abstract class BirthdaysViewHolder(itemView: View) : BaseViewHolder<BirthdayUi>(itemView) {
+abstract class BirthdayListViewHolder(itemView: View) : BaseViewHolder<BirthdayItemUi>(itemView) {
 
-    abstract class Abstract<VB : ViewBinding>(
+    abstract class AbstractHeader<VB : ViewBinding>(
         private val binding: VB,
         private val onClick: () -> Unit,
         private val textView: CustomTextView
-    ) : BirthdaysViewHolder(binding.root) {
-        override fun bind(data: BirthdayUi) {
+    ) : BirthdayListViewHolder(binding.root) {
+        override fun bind(data: BirthdayItemUi) {
             binding.root.setOnClickListener {
                 onClick.invoke()
             }
-            data.apply(textView)
+            data.applyHeader(textView)
         }
     }
 
     class Header(
         binding: HeaderLayoutBinding,
         onClick: () -> Unit
-    ) : Abstract<HeaderLayoutBinding>(
+    ) : AbstractHeader<HeaderLayoutBinding>(
         binding,
         onClick,
         binding.headerTextView
@@ -38,7 +39,7 @@ abstract class BirthdaysViewHolder(itemView: View) : BaseViewHolder<BirthdayUi>(
     class Message(
         binding: BirthdayItemMessageBinding,
         onClick: () -> Unit
-    ) : Abstract<BirthdayItemMessageBinding>(
+    ) : AbstractHeader<BirthdayItemMessageBinding>(
         binding,
         onClick,
         binding.messageTextView
@@ -46,32 +47,25 @@ abstract class BirthdaysViewHolder(itemView: View) : BaseViewHolder<BirthdayUi>(
 
     class Base(
         private val binding: BirthdayItemLayoutBinding,
-        private val onClickCallback: OnSingleClickCallback<BirthdayUi>,
-    ) : BirthdaysViewHolder(binding.root) {
-        override fun bind(data: BirthdayUi) {
+        private val onClickCallback: OnSingleClickCallback<BirthdayItemUi>,
+    ) : BirthdayListViewHolder(binding.root) {
+        override fun bind(data: BirthdayItemUi) {
             binding.root.setOnClickListener {
                 onClickCallback.onSingleClick(data)
             }
-            data.apply(
-                nameView = binding.nameTextView,
-                turnedYearsView = binding.turnAgeTextView,
-                daysToBirthdayView = binding.untilDayTextView
-            )
+            data.apply(binding.nameTextView, binding.turnAgeTextView, binding.untilDayTextView)
         }
     }
 
     class Today(
         private val binding: BirthdayTodayItemLayoutBinding,
-        private val onClickCallback: OnSingleClickCallback<BirthdayUi>,
-    ) : BirthdaysViewHolder(binding.root) {
-        override fun bind(data: BirthdayUi) {
+        private val onClickCallback: OnSingleClickCallback<BirthdayItemUi>,
+    ) : BirthdayListViewHolder(binding.root) {
+        override fun bind(data: BirthdayItemUi) {
             binding.root.setOnClickListener {
                 onClickCallback.onSingleClick(data)
             }
-            data.apply(
-                nameView = binding.nameTextView,
-                turnedYearsView = binding.turnAgeTextView
-            )
+            data.apply(binding.nameTextView, binding.turnAgeTextView, AbstractView.Text.Empty)
         }
     }
 }

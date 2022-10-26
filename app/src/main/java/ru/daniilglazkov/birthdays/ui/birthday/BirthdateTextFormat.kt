@@ -1,9 +1,7 @@
-package ru.daniilglazkov.birthdays.ui.birthdays
+package ru.daniilglazkov.birthdays.ui.birthday
 
 import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
-import ru.daniilglazkov.birthdays.domain.date.NextEvent
+import ru.daniilglazkov.birthdays.domain.date.*
 import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 import java.time.LocalDate
 

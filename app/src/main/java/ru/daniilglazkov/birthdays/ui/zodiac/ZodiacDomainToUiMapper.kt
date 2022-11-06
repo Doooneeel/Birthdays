@@ -9,10 +9,10 @@ import ru.daniilglazkov.birthdays.ui.zodiac.ZodiacUi.*
 interface ZodiacDomainToUiMapper : ZodiacDomain.Mapper<ZodiacUi> {
 
     class Base : ZodiacDomainToUiMapper {
-        private val list = listOf<ZodiacUi>(Aries(), Taurus(), Gemini(), Cancer(), Leo(),
-            Virgo(), Libra(), Scorpio(), Sagittarius(), Capricorn(), Aquarius(), Pisces()
+        private val list = listOf<ZodiacUi>(Aries, Taurus, Gemini, Cancer, Leo, Virgo, Libra,
+            Scorpio, Sagittarius, Capricorn, Aquarius, Pisces,
         )
-        override fun map(ordinal: Int, name: String): ZodiacUi =
-            list.find { it.matches(ordinal) } ?: throw IllegalStateException("Unknown zodiac: $ordinal")
+        override fun map(ordinal: Int, name: String): ZodiacUi = list.find { it.matches(ordinal) }
+            ?: throw IllegalStateException("Unknown zodiac: $ordinal")
     }
 }

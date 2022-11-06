@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler
+package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 /**
  * @author Danil Glazkov on 26.10.2022, 07:52

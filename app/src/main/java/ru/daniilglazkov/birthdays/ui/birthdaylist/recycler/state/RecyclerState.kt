@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate
+package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state
 
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 

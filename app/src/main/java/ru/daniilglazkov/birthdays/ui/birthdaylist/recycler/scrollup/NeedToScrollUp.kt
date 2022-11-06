@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdaylist.scrollup
+package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup
 
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListCountMapper

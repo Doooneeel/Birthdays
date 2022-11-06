@@ -1,7 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import ru.daniilglazkov.birthdays.ui.core.Mapper
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayItemUi
 
 /**
  * @author Danil Glazkov on 10.06.2022, 16:11

@@ -10,16 +10,23 @@ import java.util.*
  */
 interface DateTextFormat : TextFormat<LocalDate> {
 
-    class Year : DateTextFormat {
-        override fun format(source: LocalDate): String = source.year.toString()
-    }
-
-    class Full(private val locale: Locale = Locale.getDefault()) : DateTextFormat {
+    abstract class Abstract(
+        private val formatStyle: FormatStyle,
+        private val locale: Locale
+    ) : DateTextFormat {
         override fun format(source: LocalDate): String {
-            return DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
+            return DateTimeFormatter.ofLocalizedDate(formatStyle)
                 .withLocale(locale)
                 .format(source)
+                .replaceFirstChar { it.titlecase(locale) }
         }
+    }
+
+    class Long(locale: Locale = Locale.getDefault()) : Abstract(FormatStyle.LONG, locale)
+    class Full(locale: Locale = Locale.getDefault()) : Abstract(FormatStyle.FULL, locale)
+
+    class Year : DateTextFormat {
+        override fun format(source: LocalDate): String = source.year.toString()
     }
 
     class Month(private val locale: Locale = Locale.getDefault()) : DateTextFormat {

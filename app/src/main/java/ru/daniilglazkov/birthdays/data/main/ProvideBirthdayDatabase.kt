@@ -8,7 +8,7 @@ import ru.daniilglazkov.birthdays.data.core.cache.ProvideDatabase
 /**
  * @author Danil Glazkov on 09.10.2022, 20:26
  */
-sealed class ProvideBirthdayDatabase(
+abstract class ProvideBirthdayDatabase(
     context: Context,
     name: String,
 ) : ProvideDatabase.Abstract<BirthdaysDatabase>(

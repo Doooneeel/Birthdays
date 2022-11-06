@@ -1,9 +1,9 @@
-package ru.daniilglazkov.birthdays.ui.birthdaylist
+package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler
 
 import android.view.View
 import androidx.viewbinding.ViewBinding
 import ru.daniilglazkov.birthdays.databinding.*
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayItemUi
+import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayItemUi
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 import ru.daniilglazkov.birthdays.ui.core.view.CustomTextView

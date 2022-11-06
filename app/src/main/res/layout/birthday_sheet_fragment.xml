@@ -186,18 +186,31 @@
 
         <LinearLayout
             style="@style/BackPanelLayoutStyle"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_weight="1">
 
-            <TextView
-                style="@style/SmallTextStyle"
-                android:text="@string/chinese_zodiac" />
+            <ru.daniilglazkov.birthdays.ui.core.view.CustomResImageView
+                style="@style/ImageViewStyle"
+                android:rotation="90.99"
+                android:src="@drawable/ic_yin_yang_medium" />
 
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomResTextView
-                android:id="@+id/chinese_zodiac_text_view"
-                style="@style/SmallLightTextStyle"
-                android:layout_marginTop="@dimen/very_small_distance"
-                tools:text="Лошадь" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/medium_distance"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/SmallTextStyle"
+                    android:text="@string/chinese_zodiac" />
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomResTextView
+                    android:id="@+id/chinese_zodiac_text_view"
+                    style="@style/SmallLightTextStyle"
+                    android:layout_marginTop="@dimen/very_small_distance"
+                    tools:text="Лошадь" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

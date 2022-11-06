@@ -6,7 +6,7 @@ import ru.daniilglazkov.birthdays.databinding.BirthdayItemLayoutBinding
 import ru.daniilglazkov.birthdays.databinding.BirthdayItemMessageBinding
 import ru.daniilglazkov.birthdays.databinding.BirthdayTodayItemLayoutBinding
 import ru.daniilglazkov.birthdays.databinding.HeaderLayoutBinding
-import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListViewHolder
+import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayItemUi
 import ru.daniilglazkov.birthdays.ui.core.DiffUtilCallback
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
 import ru.daniilglazkov.birthdays.ui.main.BaseAdapter
@@ -26,12 +26,10 @@ class BirthdayListAdapter(
                 itemOnClickCallback
             )
             HEADER -> BirthdayListViewHolder.Header(
-                HeaderLayoutBinding.inflate(layoutInflater, parent, false),
-                onEmptySpaceClick
+                HeaderLayoutBinding.inflate(layoutInflater, parent, false), onEmptySpaceClick
             )
             MESSAGE -> BirthdayListViewHolder.Message(
-                BirthdayItemMessageBinding.inflate(layoutInflater, parent, false),
-                onEmptySpaceClick
+                BirthdayItemMessageBinding.inflate(layoutInflater, parent, false), onEmptySpaceClick
             )
             BIRTHDAY_TODAY -> BirthdayListViewHolder.Today(
                 BirthdayTodayItemLayoutBinding.inflate(layoutInflater, parent, false),

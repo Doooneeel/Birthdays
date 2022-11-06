@@ -6,9 +6,8 @@ import ru.daniilglazkov.birthdays.R
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListInteractor
 import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.*
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayListDomainToItemsUiMapper
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate.RecyclerState
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate.RecyclerStateCommunication
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerState
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerStateCommunication
 import ru.daniilglazkov.birthdays.ui.newbirthday.NewBirthdayScreen
 import ru.daniilglazkov.birthdays.ui.settings.SettingsScreen
 import ru.daniilglazkov.birthdays.ui.core.Fetch
@@ -20,10 +19,9 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 /**
  * @author Danil Glazkov on 10.06.2022, 01:22
  */
-interface BirthdayListViewModel : BaseSheetViewModel<BirthdayItemUiList>, BirthdayListNavigation, Fetch, Init,
-    RecyclerStateCommunication.Observe,
-    BirthdayChipCommunication.Observe
-{
+interface BirthdayListViewModel : BaseSheetViewModel<BirthdayItemUiList>, BirthdayListNavigation,
+    Fetch, Init, RecyclerStateCommunication.Observe, BirthdayChipCommunication.Observe {
+
     fun changeSearchQuery(query: CharSequence)
     fun reloadAndFetch()
 
@@ -35,11 +33,13 @@ interface BirthdayListViewModel : BaseSheetViewModel<BirthdayItemUiList>, Birthd
         private val recyclerStateCommunication: RecyclerStateCommunication,
         private val queryCommunication: QueryCommunication,
         navigation: Navigation.Mutable,
-        private val birthdayListDomainToUi: BirthdayListDomainToItemsUiMapper,
-        private val birthdayListDomainToChips: BirthdayListDomainToChipsMapper,
-    ) : BaseSheetViewModel.Abstract<BirthdayItemUiList>(birthdayListCommunication, navigation),
-        BirthdayListViewModel
-    {
+        private val toUiMapper: BirthdayListDomainToItemsUiMapper,
+        private val toChipsMapper: BirthdayListDomainToChipsMapper,
+    ) : BaseSheetViewModel.Abstract<BirthdayItemUiList>(
+        birthdayListCommunication,
+        navigation
+    ) , BirthdayListViewModel {
+
         private val settingsScreen = SettingsScreen(::reloadAndFetch)
         private val newBirthdayScreen = NewBirthdayScreen(::reloadAndFetch)
 
@@ -52,8 +52,8 @@ interface BirthdayListViewModel : BaseSheetViewModel<BirthdayItemUiList>, Birthd
         private val handleEmptyList = { handleFailure(R.string.list_is_empty) }
 
         private val handleResult: (BirthdayListDomain) -> Unit = { birthdayListDomain ->
-            birthdayListCommunication.map(birthdayListDomain.map(birthdayListDomainToUi))
-            chipCommunication.map(birthdayListDomain.map(birthdayListDomainToChips))
+            birthdayListCommunication.map(birthdayListDomain.map(toUiMapper))
+            chipCommunication.map(birthdayListDomain.map(toChipsMapper))
             recyclerStateCommunication.changeList(birthdayListDomain)
         }
 

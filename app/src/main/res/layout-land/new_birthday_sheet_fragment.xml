@@ -22,19 +22,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/normal_distance"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <TextView
-                style="@style/TextWithIconStyle"
-                android:drawablePadding="@dimen/normal_distance"
-                android:paddingHorizontal="@dimen/medium_distance"
-                android:paddingVertical="@dimen/large_distance"
-                android:text="@string/new_birthday"
-                android:textSize="@dimen/large_text"
-                app:drawableStartCompat="@drawable/ic_cake_add" />
+                style="@style/LargeTextStyle"
+                android:layout_gravity="center"
+                android:padding="@dimen/large_distance"
+                android:text="@string/new_birthday" />
 
             <ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout
                 android:id="@+id/name_text_input_layout"
@@ -59,9 +57,8 @@
 
             </ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout>
 
-            <include layout="@layout/small_horizontal_space_layout" />
-
             <LinearLayout
+                android:layout_marginTop="@dimen/small_distance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|bottom">
@@ -70,7 +67,7 @@
                     android:id="@+id/clear_image_button"
                     style="@style/ImageButtonStyle"
                     android:contentDescription="@string/clear"
-                    android:src="@drawable/ic_restart" />
+                    android:src="@drawable/ic_restart_small" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/add_button"
@@ -78,7 +75,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/normal_distance"
                     android:backgroundTint="@color/blue"
-                    android:drawableStart="@drawable/ic_add"
+                    android:drawableStart="@drawable/ic_add_small"
                     android:text="@string/add" />
 
             </LinearLayout>
@@ -104,7 +101,7 @@
                     android:layout_marginEnd="@dimen/normal_distance"
                     android:layout_weight="0"
                     android:backgroundTint="@color/violet"
-                    android:drawableStart="@drawable/ic_cake_fill"
+                    android:drawableStart="@drawable/ic_cake_fill_small"
                     android:textColor="@color/white"
                     tools:text="20 years" />
 
@@ -114,7 +111,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:backgroundTint="@color/gray"
-                    android:drawableStart="@drawable/ic_alarm_fill"
+                    android:drawableStart="@drawable/ic_alarm_fill_small"
                     android:paddingVertical="@dimen/medium_distance"
                     android:textColor="@color/text"
                     app:drawableTint="@color/text"
@@ -122,10 +119,11 @@
 
             </LinearLayout>
 
+            <include layout="@layout/normal_separator_layout"/>
+
             <ru.daniilglazkov.birthdays.ui.core.view.CustomDatePicker
                 android:id="@+id/date_picker"
-                style="@style/DatePickerStyle"
-                android:layout_marginTop="@dimen/medium_distance" />
+                style="@style/DatePickerStyle" />
 
         </LinearLayout>
 

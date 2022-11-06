@@ -5,61 +5,220 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bottom_sheet_background"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/very_large_distance">
+    android:paddingHorizontal="@dimen/normal_distance"
+    tools:ignore="ContentDescription">
 
     <include layout="@layout/bottom_sheet_grapple" />
 
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/name_text_view"
-        style="@style/BaseTextStyle"
-        android:layout_gravity="center"
-        android:textSize="@dimen/large_text"
-        tools:text="Username Username" />
+        style="@style/MediumTextStyle"
+        android:layout_width="match_parent"
+        android:background="@drawable/panel"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/medium_distance"
+        android:paddingVertical="@dimen/normal_distance"
+        tools:text="Имя Фамилия" />
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
-        android:id="@+id/date_text_view"
-        style="@style/BaseTextStyle"
-        android:layout_gravity="center"
-        android:textSize="@dimen/large_text"
-        tools:text="22.02.2022" />
+    <include layout="@layout/small_separator_layout" />
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextWithIconView
-        android:id="@+id/zodiac_text_view"
-        style="@style/TextWithBackgroundStyle"
-        android:layout_marginHorizontal="@dimen/normal_distance"
-        android:drawableStart="@drawable/ic_zodiac_aquarius"
-        android:paddingVertical="@dimen/medium_distance"
-        android:textColor="@color/text"
-        app:drawableTint="@color/text"
-        tools:text="Zodiac" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
 
+        <LinearLayout
+            style="@style/BackPanelLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_weight="1">
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
-        android:id="@+id/days_to_birthday_text_view"
-        style="@style/BaseTextStyle"
-        android:layout_gravity="center"
-        android:textSize="@dimen/large_text"
-        tools:text="200 days" />
+            <ImageView
+                style="@style/ImageViewStyle"
+                android:src="@drawable/ic_cake_medium" />
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
-        android:id="@+id/age_text_view"
-        style="@style/BaseTextStyle"
-        android:layout_gravity="center"
-        android:textSize="@dimen/large_text"
-        tools:text="20 age" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_distance"
+                android:orientation="vertical">
 
+                <TextView
+                    style="@style/SmallTextStyle"
+                    android:text="@string/turns" />
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                    android:id="@+id/turns_years_old_text_view"
+                    style="@style/SmallLightTextStyle"
+                    android:layout_marginTop="@dimen/very_small_distance"
+                    tools:text="20 лет" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/small_separator_layout" />
+
+        <LinearLayout
+            style="@style/BackPanelLayoutStyle"
+            android:layout_weight="1">
+
+            <ImageView
+                style="@style/ImageViewStyle"
+                android:src="@drawable/ic_alarm_medium" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_distance"
+                android:orientation="vertical">
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                    android:id="@+id/days_left"
+                    style="@style/SmallTextStyle"
+                    tools:text="@string/left" />
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                    android:id="@+id/days_to_birthday_text_view"
+                    style="@style/SmallLightTextStyle"
+                    android:layout_marginTop="@dimen/very_small_distance"
+                    tools:text="200 days" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/small_separator_layout" />
+
+        <LinearLayout
+            style="@style/BackPanelLayoutStyle"
+            android:layout_weight="1">
+
+            <ru.daniilglazkov.birthdays.ui.core.view.CustomResImageView
+                android:id="@+id/zodiac_image_view"
+                style="@style/ImageViewStyle"
+                tools:src="@drawable/ic_zodiac_aquarius_medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/medium_distance"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/SmallTextStyle"
+                    android:text="@string/zodiac" />
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomResTextView
+                    android:id="@+id/zodiac_text_view"
+                    style="@style/SmallLightTextStyle"
+                    android:layout_marginTop="@dimen/very_small_distance"
+                    android:textSize="@dimen/small_text"
+                    tools:text="Рыба" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/small_separator_layout" />
+
+        <LinearLayout
+            style="@style/BackPanelLayoutStyle"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SmallTextStyle"
+                android:text="@string/chinese_zodiac" />
+
+            <ru.daniilglazkov.birthdays.ui.core.view.CustomResTextView
+                android:id="@+id/chinese_zodiac_text_view"
+                style="@style/SmallLightTextStyle"
+                android:layout_marginTop="@dimen/very_small_distance"
+                tools:text="Лошадь" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/small_separator_layout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            style="@style/BackPanelLayoutStyle"
+            android:layout_weight="1">
+
+            <ImageView
+                style="@style/ImageViewStyle"
+                android:src="@drawable/ic_event_repeat_medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_distance"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/SmallTextStyle"
+                    android:text="@string/next_birthday" />
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                    android:id="@+id/birthdate_text_view"
+                    style="@style/SmallLightTextStyle"
+                    android:layout_marginTop="@dimen/very_small_distance"
+                    tools:text="Четверг, 9 марта 2022 г." />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/small_separator_layout" />
+
+        <LinearLayout
+            style="@style/BackPanelLayoutStyle"
+            android:layout_weight="1">
+
+            <ImageView
+                style="@style/ImageViewStyle"
+                android:src="@drawable/ic_event_medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_distance"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/SmallTextStyle"
+                    android:text="@string/birthdate" />
+
+                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                    android:id="@+id/birthday_text_view"
+                    style="@style/SmallLightTextStyle"
+                    android:layout_marginTop="@dimen/very_small_distance"
+                    tools:text="Вторинк, 9 марта 2002 г." />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ru.daniilglazkov.birthdays.ui.core.view.toggle.ToggleButtonView
         android:id="@+id/delete_button"
         style="@style/ButtonWithIcon"
+        android:layout_marginVertical="@dimen/medium_distance"
         android:paddingVertical="@dimen/small_distance"
         app:baseBackground="@drawable/panel"
         app:disableBackgroundTint="@color/gray"
-        app:disableDrawable="@drawable/ic_close"
+        app:disableDrawable="@drawable/ic_close_medium"
         app:disableText="@string/cancel"
         app:enableBackgroundTint="@color/red"
-        app:enableDrawable="@drawable/ic_person_remove_fill"
+        app:enableDrawable="@drawable/ic_person_remove_fill_medium"
         app:enableText="@string/delete" />
 
-    <!--TODO-->
 </LinearLayout>

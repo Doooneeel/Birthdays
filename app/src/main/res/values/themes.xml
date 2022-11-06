@@ -28,11 +28,9 @@
 
     <style name="BackPanelLayoutStyle">
         <item name="android:background">@drawable/panel</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:paddingVertical">@dimen/normal_distance</item>
-        <item name="android:layout_marginTop">@dimen/normal_distance</item>
+        <item name="android:padding">@dimen/medium_distance</item>
     </style>
 
     <style name="MenuItemBackgroundStyle">
@@ -45,20 +43,36 @@
         <item name="android:background">@drawable/panel</item>
     </style>
 
-    <style name="BaseTextStyle">
+    <style name="MediumTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textColor">@color/text</item>
-        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+    </style>
+
+    <style name="NormalTextStyle" parent="MediumTextStyle">
         <item name="android:textSize">@dimen/normal_text</item>
     </style>
 
-    <style name="SecondaryTextStyle" parent="BaseTextStyle">
-        <item name="android:textColor">@color/gray_text</item>
+    <style name="SmallTextStyle" parent="MediumTextStyle">
+        <item name="android:textSize">@dimen/small_text</item>
+    </style>
+
+
+    <style name="LargeTextStyle" parent="MediumTextStyle">
+        <item name="android:textSize">@dimen/large_text</item>
+    </style>
+
+    <style name="VeryLargeTextStyle" parent="MediumTextStyle">
+        <item name="android:textSize">@dimen/very_large_text</item>
+    </style>
+
+    <style name="SmallLightTextStyle" parent="MediumTextStyle">
         <item name="android:textSize">@dimen/small_text</item>
         <item name="android:fontFamily">@font/roboto_light</item>
     </style>
+
 
     <style name="ButtonWithIcon">
         <item name="android:layout_width">wrap_content</item>
@@ -110,7 +124,7 @@
         <item name="android:padding">@dimen/medium_distance</item>
     </style>
 
-    <style name="TextWithBackgroundStyle" parent="BaseTextStyle">
+    <style name="TextWithBackgroundStyle" parent="MediumTextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
@@ -123,13 +137,11 @@
         <item name="android:textSize">@dimen/small_text</item>
     </style>
 
-    <style name="TextWithIconStyle" parent="BaseTextStyle">
-        <item name="android:gravity">start</item>
-        <item name="android:textSize">@dimen/large_text</item>
+    <style name="TextWithIconStyle" parent="NormalTextStyle">
+        <item name="android:gravity">center_vertical</item>
         <item name="android:drawablePadding">@dimen/medium_distance</item>
         <item name="drawableTint">@color/text</item>
     </style>
-
 
     <style name="MenuGridLayoutStyle">
         <item name="android:layoutDirection">rtl</item>
@@ -158,6 +170,13 @@
         <item name="android:datePickerMode">spinner</item>
         <item name="android:paddingHorizontal">@dimen/normal_distance</item>
         <item name="android:theme">@style/DatePickerTheme</item>
+    </style>
+
+    <style name="ImageViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="tint">@color/text</item>
     </style>
 
 

@@ -5,6 +5,7 @@
     <color name="red">#E7452B</color>
     <color name="violet">#8701F6</color>
     <color name="blue">#FF6200EE</color>
+    <color name="black">#FF000000</color>
     <color name="none">@android:color/transparent</color>
 
     <color name="background">#FFFFFFFF</color>

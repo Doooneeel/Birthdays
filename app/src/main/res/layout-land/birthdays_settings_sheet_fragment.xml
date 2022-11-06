@@ -17,7 +17,7 @@
         android:paddingStart="@dimen/medium_distance"
         android:paddingBottom="@dimen/medium_distance"
         android:text="@string/sort"
-        app:drawableStartCompat="@drawable/ic_sort" />
+        app:drawableStartCompat="@drawable/ic_sort_medium" />
 
     <ru.daniilglazkov.birthdays.ui.core.view.SortModeGridLayout
         android:id="@+id/sort_mode_grid_layout"
@@ -74,7 +74,7 @@
         android:paddingVertical="@dimen/medium_distance"
         android:paddingStart="@dimen/medium_distance"
         android:text="@string/additional_parameters"
-        app:drawableStartCompat="@drawable/ic_settings" />
+        app:drawableStartCompat="@drawable/ic_settings_medium" />
 
     <LinearLayout
         android:layout_width="match_parent"

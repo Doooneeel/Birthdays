@@ -9,28 +9,33 @@ interface BirthdayUi {
 
     fun apply(
         nameView: AbstractView.Text,
-        dateView: AbstractView.Text,
-        turnedYearsView: AbstractView.Text,
-        daysToBirthdayView: AbstractView.Text
+        birthdateView: AbstractView.Text,
+        birthdayView: AbstractView.Text,
+        turnsYearsOldView: AbstractView.Text,
+        daysLeftViews: Pair<AbstractView.Text, AbstractView.Text>
     )
-
 
     class Base(
         private val name: String,
-        private val date: String,
+        private val birthdate: String,
+        private val birthday: String,
         private val turnsYearsOld: String,
-        private val daysToBirthday: String
+        private val daysLeft: Pair<String, String>
     ) : BirthdayUi {
         override fun apply(
             nameView: AbstractView.Text,
-            dateView: AbstractView.Text,
-            turnedYearsView: AbstractView.Text,
-            daysToBirthdayView: AbstractView.Text
+            birthdateView: AbstractView.Text,
+            birthdayView: AbstractView.Text,
+            turnsYearsOldView: AbstractView.Text,
+            daysLeftViews: Pair<AbstractView.Text, AbstractView.Text>
         ) {
             nameView.map(name)
-            dateView.map(date)
-            turnedYearsView.map(turnsYearsOld)
-            daysToBirthdayView.map(daysToBirthday)
+            birthdateView.map(birthdate)
+            birthdayView.map(birthday)
+            turnsYearsOldView.map(this.turnsYearsOld)
+
+            daysLeftViews.first.map(daysLeft.first)
+            daysLeftViews.second.map(daysLeft.second)
         }
     }
 }

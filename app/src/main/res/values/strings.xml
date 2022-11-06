@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Дни рождения</string>
+    <string name="app_name">Днюхи</string>
     <string name="add">Добавить</string>
     <string name="birthday">День рождения</string>
     <string name="birthdays">Дни рождения</string>
+    <string name="next_birthday">Следующий день рождения</string>
     <string name="delete">Удалить</string>
     <string name="cancel">Отмена</string>
     <string name="turns">Исполняется</string>
@@ -17,13 +18,13 @@
     <string name="age">Возраст</string>
     <string name="month">Месяц</string>
     <string name="menu">Меню</string>
-    
+    <string name="left">Осталось</string>
     <string name="list_is_empty">Список пуст</string>
 
 
     <string name="birthday_not_found">¯\\_(ツ)_/¯\nНичего не найдено</string>
 
-    <string name="new_birthday">Новый\nДень\nРождения</string>
+    <string name="new_birthday">Новый День Рождения</string>
 
     <!--Settings-->
     <string name="by_name">По имени</string>
@@ -40,6 +41,9 @@
     <string name="grouped">Группировать</string>
 
 
+    <string name="zodiac">Зодиак</string>
+    <string name="chinese_zodiac">Вост. зодиак</string>
+
     <!--Zodiacs-->
     <string name="aries">Овен</string>
     <string name="taurus">Телец</string>
@@ -54,24 +58,39 @@
     <string name="aquarius">Водолей</string>
     <string name="pisces">Рыбы</string>
 
+    <!--Chinese Zodiacs-->
+    <string name="rat">Крыса</string>
+    <string name="ox">Бык</string>
+    <string name="tiger">Тигр</string>
+    <string name="rabbit">Кролик</string>
+    <string name="dragon">Дракон</string>
+    <string name="snake">Змея</string>
+    <string name="horse">Лошадь</string>
+    <string name="goat">Коза</string>
+    <string name="monkey">Обезьяна</string>
+    <string name="rooster">Петух</string>
+    <string name="dog">Собака</string>
+    <string name="pig">Свинья</string>
+
 
     <!--Error messages-->
     <string name="name_min_length_error_message">Слишком короткое имя</string>
     <string name="empty_name_error_message">Введите имя</string>
     <string name="first_char_is_not_letter_error_message">Имя должно начинаться с буквы</string>
     <string name="element_removed">Элемент удален</string>
+    <string name="birthdate">Дата рождения</string>
+
 
 
     <!--Plurals-->
     <plurals name="left">
-        <item quantity="one">Остался: %d день</item>
-        <item quantity="few">Осталось: %d дня</item>
-        <item quantity="many">Осталось: %d дней</item>
+        <item quantity="one">Остался</item>
+        <item quantity="few">Осталось</item>
+        <item quantity="many">Осталось</item>
     </plurals>
 
     <plurals name="day">
-        <item quantity="zero">Сегодня %d</item>
-        <item quantity="two">Завтра %d</item>
+        <item quantity="zero">%d дней</item>
         <item quantity="one">%d день</item>
         <item quantity="few">%d дня</item>
         <item quantity="many">%d дней</item>

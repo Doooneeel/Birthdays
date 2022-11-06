@@ -1,7 +1,5 @@
 package ru.daniilglazkov.birthdays.ui.core.view
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import ru.daniilglazkov.birthdays.ui.core.Mapper
 import java.time.LocalDate
 
@@ -32,6 +30,14 @@ interface AbstractView<T> : Mapper.Unit<T> {
     }
 }
 
-interface AbstractViewTextWithIcon {
-    fun map(@StringRes textId: Int, @DrawableRes iconId: Int)
+interface AbstractResView : AbstractView<Int> {
+
+    interface Text : AbstractResView
+
+    interface Image : AbstractResView {
+
+        object Unit : Image {
+            override fun map(source: Int) = kotlin.Unit
+        }
+    }
 }

@@ -2,17 +2,17 @@
     <string name="app_name">Birthdays</string>
     <string name="birthday">Birthday</string>
     <string name="birthdays">Birthdays</string>
-
+    <string name="next_birthday">Next birthday</string>
     <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="turns">Turns</string>
     <string name="search">Search</string>
-
+    <string name="left">Left</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="today">Today</string>
 
-    <string name="new_birthday">New\nbirthday</string>
+    <string name="new_birthday">New Birthday</string>
 
     <string name="total">Total</string>
 
@@ -33,7 +33,8 @@
     <string name="first_char_is_not_letter_error_message">Name must start with a letter</string>
     <string name="element_removed">Element removed</string>
     <string name="birthday_not_found">Nothing found</string>
-
+    <string name="zodiac">Zodiac</string>
+    <string name="chinese_zodiac">Chinese Zodiac</string>
     <!--Sort mode-->
     <string name="by_name">By name</string>
     <string name="by_date">By date</string>
@@ -62,6 +63,20 @@
     <string name="capricorn">Capricorn</string>
     <string name="aquarius">Aquarius</string>
     <string name="pisces">Pisces</string>
+
+    <string name="rat">Rat</string>
+    <string name="ox">Ox</string>
+    <string name="tiger">Tiger</string>
+    <string name="rabbit">Rabbit</string>
+    <string name="dragon">Dragon</string>
+    <string name="snake">Snake</string>
+    <string name="horse">Horse</string>
+    <string name="goat">Goat</string>
+    <string name="monkey">Monkey</string>
+    <string name="rooster">Rooster</string>
+    <string name="dog">Dog</string>
+    <string name="pig">Pig</string>
+    <string name="birthdate">Birthdate</string>
 
 
     <!--Plurals-->

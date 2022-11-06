@@ -2,7 +2,6 @@ package ru.daniilglazkov.birthdays.ui.core.view
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -16,9 +15,7 @@ class CustomRecyclerView @JvmOverloads constructor(
     attrs,
 ) , AbstractView.Recycler {
     override fun scrollUp(needToScroll: Boolean) {
-       if (needToScroll) {
-           (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
-       }
+        if (needToScroll) layoutManager?.scrollToPosition(0)
     }
     override fun nestedScroll(enabled: Boolean) {
         isNestedScrollingEnabled = enabled

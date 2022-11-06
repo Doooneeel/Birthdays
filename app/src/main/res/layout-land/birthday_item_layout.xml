@@ -12,36 +12,36 @@
 
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/name_text_view"
-        style="@style/BaseTextStyle"
+        style="@style/NormalTextStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="start|center"
-        android:textSize="@dimen/normal_text"
-        tools:text="Username Username " />
+        tools:text="Username Username" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
+        <include layout="@layout/normal_separator_layout" />
+
         <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
             android:id="@+id/turn_age_text_view"
             style="@style/TextWithBackgroundStyle"
-            android:layout_marginHorizontal="@dimen/normal_distance"
             android:backgroundTint="@color/blue"
-            android:drawableStart="@drawable/ic_cake_fill"
-            android:paddingVertical="@dimen/medium_distance"
+            android:drawableStart="@drawable/ic_cake_fill_small"
             android:textColor="@color/white"
             tools:text="20 years" />
+
+        <include layout="@layout/normal_separator_layout" />
 
         <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
             android:id="@+id/until_day_text_view"
             style="@style/TextWithBackgroundStyle"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:backgroundTint="@color/background"
-            android:drawableStart="@drawable/ic_alarm_fill"
+            android:drawableStart="@drawable/ic_alarm_fill_small"
+            android:paddingVertical="@dimen/medium_distance"
             app:drawableTint="@color/text"
             tools:text="20 days" />
 

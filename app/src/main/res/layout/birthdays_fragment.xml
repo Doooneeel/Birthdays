@@ -24,11 +24,10 @@
                 android:paddingHorizontal="@dimen/medium_distance">
 
                 <TextView
-                    style="@style/BaseTextStyle"
+                    style="@style/VeryLargeTextStyle"
                     android:layout_gravity="center"
                     android:paddingVertical="@dimen/large_distance"
-                    android:text="@string/birthdays"
-                    android:textSize="@dimen/very_large_text" />
+                    android:text="@string/birthdays" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -46,18 +45,22 @@
                         app:queryBackground="@null"
                         app:queryHint="@string/search" />
 
+                    <include layout="@layout/small_separator_layout" />
+
                     <ImageButton
                         android:id="@+id/new_birthday_image_button"
                         style="@style/ImageButtonStyle"
-                        android:layout_marginHorizontal="@dimen/small_distance"
+
                         android:contentDescription="@string/add"
-                        android:src="@drawable/ic_add" />
+                        android:src="@drawable/ic_add_small" />
+
+                    <include layout="@layout/small_separator_layout" />
 
                     <ImageButton
                         android:id="@+id/menu_image_button"
                         style="@style/ImageButtonStyle"
                         android:contentDescription="@string/menu"
-                        android:src="@drawable/ic_menu" />
+                        android:src="@drawable/ic_menu_small" />
 
                 </LinearLayout>
 

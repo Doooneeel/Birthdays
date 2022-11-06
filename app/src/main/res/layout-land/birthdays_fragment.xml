@@ -29,14 +29,11 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        style="@style/BaseTextStyle"
+                        style="@style/LargeTextStyle"
                         android:layout_gravity="start|center"
                         android:gravity="center"
                         android:paddingHorizontal="@dimen/large_distance"
-                        android:text="@string/app_name"
-                        android:textColor="@color/text"
-                        android:textSize="@dimen/large_text"
-                        android:textStyle="bold" />
+                        android:text="@string/app_name" />
 
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/search_view"
@@ -50,20 +47,23 @@
                         app:queryBackground="@null"
                         app:queryHint="@string/search" />
 
+                    <include layout="@layout/small_separator_layout" />
+
                     <ImageButton
                         android:id="@+id/new_birthday_image_button"
                         style="@style/ImageButtonStyle"
-                        android:layout_marginHorizontal="@dimen/small_distance"
                         android:contentDescription="@string/add"
-                        android:src="@drawable/ic_add"
+                        android:src="@drawable/ic_add_small"
                         app:tint="@color/text" />
+
+                    <include layout="@layout/small_separator_layout" />
 
                     <ImageButton
                         android:id="@+id/menu_image_button"
                         style="@style/ImageButtonStyle"
                         android:layout_marginEnd="@dimen/large_distance"
                         android:contentDescription="@string/menu"
-                        android:src="@drawable/ic_menu"
+                        android:src="@drawable/ic_menu_small"
                         app:tint="@color/text" />
 
                 </LinearLayout>

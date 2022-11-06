@@ -5,51 +5,51 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/normal_distance"
     android:layout_marginVertical="@dimen/small_distance"
-    android:background="@drawable/gradient_back_panel"
+    android:background="@drawable/panel"
+    android:backgroundTint="@color/blue"
     android:foreground="@drawable/medium_rounded_ripple_effect"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/large_distance"
-    android:paddingVertical="@dimen/large_distance">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
-            android:id="@+id/turn_age_text_view"
-            style="@style/TextWithIconStyle"
-            android:layout_weight="0"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:textSize="@dimen/very_large_text"
-            android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_celebration_fill"
-            app:drawableTint="@color/white"
-            tools:ignore="ContentDescription"
-            tools:text="20" />
-
-        <include layout="@layout/small_horizontal_space_layout" />
-
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
-            style="@style/TextWithBackgroundStyle"
-            android:layout_gravity="fill"
-            android:layout_weight="0"
-            android:backgroundTint="@color/background"
-            android:paddingHorizontal="@dimen/large_distance"
-            android:paddingVertical="@dimen/medium_distance"
-            android:text="@string/today"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+    android:paddingVertical="@dimen/normal_distance">
 
     <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
         android:id="@+id/name_text_view"
-        style="@style/BaseTextStyle"
-        android:layout_marginTop="@dimen/large_distance"
-        android:gravity="start"
+        style="@style/NormalTextStyle"
+        android:layout_marginBottom="@dimen/medium_distance"
         android:textColor="@color/white"
-        android:textSize="@dimen/large_text"
-        android:textStyle="bold"
-        tools:text="Username Username Username" />
+        tools:text="Имя Фамилия" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end">
+
+        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+            android:id="@+id/turn_age_text_view"
+            style="@style/TextWithBackgroundStyle"
+            android:layout_weight="0"
+            android:backgroundTint="@color/background"
+            android:drawableStart="@drawable/ic_celebration_fill_small"
+            android:gravity="center_vertical"
+            android:textColor="@color/text"
+            app:drawableTint="@color/text"
+            tools:text="20 лет" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+            style="@style/TextWithBackgroundStyle"
+            android:layout_weight="0"
+            android:backgroundTint="@color/background"
+            android:drawableStart="@drawable/ic_notification_active_fill_small"
+            android:paddingVertical="@dimen/medium_distance"
+            android:text="@string/today"
+            android:textColor="@color/text"
+            app:drawableTint="@color/text" />
+
+    </LinearLayout>
 
 </LinearLayout>

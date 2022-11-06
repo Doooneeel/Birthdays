@@ -7,7 +7,6 @@ import ru.daniilglazkov.birthdays.databinding.BirthdaySheetFragmentBinding
 import ru.daniilglazkov.birthdays.ui.core.ErrorMessage
 import ru.daniilglazkov.birthdays.ui.core.view.CustomToast
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
-import ru.daniilglazkov.birthdays.ui.zodiac.ZodiacUi
 
 /**
  * @author Danil Glazkov on 10.06.2022, 21:48
@@ -25,12 +24,17 @@ class BirthdaySheetFragment(
             viewModel.changeDeleteState(newState.not())
         }
         viewModel.observe(viewLifecycleOwner) { birthdayUi: BirthdayUi ->
-            binding.apply {
-                birthdayUi.apply(nameTextView, ageTextView, dateTextView, daysToBirthdayTextView)
-            }
+            birthdayUi.apply(
+                binding.nameTextView,
+                binding.birthdayTextView,
+                binding.birthdateTextView,
+                binding.turnsYearsOldTextView,
+                Pair(binding.daysLeft, binding.daysToBirthdayTextView)
+            )
         }
-        viewModel.observeZodiacUi(viewLifecycleOwner) { zodiacUi: ZodiacUi ->
-            zodiacUi.apply(binding.zodiacTextView)
+        viewModel.observeBirthdayZodiacs(viewLifecycleOwner) { zodiacsUi: BirthdayZodiacsUi ->
+            zodiacsUi.apply(binding.zodiacTextView, binding.zodiacImageView)
+            zodiacsUi.applyChinese(binding.chineseZodiacTextView)
         }
         viewModel.observeError(viewLifecycleOwner) { error: ErrorMessage ->
             error.apply(CustomToast(requireContext()))

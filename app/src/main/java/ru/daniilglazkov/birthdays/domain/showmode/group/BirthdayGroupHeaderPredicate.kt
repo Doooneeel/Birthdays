@@ -30,12 +30,9 @@ interface BirthdayGroupHeaderPredicate<T> : BirthdayDomain.Mapper<T> {
             name.first()
     }
 
-    class Range(
-        private val range: DateDifference,
-        private val before: LocalDate,
-    ) : BirthdayGroupHeaderPredicate<Int> {
+    class Range(private val range: DateDifference) : BirthdayGroupHeaderPredicate<Int> {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): Int =
-            range.difference(before, date)
+            range.difference(date)
     }
 
     class Zodiac(

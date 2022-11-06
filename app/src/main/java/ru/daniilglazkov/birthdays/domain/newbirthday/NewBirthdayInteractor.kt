@@ -22,11 +22,10 @@ interface NewBirthdayInteractor {
         private val handleResponse: HandleNewBirthdayRepositoryResponse,
         private val daysToBirthdayDateDifference: DateDifference,
         private val ageDateDifference: DateDifference,
-        private val now: LocalDate
     ) : NewBirthdayInteractor {
         override fun aboutBirthdate(date: LocalDate) = AboutBirthdateDomain.Base(
-            ageDateDifference.difference(now, date),
-            daysToBirthdayDateDifference.difference(now, date)
+            ageDateDifference.difference(date),
+            daysToBirthdayDateDifference.difference(date)
         )
         override fun latestBirthday(): NewBirthdayDomain = handleResponse.handle {
             newBirthdayDomainCache.newBirthday()

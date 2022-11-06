@@ -25,21 +25,23 @@ interface TransformBirthdayListFactory {
         private val now: LocalDate
     ) : TransformBirthdayListFactory {
         private val unitGroup = GroupBirthdayList.Unit()
-        private val nextEventInDays = DateDifference.NextEventInDays(nextEvent)
         private val descendingSortByDayOfYear = SortBirthdayList.DayOfYearDescending()
         private val ascendingSortByDayOfYear = SortBirthdayList.DayOfYearAscending()
 
         override fun create(sort: SortMode, reverse: Boolean, group: Boolean) = when (sort) {
-            SortMode.DATE -> SortingAndGrouping(
-                sort = if (reverse) SortBirthdayList.RangeDescending(nextEventInDays, now)
-                else SortBirthdayList.RangeAscending(nextEventInDays, now),
+            SortMode.DATE -> {
+                val nextEventInDays = DateDifference.NextEventInDays(nextEvent, now)
+                SortingAndGrouping(
+                    sort = if (reverse) SortBirthdayList.RangeDescending(nextEventInDays)
+                    else SortBirthdayList.RangeAscending(nextEventInDays),
 
-                group = if (group) GroupBirthdayList.Base(
-                    split = SplitBirthdayList.MonthsByYears(nextEvent),
-                    groupHeader = BirthdayGroupHeader.MonthAndYear(nextEvent)
+                    group = if (group) GroupBirthdayList.Base(
+                        split = SplitBirthdayList.MonthsByYears(nextEvent),
+                        groupHeader = BirthdayGroupHeader.MonthAndYear(nextEvent)
+                    )
+                    else unitGroup
                 )
-                else unitGroup
-            )
+            }
             SortMode.AGE -> SortingAndGrouping(
                 sort = if (reverse) SortBirthdayList.AgeDescending()
                 else SortBirthdayList.AgeAscending(),
@@ -69,10 +71,10 @@ interface TransformBirthdayListFactory {
                 else unitGroup
             )
             SortMode.YEAR -> {
-                val differenceInYears = DateDifference.Years()
+                val differenceInYears = DateDifference.Years(now)
                 SortingAndGrouping(
-                    sort = if (reverse) SortBirthdayList.RangeDescending(differenceInYears, now)
-                    else SortBirthdayList.RangeAscending(differenceInYears, now),
+                    sort = if (reverse) SortBirthdayList.RangeDescending(differenceInYears)
+                    else SortBirthdayList.RangeAscending(differenceInYears),
 
                     group = if (group) GroupBirthdayList.Base(
                         split = SplitBirthdayList.Year(), groupHeader = BirthdayGroupHeader.Date(
@@ -84,7 +86,7 @@ interface TransformBirthdayListFactory {
             }
             SortMode.ZODIAC -> {
                 SortingAndGrouping(
-                    sort = if (reverse) descendingSortByDayOfYear else ascendingSortByDayOfYear,
+                    sort = if (reverse) ascendingSortByDayOfYear else descendingSortByDayOfYear,
                     group = if (group) GroupBirthdayList.Base(
                         split = SplitBirthdayList.Zodiac(zodiacGroupClassification),
                         groupHeader = BirthdayGroupHeader.Zodiac(

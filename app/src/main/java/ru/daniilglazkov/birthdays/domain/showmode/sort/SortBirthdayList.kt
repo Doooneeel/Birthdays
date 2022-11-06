@@ -5,8 +5,6 @@ import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListSortMapper
 import ru.daniilglazkov.birthdays.domain.core.Sort
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import java.time.LocalDate
-
 import ru.daniilglazkov.birthdays.domain.showmode.sort.BirthdayListSortPredicate as Predicate
 
 /**
@@ -26,13 +24,8 @@ interface SortBirthdayList : Sort<BirthdayListDomain> {
         BirthdayListSortMapper.Descending(predicate)
     )
 
-    class RangeAscending(range: DateDifference, before: LocalDate) : Ascending<Int>(
-        Predicate.Range(range, before)
-    )
-
-    class RangeDescending(range: DateDifference, before: LocalDate) : Descending<Int>(
-        Predicate.Range(range, before)
-    )
+    class RangeAscending(range: DateDifference) : Ascending<Int>(Predicate.Range(range))
+    class RangeDescending(range: DateDifference) : Descending<Int>(Predicate.Range(range))
 
     class AgeAscending : Ascending<Long>(Predicate.Age())
     class AgeDescending : Descending<Long>(Predicate.Age())

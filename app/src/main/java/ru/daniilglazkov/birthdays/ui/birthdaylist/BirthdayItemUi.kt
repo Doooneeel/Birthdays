@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler
+package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import androidx.fragment.app.FragmentManager
 import ru.daniilglazkov.birthdays.ui.birthday.BirthdaySheetFragment

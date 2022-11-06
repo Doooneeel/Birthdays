@@ -5,7 +5,7 @@ import ru.daniilglazkov.birthdays.domain.range.RangeCategory
 /**
  * @author Danil Glazkov on 23.10.2022, 19:49
  */
-sealed class ZodiacDomain(
+abstract class ZodiacDomain(
     private val ordinal: Int,
     private val name: String,
     vararg range: IntRange,
@@ -16,7 +16,7 @@ sealed class ZodiacDomain(
         mapper.map(ordinal, name)
 
     override fun compareTo(other: ZodiacDomain): Int =
-        other.ordinal - ordinal
+        ordinal - other.ordinal
 
 
     class Aries(name: String) : ZodiacDomain(ordinal = 0, name, 80..109)

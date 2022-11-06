@@ -1,6 +1,5 @@
 package ru.daniilglazkov.birthdays.domain.date
 
-import android.util.Log
 import java.time.LocalDate
 
 /**
@@ -11,16 +10,27 @@ interface NextEvent {
 
     class Base(
         private val isLeapDay: IsLeapDay,
-        private val handleLeapDay: HandleDate,
-        private val handleDate: HandleDate,
+        private val eventIsToday: EventIsToday,
+        private val handlePassedDate: HandlePassedDate,
+        private val determineLeapDay: DetermineLeapDay,
         private val now: LocalDate
     ) : NextEvent {
         override fun nextEvent(date: LocalDate): LocalDate {
-            if (date.dayOfMonth == now.dayOfMonth && date.monthValue == now.monthValue) {
-                return now
+            return if (eventIsToday.isToday(date)) {
+                now
+            } else if (isLeapDay.isLeapDay(date)) {
+                val year = now.year
+                val nextEvent = LocalDate.of(year, date.month, determineLeapDay.leapDay(year))
+                val nextYear = nextEvent.year + 1
+
+                handlePassedDate.handle(nextEvent) { pastEvent: LocalDate ->
+                    LocalDate.of(nextYear, pastEvent.month, determineLeapDay.leapDay(nextYear))
+                }
+            } else {
+                handlePassedDate.handle(date.withYear(now.year)) { pastEvent: LocalDate ->
+                    pastEvent.plusYears(1)
+                }
             }
-            val handleDate = if (isLeapDay.isLeapDay(date)) handleLeapDay else handleDate
-            return handleDate.handleDate(date)
         }
     }
 }

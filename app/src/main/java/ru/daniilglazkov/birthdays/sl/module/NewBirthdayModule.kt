@@ -6,7 +6,6 @@ import ru.daniilglazkov.birthdays.data.newbirthday.cache.*
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListRepository
 import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayInteractor
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import ru.daniilglazkov.birthdays.domain.date.NextEvent
 import ru.daniilglazkov.birthdays.domain.newbirthday.HandleNewBirthdayRepositoryResponse
 import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.ui.newbirthday.*
@@ -16,19 +15,19 @@ import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
 import ru.daniilglazkov.birthdays.ui.core.resources.ManageResources
 import ru.daniilglazkov.birthdays.ui.core.textfilter.*
 import ru.daniilglazkov.birthdays.ui.core.validate.*
-import java.time.LocalDate
 
 /**
  * @author Danil Glazkov on 19.06.2022, 15:01
  */
 class NewBirthdayModule(
     private val manageResources: ManageResources,
+    private val dateModule: DateModule,
     private val newBirthdayDao: NewBirthdayDao,
     private val repository: BirthdayListRepository,
-    private val nextEvent: NextEvent,
-    private val now: LocalDate
 ) : Module<NewBirthdayViewModel.Base> {
     override fun viewModel(): NewBirthdayViewModel.Base {
+        val now = dateModule.provideCurrentDate()
+
         val validate = ValidateChain(
             ValidateNotEmpty(
                 manageResources.string(R.string.empty_name_error_message)
@@ -54,9 +53,8 @@ class NewBirthdayModule(
                 NewBirthdayDomainToDataMapper.Base()
             ),
             HandleNewBirthdayRepositoryResponse.Base(now),
-            DateDifference.NextEventInDays(nextEvent),
-            DateDifference.YearsPlusOne(),
-            now
+            dateModule.dateDifferenceNextEvent(),
+            DateDifference.TurnsYearsOld(now),
         )
         val nameFilter = TextFilterChain(TextFilterTrim(), TextFilterWhitespaces())
 

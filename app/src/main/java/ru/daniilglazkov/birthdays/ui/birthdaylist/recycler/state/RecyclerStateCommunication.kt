@@ -1,9 +1,9 @@
-package ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate
+package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
-import ru.daniilglazkov.birthdays.ui.birthdaylist.scrollup.NeedToScrollUpBirthdayList
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.NeedToScrollUpBirthdayList
 import ru.daniilglazkov.birthdays.ui.core.Communication
 
 /**

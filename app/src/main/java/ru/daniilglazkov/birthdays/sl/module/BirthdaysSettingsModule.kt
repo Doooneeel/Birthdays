@@ -12,10 +12,9 @@ import ru.daniilglazkov.birthdays.ui.settings.showmode.ShowModeDomainToUiMapper
 class BirthdaysSettingsModule(
     private val interactor: ShowModeInteractor,
 ) : Module<SettingsViewModel.Base> {
-    override fun viewModel(): SettingsViewModel.Base {
-        val communication = ShowModeCommunication.Base()
-        val showModeDomainToUiMapper = ShowModeDomainToUiMapper.Base()
-
-        return SettingsViewModel.Base(interactor, communication, showModeDomainToUiMapper)
-    }
+    override fun viewModel() = SettingsViewModel.Base(
+        interactor,
+        ShowModeCommunication.Base(),
+        ShowModeDomainToUiMapper.Base()
+    )
 }

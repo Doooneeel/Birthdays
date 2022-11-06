@@ -3,10 +3,9 @@ package ru.daniilglazkov.birthdays.ui.birthdaylist
 import android.os.Bundle
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdaysFragmentBinding
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayItemUi
 import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.BirthdayListChips
 import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayListAdapter
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate.RecyclerState
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerState
 import ru.daniilglazkov.birthdays.ui.core.Debounce
 import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
 import ru.daniilglazkov.birthdays.ui.core.view.listener.SingleOnQueryTextListener

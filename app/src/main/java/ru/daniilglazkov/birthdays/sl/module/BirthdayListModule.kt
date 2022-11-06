@@ -9,32 +9,35 @@ import ru.daniilglazkov.birthdays.domain.showmode.age.AgeGroupClassification
 import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacGroupClassification
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.Module
-import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListCommunication
-import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListViewModel
+import ru.daniilglazkov.birthdays.ui.birthdaylist.*
 import ru.daniilglazkov.birthdays.ui.core.QueryCommunication
 import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.*
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recyclerstate.RecyclerStateCommunication
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.*
-import ru.daniilglazkov.birthdays.ui.birthdaylist.scrollup.*
-import java.time.LocalDate
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.NeedToScrollUp
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.NeedToScrollUpBirthdayList
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.NeedToScrollUpChain
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerStateCommunication
 
 /**
  * @author Danil Glazkov on 10.06.2022, 03:20
  */
 class BirthdayListModule(
     private val coreModule: CoreModule,
+    private val dateModule: DateModule,
     private val repository: BirthdayListRepository,
     private val zodiacGroupClassification: ZodiacGroupClassification,
     private val showStrategyInteractor: ShowModeInteractor,
-    private val nextEvent: NextEvent,
-    private val now: LocalDate
 ) : Module<BirthdayListViewModel.Base> {
     override fun viewModel(): BirthdayListViewModel.Base {
         val resources = coreModule.resourcesManager()
+        val now = dateModule.provideCurrentDate()
 
         val birthdayListDomainToItemsUiMapper = BirthdayListDomainToItemsUiMapper.Base(
             BirthdayDomainToItemUiMapper.Factory(
-                BirthdayDomainToItemUiMapperFactory.Base(resources, nextEvent, now)
+                BirthdayDomainToItemUiMapperFactory.Base(resources,
+                    dateModule.dateDifferenceNextEvent(),
+                    dateModule.eventIsToday(),
+                    now
+                )
             )
         )
         val birthdayMatchesQuery = BirthdayMatchesQueryChain(
@@ -44,7 +47,7 @@ class BirthdayListModule(
                 BirthdayMatchesQuery.RawDate()
             )
         )
-        val searchWrapper = BirthdayListDomainToSearchMapper.Base(
+        val birthdaysDomainToSearchMapper = BirthdayListDomainToSearchMapper.Base(
             birthdayMatchesQuery,
             BirthdayCheckMapper.IsNotHeader(),
             PrepareQuery.Base(),
@@ -56,11 +59,11 @@ class BirthdayListModule(
                 TransformBirthdayListFactory.Base(
                     zodiacGroupClassification,
                     AgeGroupClassification.Base(),
-                    nextEvent,
+                    dateModule.provideNextEvent(),
                     now
                 )
             ),
-            searchWrapper
+            birthdaysDomainToSearchMapper
         )
         val recyclerStateCommunication = RecyclerStateCommunication.Base(
             NeedToScrollUpBirthdayList.Base(

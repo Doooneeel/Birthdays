@@ -1,7 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import androidx.annotation.StringRes
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayItemUi
 import ru.daniilglazkov.birthdays.ui.core.Communication
 import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 

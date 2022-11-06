@@ -8,26 +8,34 @@ import kotlin.math.abs
  * @author Danil Glazkov on 19.07.2022, 01:30
  */
 interface DateDifference {
-    fun difference(before: LocalDate, after: LocalDate): Int
+    fun difference(date: LocalDate): Int
 
-    abstract class Abstract(private val chronoUnit: ChronoUnit) : DateDifference {
-        override fun difference(before: LocalDate, after: LocalDate) =
-            abs(chronoUnit.between(before, after)).toInt()
+    abstract class Abstract(
+        private val chronoUnit: ChronoUnit,
+        private val now: LocalDate
+    ) : DateDifference {
+        override fun difference(date: LocalDate): Int =
+            abs(chronoUnit.between(now, date)).toInt()
     }
 
-    class Years : Abstract(ChronoUnit.YEARS)
-    class Days : Abstract(ChronoUnit.DAYS)
-    class Months : Abstract(ChronoUnit.MONTHS)
+    class Years(now: LocalDate) : Abstract(ChronoUnit.YEARS, now)
 
-    class YearsPlusOne : Abstract(ChronoUnit.YEARS) {
-        override fun difference(before: LocalDate, after: LocalDate) =
-            super.difference(before, after).inc()
+    class TurnsYearsOld(now: LocalDate) : Abstract(ChronoUnit.YEARS, now) {
+        override fun difference(date: LocalDate): Int = super.difference(date) + 1
     }
 
-    class NextEventInDays(
+    abstract class AbstractNextEvent(
+        chronoUnit: ChronoUnit,
         private val nextEvent: NextEvent,
-    ) : Abstract(ChronoUnit.DAYS) {
-        override fun difference(before: LocalDate, after: LocalDate): Int =
-            super.difference(before, nextEvent.nextEvent(after))
+        now: LocalDate
+    ) : Abstract(chronoUnit, now) {
+        override fun difference(date: LocalDate): Int =
+            super.difference(nextEvent.nextEvent(date))
     }
+
+    class NextEventInDays(nextEvent: NextEvent, now: LocalDate) : AbstractNextEvent(
+        ChronoUnit.DAYS,
+        nextEvent,
+        now
+    )
 }

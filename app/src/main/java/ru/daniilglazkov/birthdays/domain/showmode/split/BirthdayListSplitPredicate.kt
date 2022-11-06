@@ -40,19 +40,17 @@ interface BirthdayListSplitPredicate<T> : BirthdayDomain.Mapper<T> {
     abstract class AbstractRange<T : RangeCategory<Int>>(
         private val dateDifference: DateDifference,
         private val rangeGroup: RangeGroup<T, Int>,
-        private val before: LocalDate
     ) : BirthdayListSplitPredicate<T> {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): T =
-            rangeGroup.group(dateDifference.difference(before, date))
+            rangeGroup.group(dateDifference.difference(date))
     }
 
     class Age(
-        before: LocalDate,
+        now: LocalDate,
         classification: AgeGroupClassification,
     ) : AbstractRange<AgeRangeCategory>(
-        DateDifference.YearsPlusOne(),
+        DateDifference.TurnsYearsOld(now),
         classification,
-        before
     )
 
     class Zodiac(

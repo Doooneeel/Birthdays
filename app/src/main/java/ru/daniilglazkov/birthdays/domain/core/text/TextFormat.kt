@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.domain.core
+package ru.daniilglazkov.birthdays.domain.core.text
 
 /**
  * @author Danil Glazkov on 06.10.2022, 00:13

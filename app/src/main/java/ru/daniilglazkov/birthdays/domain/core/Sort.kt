@@ -5,8 +5,4 @@ package ru.daniilglazkov.birthdays.domain.core
  */
 interface Sort<T> {
     fun sort(data: T): T
-
-    abstract class Unit<T> : Sort<T> {
-        override fun sort(data: T): T = data
-    }
 }

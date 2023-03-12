@@ -1,26 +1,33 @@
 package ru.daniilglazkov.birthdays.sl.core
 
 import android.content.Context
-import android.content.SharedPreferences
+import ru.daniilglazkov.birthdays.ui.core.CoroutineDispatchers
 import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
-import ru.daniilglazkov.birthdays.ui.core.resources.ProvidePreferences
 import ru.daniilglazkov.birthdays.ui.core.resources.ManageResources
+import java.util.*
 
 /**
  * @author Danil Glazkov on 10.06.2022, 03:16
  */
-interface CoreModule : ProvideResourcesManager, ProvidePreferences, ProvideNavigation {
+interface CoreModule : ProvideManageResources,  ProvideNavigation {
 
-    class Base(private val context: Context) : CoreModule {
+    fun locale(): Locale
+
+    fun dispatchers(): CoroutineDispatchers
+
+
+    class Base(context: Context) : CoreModule {
 
         private val resourcesManager = ManageResources.Base(context)
         private val navigation = Navigation.Base()
+        private val dispatchers = CoroutineDispatchers.Base()
 
-        override fun resourcesManager(): ManageResources = resourcesManager
+        override fun dispatchers(): CoroutineDispatchers = dispatchers
 
-        override fun preferences(fileName: String): SharedPreferences {
-            return context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
-        }
+        override fun manageResources(): ManageResources = resourcesManager
+
+        override fun locale(): Locale = Locale.getDefault()
+
         override fun navigation(): Navigation.Mutable = navigation
     }
 }

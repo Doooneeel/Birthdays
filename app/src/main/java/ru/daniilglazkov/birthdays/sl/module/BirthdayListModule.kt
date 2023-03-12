@@ -3,19 +3,23 @@ package ru.daniilglazkov.birthdays.sl.module
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayCheckMapper
 import ru.daniilglazkov.birthdays.domain.birthdaylist.*
 import ru.daniilglazkov.birthdays.domain.birthdaylist.search.*
-import ru.daniilglazkov.birthdays.domain.showmode.*
-import ru.daniilglazkov.birthdays.domain.date.*
-import ru.daniilglazkov.birthdays.domain.showmode.age.AgeGroupClassification
-import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.TransformBirthdayListFactory
+import ru.daniilglazkov.birthdays.domain.core.Repository
+import ru.daniilglazkov.birthdays.domain.core.text.NormalizeQuery
+import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
+import ru.daniilglazkov.birthdays.domain.settings.*
+import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.age.AgeGroups
+import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacDomain
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.Module
 import ru.daniilglazkov.birthdays.ui.birthdaylist.*
-import ru.daniilglazkov.birthdays.ui.core.QueryCommunication
 import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.*
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.NeedToScrollUp
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.NeedToScrollUpBirthdayList
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.NeedToScrollUpChain
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.scrollup.*
+import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.BirthdayListRecyclerState
 import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerStateCommunication
+import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdaySearchQueryCommunication
+import ru.daniilglazkov.birthdays.ui.core.HandleError
+import ru.daniilglazkov.birthdays.domain.core.text.AddDelimiter
 
 /**
  * @author Danil Glazkov on 10.06.2022, 03:20
@@ -23,73 +27,113 @@ import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerStateCo
 class BirthdayListModule(
     private val coreModule: CoreModule,
     private val dateModule: DateModule,
+    private val zodiacModule: ZodiacModule,
     private val repository: BirthdayListRepository,
-    private val zodiacGroupClassification: ZodiacGroupClassification,
-    private val showStrategyInteractor: ShowModeInteractor,
+    private val settingsRepository: Repository.Read<SettingsDomain>,
 ) : Module<BirthdayListViewModel.Base> {
+
     override fun viewModel(): BirthdayListViewModel.Base {
-        val resources = coreModule.resourcesManager()
+
+        val nextEvent = dateModule.provideNextEvent()
+        val resources = coreModule.manageResources()
         val now = dateModule.provideCurrentDate()
+        val locale = coreModule.locale()
 
         val birthdayListDomainToItemsUiMapper = BirthdayListDomainToItemsUiMapper.Base(
             BirthdayDomainToItemUiMapper.Factory(
-                BirthdayDomainToItemUiMapperFactory.Base(resources,
-                    dateModule.dateDifferenceNextEvent(),
-                    dateModule.eventIsToday(),
-                    now
+                nextEvent,
+                dateModule.provideEventIsToday(),
+                resources,
+                now,
+            )
+        )
+        val zodiacToQuery = ZodiacDomain.Mapper.ToQuery(locale)
+        val normalizeQuery = NormalizeQuery.Base()
+
+        val dateQueryMapper = BirthdayDomainToQueryMapper.Date(
+            DateTextFormat.Month(locale),
+            DateTextFormat.DayOfWeek(locale),
+            locale
+        )
+
+        val birthdayMatchesQuery = BirthdayMatchesQuery.Group(
+            BirthdayMatchesQuery.IncompleteMatch(
+                BirthdayDomainToQueryMapper.Name(normalizeQuery)
+            ),
+            BirthdayMatchesQuery.IncompleteMatch(dateQueryMapper),
+            BirthdayMatchesQuery.IncompleteMatch(
+                BirthdayDomainToQueryMapper.WithNextEvent(
+                    nextEvent,
+                    dateQueryMapper
+                )
+            ),
+            BirthdayMatchesQuery.IncompleteMatch(
+                BirthdayDomainToQueryMapper.ZodiacMapper(
+                    zodiacModule.provideGreekMapper(),
+                    zodiacToQuery
+                )
+            ),
+            BirthdayMatchesQuery.IncompleteMatch(
+                BirthdayDomainToQueryMapper.ZodiacMapper(
+                    zodiacModule.provideChineseMapper(),
+                    zodiacToQuery
                 )
             )
         )
-        val birthdayMatchesQuery = BirthdayMatchesQueryChain(
-            BirthdayMatchesQuery.Name(),
-            BirthdayMatchesQueryChain(
-                BirthdayMatchesQuery.DateFormat(DateTextFormat.Month()),
-                BirthdayMatchesQuery.RawDate()
-            )
-        )
-        val birthdaysDomainToSearchMapper = BirthdayListDomainToSearchMapper.Base(
-            birthdayMatchesQuery,
-            BirthdayCheckMapper.IsNotHeader(),
-            PrepareQuery.Base(),
-        )
+
         val interactor = BirthdayListInteractor.Base(
             repository,
-            showStrategyInteractor,
-            ShowModeDomain.Mapper.Transform(
+            ModifyBirthdayList.Base(
+                settingsRepository,
+                HandleSettingsDataRequest.Base(),
                 TransformBirthdayListFactory.Base(
-                    zodiacGroupClassification,
-                    AgeGroupClassification.Base(),
-                    dateModule.provideNextEvent(),
+                    zodiacModule.provideGreekZodiacGroup(),
+                    AgeGroups.Base(),
+                    nextEvent,
+                    locale,
                     now
                 )
             ),
-            birthdaysDomainToSearchMapper
+            BirthdaySearch.Base(birthdayMatchesQuery, normalizeQuery),
+            HandleBirthdayListDataRequest.Base()
         )
-        val recyclerStateCommunication = RecyclerStateCommunication.Base(
-            NeedToScrollUpBirthdayList.Base(
-                NeedToScrollUpChain(
-                    NeedToScrollUp.ListsMatch(),
-                    NeedToScrollUp.AddOrDelete(
-                        BirthdayListCountMapper.CountWithoutHeaders()
-                    ),
-                )
+
+        val birthdayListDomainToChips = BirthdayListDomainToChipsMapper.Base(
+            AddDelimiter.Colon(),
+            BirthdayCheckMapper.IsHeader,
+            BirthdayDomainToChipMapper.Base(),
+            resources
+        )
+
+        val recyclerState = BirthdayListRecyclerState.Base(
+            NeedToScrollUpChain(
+                NeedToScrollUp.ListsNotMatch(),
+                NeedToScrollUp.ChangedToOneElement(),
             )
         )
-        val birthdayListDomainToChips = BirthdayListDomainToChipsMapper.Base(
-            BirthdayDomainToChipMapper.Base(),
-            BirthdayCheckMapper.IsHeader(),
-            resources,
-            ChipTextFormat.NameWithCount()
+        val communications = BirthdayListCommunications.Base(
+            BirthdayListCommunication.Base(),
+            BirthdayChipCommunication.Base(),
+            BirthdaySearchQueryCommunication.Base(),
+            RecyclerStateCommunication.Base(),
         )
+
+        val birthdayListResponseMapper = BirthdayListResponseMapper.Base(
+            communications,
+            birthdayListDomainToItemsUiMapper,
+            birthdayListDomainToChips,
+            recyclerState,
+            HandleError.Base(resources)
+        )
+
         return BirthdayListViewModel.Base(
             interactor,
-            BirthdayListCommunication.Base(resources),
-            BirthdayChipCommunication.Base(),
-            recyclerStateCommunication,
-            QueryCommunication.Base(),
+            communications,
+            HandleBirthdayListRequest.Base(
+                coreModule.dispatchers(),
+                birthdayListResponseMapper
+            ),
             coreModule.navigation(),
-            birthdayListDomainToItemsUiMapper,
-            birthdayListDomainToChips
         )
     }
 }

@@ -11,7 +11,6 @@ class ViewModelsFactory(
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <VM : ViewModel> create(modelClass: Class<VM>): VM {
-        return dependencyContainer.module(modelClass).viewModel() as VM
-    }
+    override fun <VM : ViewModel> create(modelClass: Class<VM>): VM =
+        dependencyContainer.module(modelClass).viewModel() as VM
 }

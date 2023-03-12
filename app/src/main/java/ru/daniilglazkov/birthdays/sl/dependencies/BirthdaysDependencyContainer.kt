@@ -1,19 +1,17 @@
 package ru.daniilglazkov.birthdays.sl.dependencies
 
-import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
-import ru.daniilglazkov.birthdays.BuildConfig
-import ru.daniilglazkov.birthdays.data.birthdays.BaseBirthdayListRepository
-import ru.daniilglazkov.birthdays.data.birthdays.BirthdayDomainToDataMapper
-import ru.daniilglazkov.birthdays.data.birthdays.cache.*
+import ru.daniilglazkov.birthdays.data.birthdaylist.BaseBirthdayListRepository
+import ru.daniilglazkov.birthdays.data.birthdaylist.BirthdayDomainToDataMapper
+import ru.daniilglazkov.birthdays.data.birthdaylist.cache.*
+import ru.daniilglazkov.birthdays.data.core.BaseFirstLaunch
 import ru.daniilglazkov.birthdays.data.core.cache.BirthdaysDatabase
-import ru.daniilglazkov.birthdays.data.main.ProvideBirthdayDatabase
-import ru.daniilglazkov.birthdays.data.showmode.*
-import ru.daniilglazkov.birthdays.data.showmode.cache.ShowModeCacheDataSource
-import ru.daniilglazkov.birthdays.data.showmode.cache.ShowModeDataToCacheMapper
-import ru.daniilglazkov.birthdays.domain.showmode.HandleShowModeRepositoryResponse
-import ru.daniilglazkov.birthdays.domain.showmode.ShowModeInteractor
-import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacGroupClassification
+import ru.daniilglazkov.birthdays.data.core.cache.PreferencesDataStore
+import ru.daniilglazkov.birthdays.data.settings.*
+import ru.daniilglazkov.birthdays.data.settings.cache.SettingsCacheDataSource
+import ru.daniilglazkov.birthdays.data.settings.cache.SettingsDataToCacheMapper
+import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.sort.SortModeList
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.DependencyContainer
 import ru.daniilglazkov.birthdays.sl.core.Module
@@ -22,29 +20,19 @@ import ru.daniilglazkov.birthdays.ui.birthday.BirthdayViewModel
 import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListViewModel
 import ru.daniilglazkov.birthdays.ui.newbirthday.NewBirthdayViewModel
 import ru.daniilglazkov.birthdays.ui.settings.SettingsViewModel
-import ru.daniilglazkov.birthdays.ui.zodiac.BaseZodiacDomainList
 
 /**
  * @author Danil Glazkov on 10.06.2022, 03:24
  */
 class BirthdaysDependencyContainer(
     private val coreModule: CoreModule,
+    cacheModule: CacheModule,
     private val dateModule: DateModule,
-    context: Context,
+    private val zodiacModule: ZodiacModule,
     private val next: DependencyContainer = DependencyContainer.Error()
 ) : DependencyContainer {
-    private val database: BirthdaysDatabase
-    init {
-        val provideDataBase = if (BuildConfig.DEBUG) {
-            ProvideBirthdayDatabase.Debug(context)
-        } else {
-            ProvideBirthdayDatabase.Release(context, DATABASE_NAME)
-        }
-        database = provideDataBase.provideDatabase()
-    }
-    private val zodiacGroupClassification = ZodiacGroupClassification.Base(
-        BaseZodiacDomainList(coreModule.resourcesManager())
-    )
+    private val database: BirthdaysDatabase = cacheModule.provideDatabase()
+    private val preferences: SharedPreferences = cacheModule.preferences(FILE_NAME)
 
     private val birthdaysRepository = BaseBirthdayListRepository(
         BirthdayListCacheDataSource.Base(
@@ -53,44 +41,47 @@ class BirthdaysDependencyContainer(
         ),
         BirthdayDataToDomainMapper.Base(),
         BirthdayDomainToDataMapper.Base(),
+        BaseFirstLaunch(PreferencesDataStore.Boolean(preferences), FIRST_LAUNCH_KEY)
     )
 
-    private val showModeInteractor = ShowModeInteractor.Base(
-        BaseShowModeRepository(
-            ShowModeCacheDataSource.Base(
-                database.provideShowModeDao(),
-                ShowModeDataToCacheMapper.Base()
-            ),
-            ShowModeDomainToDataMapper.Base(),
-            ShowModeDataToDomainMapper.Base()
+    private val settingsRepository = BaseSettingsRepository(
+        SettingsCacheDataSource.Base(
+            database.provideSettingsDao(),
+            SettingsDataToCacheMapper.Base()
         ),
-        HandleShowModeRepositoryResponse.Base()
+        SettingsDomainToDataMapper.Base(),
+        SettingsDataToDomainMapper.Base(SortModeList.Base())
     )
+
     override fun <VM : ViewModel> module(clazz: Class<VM>): Module<*> = when (clazz) {
         BirthdayListViewModel.Base::class.java -> BirthdayListModule(
             coreModule,
             dateModule,
+            zodiacModule,
             birthdaysRepository,
-            zodiacGroupClassification,
-            showModeInteractor,
+            settingsRepository,
         )
         BirthdayViewModel.Base::class.java -> BirthdayModule(
             coreModule,
             dateModule,
-            zodiacGroupClassification,
+            zodiacModule,
             birthdaysRepository,
         )
         NewBirthdayViewModel.Base::class.java -> NewBirthdayModule(
-            coreModule.resourcesManager(),
+            coreModule,
             dateModule,
             database.provideNewBirthdayDao(),
-            birthdaysRepository,
+            birthdaysRepository
         )
-        SettingsViewModel.Base::class.java -> BirthdaysSettingsModule(showModeInteractor)
+        SettingsViewModel.Base::class.java -> SettingsModule(
+            coreModule,
+            settingsRepository
+        )
         else -> next.module(clazz)
     }
 
     companion object {
-        private const val DATABASE_NAME = "birthdays-database"
+        private const val FILE_NAME = "birthdays_preferences"
+        private const val FIRST_LAUNCH_KEY = "birthday_list_first_launch"
     }
 }

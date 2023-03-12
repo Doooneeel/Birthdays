@@ -1,6 +1,6 @@
 package ru.daniilglazkov.birthdays.domain.date
 
-import ru.daniilglazkov.birthdays.domain.core.TextFormat
+import ru.daniilglazkov.birthdays.domain.core.text.TextFormat
 import java.time.LocalDate
 import java.time.format.*
 import java.util.*
@@ -10,31 +10,46 @@ import java.util.*
  */
 interface DateTextFormat : TextFormat<LocalDate> {
 
-    abstract class Abstract(
-        private val formatStyle: FormatStyle,
-        private val locale: Locale
-    ) : DateTextFormat {
-        override fun format(source: LocalDate): String {
-            return DateTimeFormatter.ofLocalizedDate(formatStyle)
-                .withLocale(locale)
-                .format(source)
-                .replaceFirstChar { it.titlecase(locale) }
+    abstract class Abstract(style: FormatStyle, private val locale: Locale) : DateTextFormat {
+        private val formatter = DateTimeFormatter.ofLocalizedDate(style)
+            .withLocale(locale)
+
+        override fun format(source: LocalDate) = formatter.format(source).replaceFirstChar {
+            it.titlecase(locale)
         }
     }
 
-    class Long(locale: Locale = Locale.getDefault()) : Abstract(FormatStyle.LONG, locale)
-    class Full(locale: Locale = Locale.getDefault()) : Abstract(FormatStyle.FULL, locale)
+    class Full(locale: Locale) : Abstract(FormatStyle.FULL, locale)
 
     class Year : DateTextFormat {
         override fun format(source: LocalDate): String = source.year.toString()
     }
 
-    class Month(private val locale: Locale = Locale.getDefault()) : DateTextFormat {
-        override fun format(source: LocalDate): String {
-            return source.month.getDisplayName(TextStyle.FULL_STANDALONE, locale).replaceFirstChar {
+    class DayOfWeek(private val locale: Locale) : DateTextFormat {
+        override fun format(source: LocalDate): String =
+            source.dayOfWeek.getDisplayName(TextStyle.FULL, locale).replaceFirstChar {
                 it.titlecase(locale)
-            }
         }
     }
 
+    class Month(private val locale: Locale) : DateTextFormat {
+        override fun format(source: LocalDate): String =
+            source.month.getDisplayName(TextStyle.FULL_STANDALONE, locale).replaceFirstChar {
+                it.titlecase(locale)
+            }
+    }
+
+    class MonthAndYearOfNextEvent(
+        private val nextEvent: CalculateNextEvent,
+        locale: Locale
+    ) : DateTextFormat {
+        private val month: DateTextFormat = Month(locale)
+
+        override fun format(source: LocalDate): String =
+            "${ month.format(source) } ${ nextEvent.nextEvent(source).year }"
+    }
+
+    data class Mock(var result: String = "") : DateTextFormat {
+        override fun format(source: LocalDate): String = result
+    }
 }

@@ -1,48 +1,34 @@
 package ru.daniilglazkov.birthdays.ui.newbirthday
 
-import ru.daniilglazkov.birthdays.ui.core.Clear
-import ru.daniilglazkov.birthdays.ui.core.Communication
-import ru.daniilglazkov.birthdays.ui.core.ErrorMessage
-import ru.daniilglazkov.birthdays.ui.core.textfilter.TextFilter
-import ru.daniilglazkov.birthdays.ui.core.validate.Validate
-import java.time.LocalDate
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import ru.daniilglazkov.birthdays.ui.core.*
 
 /**
  * @author Danil Glazkov on 25.08.2022, 13:40
  */
-interface NewBirthdayCommunication : Communication.Mutable<NewBirthdayUi>, Clear {
+interface NewBirthdayCommunication : Communication.Mutable<NewBirthdayUi> {
 
-    fun validate(successful: (NewBirthdayUi) -> Unit, onFailure: (ErrorMessage) -> Unit)
-    fun filter(name: String, date: LocalDate, result: (NewBirthdayUi) -> Unit)
+    fun <T> map(mapper: NewBirthdayUi.Mapper<T>): T
 
 
-    class Base(
-        private val validate: Validate,
-        private val nameFilter: TextFilter,
-    ) : Communication.Ui<NewBirthdayUi>(),
-        NewBirthdayCommunication
-    {
-        override fun clear() = map(NewBirthdayUi.Empty)
-
-        override fun validate(
-            successful: (NewBirthdayUi) -> Unit,
-            onFailure: (ErrorMessage) -> Unit
-        ) = value.validate(
-            validate,
-            successful,
-            onFailure
-        )
-        override fun filter(name: String, date: LocalDate, result: (NewBirthdayUi) -> Unit) {
-            val filteredNewBirthday = NewBirthdayUi.Base(nameFilter.filter(name), date)
-            filteredNewBirthday.also { newBirthday: NewBirthdayUi ->
-                result.invoke(newBirthday)
-                map(newBirthday)
-            }
-        }
+    interface Put {
+        fun putNewBirthday(birthday: NewBirthdayUi)
     }
 
     interface Clear {
         fun clearNewBirthday()
     }
 
+    interface Combo : Clear, Put
+
+
+    interface Observe {
+        fun observeNewBirthday(owner: LifecycleOwner, observer: Observer<NewBirthdayUi>)
+    }
+
+
+    class Base : Communication.Ui<NewBirthdayUi>(), NewBirthdayCommunication {
+        override fun <T> map(mapper: NewBirthdayUi.Mapper<T>): T = value.map(mapper)
+    }
 }

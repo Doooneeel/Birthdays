@@ -9,10 +9,13 @@ import ru.daniilglazkov.birthdays.ui.core.Communication
  */
 interface AboutBirthdateCommunication : Communication.Mutable<AboutBirthdateUi> {
 
-    class Base : Communication.Ui<AboutBirthdateUi>(), AboutBirthdateCommunication
-
+    interface Put {
+        fun putAboutBirthdate(about: AboutBirthdateUi)
+    }
 
     interface Observe {
         fun observeAboutBirthday(owner: LifecycleOwner, observer: Observer<AboutBirthdateUi>)
     }
+
+    class Base : Communication.Ui<AboutBirthdateUi>(), AboutBirthdateCommunication
 }

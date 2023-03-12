@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.domain.newbirthday
 
-import ru.daniilglazkov.birthdays.domain.core.Add
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.core.Add
 import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import java.time.LocalDate
 
@@ -10,31 +10,38 @@ import java.time.LocalDate
  */
 interface NewBirthdayInteractor {
 
-    fun createNewBirthday(birthday: NewBirthdayDomain)
-    fun latestBirthday(): NewBirthdayDomain
+    suspend fun createNewBirthday(birthday: NewBirthdayDomain)
+
+    suspend fun latestBirthday(): NewBirthdayDomain
+
+    suspend fun saveToCache(newBirthday: NewBirthdayDomain)
+
     fun aboutBirthdate(date: LocalDate): AboutBirthdateDomain
-    fun saveToCache(newBirthday: NewBirthdayDomain)
 
 
     class Base(
-        private val birthdayListRepository: Add<BirthdayDomain>,
-        private val newBirthdayDomainCache: NewBirthdayRepository,
-        private val handleResponse: HandleNewBirthdayRepositoryResponse,
-        private val daysToBirthdayDateDifference: DateDifference,
-        private val ageDateDifference: DateDifference,
+        private val birthdayListRepository: Add.Suspend<BirthdayDomain>,
+        private val newBirthdayRepository: NewBirthdayRepository,
+        private val handleResponse: HandleNewBirthdayDataRequest,
+        private val turnsYearsOld: DateDifference.Years,
+        private val daysToBirthday: DateDifference.Days,
     ) : NewBirthdayInteractor {
+
         override fun aboutBirthdate(date: LocalDate) = AboutBirthdateDomain.Base(
-            ageDateDifference.difference(date),
-            daysToBirthdayDateDifference.difference(date)
+            turnsYearsOld.difference(date),
+            daysToBirthday.difference(date)
         )
-        override fun latestBirthday(): NewBirthdayDomain = handleResponse.handle {
-            newBirthdayDomainCache.newBirthday()
+
+        override suspend fun latestBirthday(): NewBirthdayDomain = handleResponse.handle {
+            newBirthdayRepository.read()
         }
-        override fun createNewBirthday(birthday: NewBirthdayDomain) {
+
+        override suspend fun createNewBirthday(birthday: NewBirthdayDomain) {
             birthdayListRepository.add(birthday.create())
         }
-        override fun saveToCache(newBirthday: NewBirthdayDomain) {
-            newBirthdayDomainCache.saveToCache(newBirthday)
+
+        override suspend fun saveToCache(newBirthday: NewBirthdayDomain) {
+            newBirthdayRepository.save(newBirthday)
         }
     }
 }

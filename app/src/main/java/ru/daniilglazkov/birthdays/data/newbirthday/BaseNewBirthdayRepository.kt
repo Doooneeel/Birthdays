@@ -13,11 +13,11 @@ class BaseNewBirthdayRepository(
     private val mapperToData: NewBirthdayDomainToDataMapper
 ) : NewBirthdayRepository {
 
-    override fun newBirthday(): NewBirthdayDomain = cacheDataSource.newBirthday()
+    override suspend fun read(): NewBirthdayDomain = cacheDataSource.newBirthday()
         .map(mapperToDomain)
 
-    override fun saveToCache(newBirthday: NewBirthdayDomain) {
-        cacheDataSource.saveToCache(newBirthday.map(mapperToData))
+    override suspend fun save(data: NewBirthdayDomain) {
+        cacheDataSource.saveToCache(data.map(mapperToData))
     }
 }
 

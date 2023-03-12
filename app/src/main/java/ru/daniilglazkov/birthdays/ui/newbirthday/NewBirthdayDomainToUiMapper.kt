@@ -8,8 +8,7 @@ import java.time.LocalDate
  */
 interface NewBirthdayDomainToUiMapper : NewBirthdayDomain.Mapper<NewBirthdayUi> {
 
-   class Base : NewBirthdayDomainToUiMapper {
-       override fun map(name: String, date: LocalDate) =
-           NewBirthdayUi.Base(name, date)
-   }
+    class Base : NewBirthdayDomainToUiMapper {
+        override fun map(name: String, date: LocalDate) = NewBirthdayUi.Base(name, date)
+    }
 }

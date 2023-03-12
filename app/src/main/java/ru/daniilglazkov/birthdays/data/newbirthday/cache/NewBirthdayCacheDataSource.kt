@@ -1,5 +1,7 @@
 package ru.daniilglazkov.birthdays.data.newbirthday.cache
 
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import ru.daniilglazkov.birthdays.data.newbirthday.NewBirthdayData
 import ru.daniilglazkov.birthdays.domain.core.exceptions.EmptyCacheException
 
@@ -8,22 +10,24 @@ import ru.daniilglazkov.birthdays.domain.core.exceptions.EmptyCacheException
  */
 interface NewBirthdayCacheDataSource  {
 
-    fun saveToCache(newBirthday: NewBirthdayData)
-    fun newBirthday(): NewBirthdayData
+    suspend fun saveToCache(birthday: NewBirthdayData)
+
+    suspend fun newBirthday(): NewBirthdayData
 
 
     class Base(
-        private val newBirthdayDao: NewBirthdayDao,
+        private val dao: NewBirthdayDao,
         private val mapperToCache: NewBirthdayDataToCacheMapper,
     ) : NewBirthdayCacheDataSource {
+        private val mutex = Mutex()
 
-        override fun saveToCache(newBirthday: NewBirthdayData) {
-            newBirthdayDao.insert(newBirthday.map(mapperToCache))
+        override suspend fun saveToCache(birthday: NewBirthdayData) = mutex.withLock {
+            dao.insert(birthday.map(mapperToCache))
         }
 
-        override fun newBirthday(): NewBirthdayData {
-            val newBirthday = newBirthdayDao.newBirthday() ?: throw EmptyCacheException()
-            return NewBirthdayData.Base(newBirthday.name, newBirthday.date)
+        override suspend fun newBirthday(): NewBirthdayData = mutex.withLock {
+            val birthday = dao.newBirthday() ?: throw EmptyCacheException()
+            return NewBirthdayData.Base(birthday.name, birthday.epochDay)
         }
     }
 

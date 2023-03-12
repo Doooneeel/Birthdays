@@ -9,7 +9,7 @@ import java.time.LocalDate
 interface NewBirthdayDataToDomainMapper :  NewBirthdayData.Mapper<NewBirthdayDomain> {
 
     class Base : NewBirthdayDataToDomainMapper {
-        override fun map(name: String, date: LocalDate): NewBirthdayDomain =
-            NewBirthdayDomain.Base(name, date)
+        override fun map(name: String, epochDay: Long): NewBirthdayDomain =
+            NewBirthdayDomain.Base(name, LocalDate.ofEpochDay(epochDay))
     }
 }

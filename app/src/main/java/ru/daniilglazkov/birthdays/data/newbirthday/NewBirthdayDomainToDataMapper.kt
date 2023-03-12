@@ -10,6 +10,6 @@ interface NewBirthdayDomainToDataMapper : NewBirthdayDomain.Mapper<NewBirthdayDa
 
     class Base : NewBirthdayDomainToDataMapper {
         override fun map(name: String, date: LocalDate): NewBirthdayData =
-            NewBirthdayData.Base(name, date)
+            NewBirthdayData.Base(name, date.toEpochDay())
     }
 }

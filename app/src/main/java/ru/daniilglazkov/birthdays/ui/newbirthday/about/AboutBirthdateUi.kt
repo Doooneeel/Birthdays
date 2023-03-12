@@ -6,9 +6,11 @@ import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
  * @author Danil Glazkov on 29.09.2022, 23:06
  */
 interface AboutBirthdateUi {
+
     fun apply(turnsYearsOld: AbstractView.Text, daysToBirthday: AbstractView.Text)
 
-    class Base(
+
+    data class Base(
         private val turnsYearsOld: String,
         private val daysToBirthday: String,
     ) : AboutBirthdateUi {

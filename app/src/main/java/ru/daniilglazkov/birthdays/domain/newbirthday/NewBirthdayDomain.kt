@@ -9,25 +9,26 @@ import java.time.LocalDate
 interface NewBirthdayDomain {
 
     fun <T> map(mapper: Mapper<T>): T
+
     fun create(): BirthdayDomain
+
+
+    interface Mapper<T> {
+        fun map(name: String, date: LocalDate): T
+    }
 
 
     abstract class Abstract(
         private val name: String,
         private val date: LocalDate,
     ) : NewBirthdayDomain {
-        override fun <T> map(mapper: Mapper<T>): T =
-            mapper.map(name, date)
+        override fun <T> map(mapper: Mapper<T>): T = mapper.map(name, date)
 
         override fun create(): BirthdayDomain =
             BirthdayDomain.Base(/*room generate id*/ id = -1, name, date)
     }
 
-    class Base(name: String, date: LocalDate) : Abstract(name, date)
-    class Empty(date: LocalDate) : Abstract(name = "", date)
+    data class Base(private val name: String, private val date: LocalDate) : Abstract(name, date)
 
-
-    interface Mapper<T> {
-        fun map(name: String, date: LocalDate): T
-    }
+    data class Empty(private val date: LocalDate) : Abstract(name = "", date)
 }

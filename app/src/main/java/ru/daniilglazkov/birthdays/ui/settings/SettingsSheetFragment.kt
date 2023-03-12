@@ -3,8 +3,7 @@ package ru.daniilglazkov.birthdays.ui.settings
 import android.os.Bundle
 import android.view.View
 import ru.daniilglazkov.birthdays.databinding.BirthdaysSettingsSheetFragmentBinding
-import ru.daniilglazkov.birthdays.domain.showmode.sort.SortMode
-import ru.daniilglazkov.birthdays.ui.settings.showmode.ShowModeUi
+import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.sort.SortMode
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
 
 /**
@@ -20,23 +19,30 @@ class SettingsSheetFragment :
         super.onViewCreated(view, savedInstanceState)
 
         val checkBoxClickListener = View.OnClickListener {
-            viewModel.changeAdditionalSettings(
+            viewModel.changeSettings(
                 binding.reverseSwitch.isChecked,
                 binding.groupSwitch.isChecked
             )
-            viewModel.fetch()
         }
+
         binding.reverseSwitch.setOnClickListener(checkBoxClickListener)
         binding.groupSwitch.setOnClickListener(checkBoxClickListener)
 
         binding.sortModeGridLayout.setOnSortModeRadioButtonClick { sortMode: SortMode ->
             viewModel.changeSortMode(sortMode)
-            viewModel.fetch()
         }
-        viewModel.observe(viewLifecycleOwner) { showModeUi: ShowModeUi ->
-            showModeUi.applyAdditionalSettings(binding.reverseSwitch, binding.groupSwitch)
-            showModeUi.applySortMode(binding.sortModeGridLayout)
+
+        viewModel.observeSettings(viewLifecycleOwner) { settings: SettingsUi ->
+            settings.apply(binding.reverseSwitch, binding.groupSwitch)
+            settings.applySortMode(binding.sortModeGridLayout)
         }
+
         viewModel.fetch()
+    }
+
+    override fun onPause() {
+        viewModel.complete()
+
+        super.onPause()
     }
 }

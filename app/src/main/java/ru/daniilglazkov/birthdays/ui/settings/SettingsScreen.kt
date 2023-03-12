@@ -6,8 +6,8 @@ import ru.daniilglazkov.birthdays.ui.core.navigation.NavigationStrategy
 /**
  * @author Danil Glazkov on 21.07.2022, 22:44
  */
-class SettingsScreen(onClosed: () -> Unit = { }) : NavigationScreen(
-    "SettingsNavigationScreen",
+class SettingsScreen(onClosed: () -> Unit = { }) : NavigationScreen.Abstract(
+    tag = "SettingsNavigationScreen",
     SettingsSheetFragment::class.java,
     NavigationStrategy.Sheet(onClosed)
 )

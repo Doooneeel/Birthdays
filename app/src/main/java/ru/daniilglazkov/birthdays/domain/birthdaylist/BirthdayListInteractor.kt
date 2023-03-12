@@ -1,59 +1,35 @@
 package ru.daniilglazkov.birthdays.domain.birthdaylist
 
-import ru.daniilglazkov.birthdays.domain.birthdaylist.search.BirthdayListDomainToSearchMapper
-import ru.daniilglazkov.birthdays.domain.birthdaylist.search.BirthdayListSearchWrapper
-import ru.daniilglazkov.birthdays.domain.showmode.*
+import ru.daniilglazkov.birthdays.domain.birthdaylist.search.BirthdaySearch
+import ru.daniilglazkov.birthdays.domain.core.DeterminePosition
+import ru.daniilglazkov.birthdays.domain.core.FirstLaunch
 
 /**
  * @author Danil Glazkov on 10.06.2022, 00:53
  */
-interface BirthdayListInteractor {
-
-    fun birthdays(
-        result: (BirthdayListDomain) -> Unit,
-        query: CharSequence = "",
-        notFound: () -> Unit = { },
-        onEmptyCache: () -> Unit
-    )
-    fun reload()
-
+interface BirthdayListInteractor : DeterminePosition, FetchBirthdays, FirstLaunch {
 
     class Base(
         private val repository: BirthdayListRepository,
-        private val showModeRepository: FetchShowMode,
-        private val transformBirthdayList: ShowModeDomain.Mapper<TransformBirthdayList>,
-        private val toSearchMapper: BirthdayListDomainToSearchMapper,
+        private val modifyBirthdayList: ModifyBirthdayList,
+        private val birthdaySearch: BirthdaySearch,
+        private val handleRequest: HandleBirthdayListDataRequest
     ) : BirthdayListInteractor {
-        private var cachedBirthdays: BirthdayListDomain = repository.birthdays()
+        private var modifiedList: BirthdayListDomain = BirthdayListDomain.Base()
 
-        override fun birthdays(
-            result: (BirthdayListDomain) -> Unit,
-            query: CharSequence,
-            notFound: () -> Unit,
-            onEmptyCache: () -> Unit
-        ) {
-            if (cachedBirthdays.isEmpty()) {
-                onEmptyCache.invoke()
-                return
-            }
-            val showMode: ShowModeDomain = showModeRepository.fetchShowMode()
-            val transformBirthdays: TransformBirthdayList = showMode.map(transformBirthdayList)
+        override suspend fun birthdays(query: CharSequence) = handleRequest.handle {
+            var birthdayList: BirthdayListDomain = repository.birthdays()
 
             if (query.isNotEmpty()) {
-                val searchWrapper: BirthdayListSearchWrapper = cachedBirthdays.map(toSearchMapper)
-                val found: BirthdayListDomain = searchWrapper.search(query)
-                    
-                if (found.isEmpty()) {
-                    notFound.invoke()
-                } else {
-                    result.invoke(transformBirthdays.transform(found))
-                }
-            } else {
-                result.invoke(transformBirthdays.transform(cachedBirthdays))
+                birthdayList = birthdaySearch.search(birthdayList, query)
             }
+            modifiedList = modifyBirthdayList.modify(birthdayList)
+
+            BirthdayListResponse.Success(modifiedList)
         }
-        override fun reload() {
-            cachedBirthdays = repository.birthdays()
-        }
+
+        override fun position(id: Int): Int = modifiedList.position(id)
+
+        override fun firstLaunch(): Boolean = repository.firstLaunch()
     }
 }

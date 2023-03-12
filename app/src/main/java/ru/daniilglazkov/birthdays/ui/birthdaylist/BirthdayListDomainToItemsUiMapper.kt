@@ -8,9 +8,9 @@ import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
  */
 interface BirthdayListDomainToItemsUiMapper : BirthdayListDomain.Mapper<BirthdayItemUiList> {
 
-    class Base(private val mapper: BirthdayDomainToItemUiMapper) :
-        BirthdayListDomainToItemsUiMapper {
-        override fun map(list: List<BirthdayDomain>) =
-            BirthdayItemUiList.Base(list.map { it.map(mapper) })
+    class Base(private val mapper: BirthdayDomainToItemUiMapper): BirthdayListDomainToItemsUiMapper {
+        override fun map(list: List<BirthdayDomain>) = BirthdayItemUiList.Base(
+            list.map { it.map(mapper) }
+        )
     }
 }

@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.data.birthdays.cache
+package ru.daniilglazkov.birthdays.data.birthdaylist.cache
 
 import androidx.room.Dao
 import androidx.room.Query

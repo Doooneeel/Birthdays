@@ -7,16 +7,15 @@ import ru.daniilglazkov.birthdays.databinding.BirthdayItemMessageBinding
 import ru.daniilglazkov.birthdays.databinding.BirthdayTodayItemLayoutBinding
 import ru.daniilglazkov.birthdays.databinding.HeaderLayoutBinding
 import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayItemUi
-import ru.daniilglazkov.birthdays.ui.core.DiffUtilCallback
-import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
+import ru.daniilglazkov.birthdays.ui.core.view.click.OnClickCallback
+import ru.daniilglazkov.birthdays.ui.core.view.recycler.DiffUtilCallback
 import ru.daniilglazkov.birthdays.ui.main.BaseAdapter
 
 /**
  * @author Danil Glazkov on 10.06.2022, 02:14
  */
 class BirthdayListAdapter(
-    private val itemOnClickCallback: OnSingleClickCallback<BirthdayItemUi>,
-    private val onEmptySpaceClick: () -> Unit
+    private val itemOnClickCallback: OnClickCallback<BirthdayItemUi>,
 ) : BaseAdapter<BirthdayListViewHolder, BirthdayItemUi>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayListViewHolder {
@@ -26,10 +25,10 @@ class BirthdayListAdapter(
                 itemOnClickCallback
             )
             HEADER -> BirthdayListViewHolder.Header(
-                HeaderLayoutBinding.inflate(layoutInflater, parent, false), onEmptySpaceClick
+                HeaderLayoutBinding.inflate(layoutInflater, parent, false)
             )
             MESSAGE -> BirthdayListViewHolder.Message(
-                BirthdayItemMessageBinding.inflate(layoutInflater, parent, false), onEmptySpaceClick
+                BirthdayItemMessageBinding.inflate(layoutInflater, parent, false)
             )
             BIRTHDAY_TODAY -> BirthdayListViewHolder.Today(
                 BirthdayTodayItemLayoutBinding.inflate(layoutInflater, parent, false),

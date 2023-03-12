@@ -7,9 +7,10 @@ import java.time.LocalDate
 /**
  * @author Danil Glazkov on 05.10.2022, 11:56
  */
-interface BirthdayDomainToChipMapper : BirthdayDomain.Mapper<String> {
+interface BirthdayDomainToChipMapper : BirthdayDomain.Mapper<ChipUi> {
 
     class Base : BirthdayDomainToChipMapper {
-        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): String = name
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+            ChipUi.Base(id, name)
     }
 }

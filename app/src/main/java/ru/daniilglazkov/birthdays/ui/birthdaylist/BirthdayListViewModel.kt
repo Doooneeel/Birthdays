@@ -2,83 +2,62 @@ package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
+import androidx.lifecycle.viewModelScope
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListInteractor
 import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.*
 import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerState
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerStateCommunication
+import ru.daniilglazkov.birthdays.ui.core.*
+import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
+import ru.daniilglazkov.birthdays.ui.main.BaseViewModel
 import ru.daniilglazkov.birthdays.ui.newbirthday.NewBirthdayScreen
 import ru.daniilglazkov.birthdays.ui.settings.SettingsScreen
-import ru.daniilglazkov.birthdays.ui.core.Fetch
-import ru.daniilglazkov.birthdays.ui.core.Init
-import ru.daniilglazkov.birthdays.ui.core.QueryCommunication
-import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
-import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
 
 /**
  * @author Danil Glazkov on 10.06.2022, 01:22
  */
-interface BirthdayListViewModel : BaseSheetViewModel<BirthdayItemUiList>, BirthdayListNavigation,
-    Fetch, Init, RecyclerStateCommunication.Observe, BirthdayChipCommunication.Observe {
-
+interface BirthdayListViewModel : BaseViewModel, BirthdayListCommunications.Observe, Fetch,
+    BirthdayListNavigation, Init
+{
     fun changeSearchQuery(query: CharSequence)
-    fun reloadAndFetch()
+
+    fun changePosition(chip: ChipUi)
 
 
     class Base(
         private val interactor: BirthdayListInteractor,
-        private val birthdayListCommunication: BirthdayListCommunication,
-        private val chipCommunication: BirthdayChipCommunication,
-        private val recyclerStateCommunication: RecyclerStateCommunication,
-        private val queryCommunication: QueryCommunication,
+        private val communications: BirthdayListCommunications.Mutable,
+        private val handleRequest: HandleBirthdayListRequest,
         navigation: Navigation.Mutable,
-        private val toUiMapper: BirthdayListDomainToItemsUiMapper,
-        private val toChipsMapper: BirthdayListDomainToChipsMapper,
-    ) : BaseSheetViewModel.Abstract<BirthdayItemUiList>(
-        birthdayListCommunication,
-        navigation
-    ) , BirthdayListViewModel {
+    ) : BaseViewModel.Abstract(navigation), BirthdayListViewModel {
 
-        private val settingsScreen = SettingsScreen(::reloadAndFetch)
-        private val newBirthdayScreen = NewBirthdayScreen(::reloadAndFetch)
+        private val settingsScreen = SettingsScreen(onClosed = ::fetch)
+        private val newBirthdayScreen = NewBirthdayScreen(onClosed = ::fetch)
 
-        private val handleFailure: (Int) -> Unit = { messageId: Int ->
-            birthdayListCommunication.showMessage(messageId)
-            recyclerStateCommunication.map(RecyclerState.Disable)
-            chipCommunication.clear()
-        }
-        private val handleNotFound = { handleFailure(R.string.birthday_not_found) }
-        private val handleEmptyList = { handleFailure(R.string.list_is_empty) }
-
-        private val handleResult: (BirthdayListDomain) -> Unit = { birthdayListDomain ->
-            birthdayListCommunication.map(birthdayListDomain.map(toUiMapper))
-            chipCommunication.map(birthdayListDomain.map(toChipsMapper))
-            recyclerStateCommunication.changeList(birthdayListDomain)
-        }
-
-        override fun fetch() = queryCommunication.executeQuery { query: CharSequence ->
-            interactor.birthdays(handleResult, query, handleNotFound, handleEmptyList)
-        }
         override fun init(isFirstRun: Boolean) {
-            if (isFirstRun) interactor.birthdays(handleResult,
-                onEmptyCache = ::showNewBirthdayDialog
-            )
+            if (isFirstRun && interactor.firstLaunch()) showNewBirthdayDialog()
         }
-        override fun changeSearchQuery(query: CharSequence) = queryCommunication.map(query)
 
-        override fun reloadAndFetch() {
-            interactor.reload()
-            fetch()
+        override fun fetch() = handleRequest.handle(viewModelScope) {
+            communications.fetchBirthdays(interactor)
         }
+
+        override fun changeSearchQuery(query: CharSequence) = communications.putQuery(query)
+
+        override fun changePosition(chip: ChipUi) = communications.smoothScroll(
+            chip.position(interactor)
+        )
+
         override fun showSettingsDialog() = navigate(settingsScreen)
+
         override fun showNewBirthdayDialog() = navigate(newBirthdayScreen)
 
-        override fun observeChips(owner: LifecycleOwner, observer: Observer<BirthdayListChips>) {
-            chipCommunication.observe(owner, observer)
-        }
-        override fun observeRecyclerState(owner: LifecycleOwner, observer: Observer<RecyclerState>) {
-            recyclerStateCommunication.observe(owner, observer)
-        }
+        override fun observeBirthdayList(owner: LifecycleOwner, observer: Observer<BirthdayItemUiList>) =
+            communications.observeBirthdayList(owner, observer)
+
+        override fun observeChips(owner: LifecycleOwner, observer: Observer<ChipListUi>) =
+            communications.observeChips(owner, observer)
+
+        override fun observeRecyclerState(owner: LifecycleOwner, observer: Observer<RecyclerState>) =
+            communications.observeRecyclerState(owner, observer)
     }
 }

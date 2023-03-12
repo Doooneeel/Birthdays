@@ -9,15 +9,16 @@ import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
  * @author Danil Glazkov on 10.06.2022, 01:05
  */
 interface BirthdayItemUi : Same<BirthdayItemUi> {
+
     fun <T> map(mapper: Mapper<T>): T
 
     fun apply(
         name: AbstractView.Text,
         turnsYearsOld: AbstractView.Text,
         daysToBirthday: AbstractView.Text
-    ) = Unit
+    )
 
-    fun applyHeader(text: AbstractView.Text) = Unit
+    fun applyHeader(text: AbstractView.Text)
 
 
     abstract class Abstract(
@@ -30,13 +31,21 @@ interface BirthdayItemUi : Same<BirthdayItemUi> {
             mapper.map(id, name, turnsYearsOld, daysToBirthday)
 
         override fun same(data: BirthdayItemUi): Boolean =
-            data.map(BirthdayItemUiCheckMapper.CompareName(name))
+            data.map(BirthdayItemUiCompareMapper.Name(name))
 
         override fun sameContent(data: BirthdayItemUi): Boolean  =
-            data.map(BirthdayItemUiCheckMapper.CompareObject(data))
+            data.map(BirthdayItemUiCompareMapper.Object(data))
+
+        override fun apply(
+            name: AbstractView.Text,
+            turnsYearsOld: AbstractView.Text,
+            daysToBirthday: AbstractView.Text
+        ) = Unit
+
+        override fun applyHeader(text: AbstractView.Text) = Unit
     }
 
-    class Header(id: Int, private val name: String) : Abstract(id, name) {
+    data class Header(private val id: Int, private val name: String) : Abstract(id, name) {
         override fun applyHeader(text: AbstractView.Text) =
             text.map(name)
     }
@@ -46,8 +55,8 @@ interface BirthdayItemUi : Same<BirthdayItemUi> {
             text.map(this.text)
     }
 
-    class Base(
-        id: Int,
+    data class Base(
+        private val id: Int,
         private val name: String,
         private val turnsYearsOld: String,
         private val daysToBirthday: String
@@ -63,8 +72,8 @@ interface BirthdayItemUi : Same<BirthdayItemUi> {
         }
     }
 
-    class Today(
-        id: Int,
+    data class Today(
+        private val id: Int,
         private val name: String,
         private val turnsYearsOld: String
     ) : Abstract(id, name, turnsYearsOld) {
@@ -80,14 +89,16 @@ interface BirthdayItemUi : Same<BirthdayItemUi> {
 
 
     interface Mapper<T> {
+
         fun map(id: Int, name: String, turnsYearsOld: String, daysToBirthday: String): T
+
 
         class DisplaySheet(
             private val fragmentManager: FragmentManager,
             private val onClosed: () -> Unit = { }
         ) : Mapper<Unit> {
             override fun map(id: Int, name: String, turnsYearsOld: String, daysToBirthday: String) {
-                BirthdaySheetFragment(id).also {
+                BirthdaySheetFragment.newInstance(id).let {
                     it.onClosed(onClosed)
                     it.show(fragmentManager, "birthdaySheetFragment")
                 }

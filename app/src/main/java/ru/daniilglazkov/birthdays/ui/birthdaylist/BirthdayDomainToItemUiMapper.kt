@@ -1,11 +1,12 @@
 package ru.daniilglazkov.birthdays.ui.birthdaylist
 
-import ru.daniilglazkov.birthdays.domain.birthday.*
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import ru.daniilglazkov.birthdays.domain.date.EventIsToday
-import ru.daniilglazkov.birthdays.ui.date.YearTextFormat
-import ru.daniilglazkov.birthdays.ui.date.DaysToEventTextFormat
+import ru.daniilglazkov.birthdays.R
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
+import ru.daniilglazkov.birthdays.domain.date.*
+import ru.daniilglazkov.birthdays.ui.core.resources.ManageResources
 import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
+import ru.daniilglazkov.birthdays.ui.core.text.format.DaysToEventTextFormat
 import java.time.LocalDate
 
 /**
@@ -13,52 +14,66 @@ import java.time.LocalDate
  */
 interface BirthdayDomainToItemUiMapper : BirthdayDomain.Mapper<BirthdayItemUi> {
 
-    abstract class Abstract(
-        private val turnsAgeTextFormat: YearTextFormat,
-        private val daysToBirthdayTextFormat: DaysToEventTextFormat,
-        private val turnsAgeDateDifference: DateDifference,
-        private val daysToBirthdayDateDifference: DateDifference,
-        private val eventIsToday: EventIsToday,
+    class Factory(
+        nextEvent: CalculateNextEvent,
+        eventIsToday: EventIsToday,
+        resources: ManageResources,
+        now: LocalDate,
+        private val next: BirthdayDomainToItemUiMapper = UnknownTypeErrorMessage(resources)
     ) : BirthdayDomainToItemUiMapper {
+        private val header: BirthdayDomainToItemUiMapper by lazy { Header() }
+
+        private val base: BirthdayDomainToItemUiMapper by lazy {
+            Base(resources = resources,
+                daysToBirthdayTextFormat = DaysToEventTextFormat.WithText(resources),
+                turnsAge = DateDifference.Years.TurnsYearsOld(now),
+                daysToBirthday = DateDifference.Days.NextEvent(nextEvent, now),
+                eventIsToday = eventIsToday
+            )
+        }
+
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayItemUi {
-
-            val turnsAge = turnsAgeDateDifference.difference(date)
-            val turnsAgeTextFormat = turnsAgeTextFormat.format(turnsAge)
-
-            return when (eventIsToday.isToday(date)) {
-                true -> BirthdayItemUi.Today(id, name, turnsAgeTextFormat)
-                else -> {
-                    val daysToBirthday = daysToBirthdayDateDifference.difference(date)
-                    val daysToBirthdayTextFormat = daysToBirthdayTextFormat.format(daysToBirthday)
-
-                    BirthdayItemUi.Base(id, name, turnsAgeTextFormat, daysToBirthdayTextFormat)
-                }
+            val mapper: BirthdayDomainToItemUiMapper = when (type) {
+                is BirthdayType.Base -> base
+                is BirthdayType.Header -> header
+                else -> next
             }
+            return mapper.map(id, name, date, type)
         }
     }
 
     class Base(
-        provideString: ProvideString,
-        eventIsToday: EventIsToday,
-        daysToBirthdayDateDifference: DateDifference,
-        now: LocalDate
-    ) : Abstract(
-        YearTextFormat.Base(provideString),
-        DaysToEventTextFormat.WithText(provideString),
-        DateDifference.TurnsYearsOld(now),
-        daysToBirthdayDateDifference,
-        eventIsToday
-    )
+        private val resources: ProvideString,
+        private val daysToBirthdayTextFormat: DaysToEventTextFormat,
+        private val turnsAge: DateDifference.Years,
+        private val daysToBirthday: DateDifference.Days,
+        private val eventIsToday: EventIsToday,
+    ) : BirthdayDomainToItemUiMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayItemUi {
+
+            val turnsAge: Int = turnsAge.difference(date)
+            val turnsYearsOld = resources.quantityString(R.plurals.age, turnsAge)
+
+            return if (eventIsToday.isToday(date)) {
+                BirthdayItemUi.Today(id, name, turnsYearsOld)
+            } else {
+                val days: Int = daysToBirthday.difference(date)
+                val daysLeft = daysToBirthdayTextFormat.format(days)
+
+                BirthdayItemUi.Base(id, name, turnsYearsOld, daysLeft)
+            }
+        }
+    }
 
     class Header : BirthdayDomainToItemUiMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
             BirthdayItemUi.Header(id, name)
     }
 
-    class Factory(
-        private val factory: BirthdayDomainToItemUiMapperFactory
+    private class UnknownTypeErrorMessage(
+        private val resources: ProvideString,
     ) : BirthdayDomainToItemUiMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
-            factory.create(type).map(id, name, date, type)
+            BirthdayItemUi.Message(resources.string(R.string.error))
     }
 }

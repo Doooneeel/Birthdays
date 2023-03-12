@@ -8,13 +8,13 @@ import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
  */
 interface BirthdayListCountMapper : BirthdayListDomain.Mapper<Int> {
 
-    abstract class Abstract(
-        private val predicate: BirthdayCheckMapper,
-    ) : BirthdayListCountMapper {
+    abstract class Abstract(private val predicate: BirthdayCheckMapper) : BirthdayListCountMapper {
         override fun map(list: List<BirthdayDomain>): Int = list.count { birthdayDomain ->
             birthdayDomain.map(predicate)
         }
     }
 
-    class CountWithoutHeaders : Abstract(BirthdayCheckMapper.IsNotHeader())
+    class Base(predicate: BirthdayCheckMapper) : Abstract(predicate)
+
+    class CountWithoutHeaders : Abstract(BirthdayCheckMapper.IsNotHeader)
 }

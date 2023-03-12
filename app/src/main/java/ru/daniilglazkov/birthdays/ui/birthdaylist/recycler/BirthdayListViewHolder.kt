@@ -2,11 +2,13 @@ package ru.daniilglazkov.birthdays.ui.birthdaylist.recycler
 
 import android.view.View
 import androidx.viewbinding.ViewBinding
-import ru.daniilglazkov.birthdays.databinding.*
+import ru.daniilglazkov.birthdays.databinding.BirthdayItemLayoutBinding
+import ru.daniilglazkov.birthdays.databinding.BirthdayItemMessageBinding
+import ru.daniilglazkov.birthdays.databinding.BirthdayTodayItemLayoutBinding
+import ru.daniilglazkov.birthdays.databinding.HeaderLayoutBinding
 import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayItemUi
-import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
-import ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+import ru.daniilglazkov.birthdays.ui.core.view.click.OnClickCallback
 import ru.daniilglazkov.birthdays.ui.main.BaseViewHolder
 
 /**
@@ -14,58 +16,62 @@ import ru.daniilglazkov.birthdays.ui.main.BaseViewHolder
  */
 abstract class BirthdayListViewHolder(itemView: View) : BaseViewHolder<BirthdayItemUi>(itemView) {
 
-    abstract class AbstractHeader<VB : ViewBinding>(
-        private val binding: VB,
-        private val onClick: () -> Unit,
-        private val textView: CustomTextView
-    ) : BirthdayListViewHolder(binding.root) {
+    abstract class Abstract(
+        private val root: View,
+        private val onClickCallback: OnClickCallback<BirthdayItemUi>,
+    ) : BirthdayListViewHolder(root) {
+
+        protected abstract val name: AbstractView.Text
+        protected abstract val turnsAge: AbstractView.Text
+        protected abstract val daysToBirthday: AbstractView.Text
+
         override fun bind(data: BirthdayItemUi) {
-            binding.root.setOnClickListener {
-                onClick.invoke()
+            data.apply(name, turnsAge, daysToBirthday)
+
+            root.setOnClickListener { root ->
+                onClickCallback.onClick(data)
+                root.rootView.requestFocus()
             }
-            data.applyHeader(textView)
         }
     }
 
-    class Header(
-        binding: HeaderLayoutBinding,
-        onClick: () -> Unit
-    ) : AbstractHeader<HeaderLayoutBinding>(
-        binding,
-        onClick,
-        binding.headerTextView
-    )
-
-    class Message(
-        binding: BirthdayItemMessageBinding,
-        onClick: () -> Unit
-    ) : AbstractHeader<BirthdayItemMessageBinding>(
-        binding,
-        onClick,
-        binding.messageTextView
-    )
-
-    class Base(
-        private val binding: BirthdayItemLayoutBinding,
-        private val onClickCallback: OnSingleClickCallback<BirthdayItemUi>,
+    abstract class AbstractHeader<VB : ViewBinding>(
+        private val binding: VB,
+        private val view: AbstractView.Text
     ) : BirthdayListViewHolder(binding.root) {
         override fun bind(data: BirthdayItemUi) {
-            binding.root.setOnClickListener {
-                onClickCallback.onSingleClick(data)
+            data.applyHeader(view)
+
+            binding.root.setOnClickListener { root ->
+                root.requestFocus()
             }
-            data.apply(binding.nameTextView, binding.turnAgeTextView, binding.untilDayTextView)
         }
+    }
+
+
+
+    class Header(binding: HeaderLayoutBinding) :
+        AbstractHeader<HeaderLayoutBinding>(binding, binding.headerTextView)
+
+    class Message(binding: BirthdayItemMessageBinding) :
+        AbstractHeader<BirthdayItemMessageBinding>(binding, binding.messageTextView)
+
+
+    class Base(
+        binding: BirthdayItemLayoutBinding,
+        onClickCallback: OnClickCallback<BirthdayItemUi>,
+    ) : Abstract(binding.root, onClickCallback) {
+        override val name = binding.nameTextView
+        override val turnsAge = binding.turnAgeTextView
+        override val daysToBirthday = binding.untilDayTextView
     }
 
     class Today(
-        private val binding: BirthdayTodayItemLayoutBinding,
-        private val onClickCallback: OnSingleClickCallback<BirthdayItemUi>,
-    ) : BirthdayListViewHolder(binding.root) {
-        override fun bind(data: BirthdayItemUi) {
-            binding.root.setOnClickListener {
-                onClickCallback.onSingleClick(data)
-            }
-            data.apply(binding.nameTextView, binding.turnAgeTextView, AbstractView.Text.Empty)
-        }
+        binding: BirthdayTodayItemLayoutBinding,
+        onClickCallback: OnClickCallback<BirthdayItemUi>,
+    ) : Abstract(binding.root, onClickCallback) {
+        override val name = binding.nameTextView
+        override val turnsAge = binding.turnAgeTextView
+        override val daysToBirthday = AbstractView.Text.Empty
     }
 }

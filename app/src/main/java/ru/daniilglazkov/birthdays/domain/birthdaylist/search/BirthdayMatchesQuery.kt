@@ -1,32 +1,42 @@
 package ru.daniilglazkov.birthdays.domain.birthdaylist.search
 
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
-import java.time.LocalDate
+import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 
 /**
  * @author Danil Glazkov on 08.10.2022, 17:12
  */
 interface BirthdayMatchesQuery {
-    fun matches(query: String, name: String, date: LocalDate): Boolean
 
-    abstract class Abstract : BirthdayMatchesQuery {
-        protected fun CharSequence.containsAll(vararg values: Any): Boolean = values.any { value ->
-            value.toString().contains(this)
+    fun matches(birthday: BirthdayDomain, queries: Collection<String>): Boolean
+
+
+    abstract class Abstract(private val mapper: BirthdayDomainToQueryMapper): BirthdayMatchesQuery {
+
+        protected abstract fun matches(source: String, query: String) : Boolean
+
+        override fun matches(birthday: BirthdayDomain, queries: Collection<String>): Boolean {
+            val source: Collection<String> = birthday.map(mapper)
+
+            val isNotEmpty = queries.isNotEmpty() && source.isNotEmpty()
+
+            return isNotEmpty && queries.all { query: String ->
+                source.any { birthday: String ->
+                    matches(birthday, query)
+                }
+            }
         }
     }
 
-    class Name : Abstract() {
-        override fun matches(query: String, name: String, date: LocalDate): Boolean =
-            query.containsAll(name)
+    class IncompleteMatch(mapper: BirthdayDomainToQueryMapper) : Abstract(mapper) {
+        override fun matches(source: String, query: String): Boolean = source.contains(query)
     }
 
-    class DateFormat(private val dateTextFormat: DateTextFormat) : Abstract() {
-        override fun matches(query: String, name: String, date: LocalDate): Boolean =
-            query.containsAll(dateTextFormat.format(date).lowercase())
+    class CompleteMatches(mapper: BirthdayDomainToQueryMapper) : Abstract(mapper) {
+        override fun matches(source: String, query: String): Boolean = source == query
     }
 
-    class RawDate : Abstract() {
-        override fun matches(query: String, name: String, date: LocalDate): Boolean =
-            query.containsAll(date.dayOfMonth, date.year, date.monthValue)
+    class Group(private vararg val matchesQuery: BirthdayMatchesQuery) : BirthdayMatchesQuery {
+        override fun matches(birthday: BirthdayDomain, queries: Collection<String>): Boolean =
+            matchesQuery.any { it.matches(birthday, queries) }
     }
 }

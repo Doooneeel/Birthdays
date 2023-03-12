@@ -2,13 +2,16 @@ package ru.daniilglazkov.birthdays.ui.birthdaylist
 
 import android.os.Bundle
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import ru.daniilglazkov.birthdays.databinding.BirthdaysFragmentBinding
-import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.BirthdayListChips
+import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.ChipListUi
+import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.ChipUi
 import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.BirthdayListAdapter
 import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerState
 import ru.daniilglazkov.birthdays.ui.core.Debounce
-import ru.daniilglazkov.birthdays.ui.core.click.OnSingleClickCallback
-import ru.daniilglazkov.birthdays.ui.core.view.listener.SingleOnQueryTextListener
+import ru.daniilglazkov.birthdays.ui.core.view.click.OnClickCallback
+import ru.daniilglazkov.birthdays.ui.core.view.listener.*
+import ru.daniilglazkov.birthdays.ui.core.view.recycler.WrapLinearLayoutManager
 import ru.daniilglazkov.birthdays.ui.main.BaseFragment
 
 /**
@@ -17,53 +20,78 @@ import ru.daniilglazkov.birthdays.ui.main.BaseFragment
 class BirthdayListFragment : BaseFragment<BirthdaysFragmentBinding, BirthdayListViewModel.Base>(
     inflate = BirthdaysFragmentBinding::inflate,
     viewModelClass = BirthdayListViewModel.Base::class.java,
-    debounce = Debounce.MediumDelay()
 ) {
+    override val clickDebounce = Debounce.MediumDelay()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val searchViewClearFocus: () -> Unit = {
-            binding.searchView.clearFocus()
-        }
-        val itemOnClick = OnSingleClickCallback.Base<BirthdayItemUi>(debounce) { birthdayUi ->
-            birthdayUi.map(BirthdayItemUi.Mapper.DisplaySheet(childFragmentManager) {
-                viewModel.reloadAndFetch()
-            })
-            searchViewClearFocus.invoke()
-        }
-        val adapter = BirthdayListAdapter(itemOnClick, searchViewClearFocus)
-
-        binding.appbar.setOnClickListener {
-            searchViewClearFocus.invoke()
-        }
-        binding.newBirthdayImageButton.setOnSingleClick {
-            searchViewClearFocus.invoke()
-            viewModel.showNewBirthdayDialog()
-        }
-        binding.menuImageButton.setOnSingleClick {
-            searchViewClearFocus.invoke()
-            viewModel.showSettingsDialog()
-        }
-        binding.chipGroup.setOnChipClickListener {
-            searchViewClearFocus.invoke()
-        }
-        binding.searchView.setOnQueryTextListener(SingleOnQueryTextListener { query: String ->
-            binding.appbar.setExpanded(true)
-            viewModel.changeSearchQuery(query)
+        val showSheetMapper = BirthdayItemUi.Mapper.DisplaySheet(childFragmentManager) {
             viewModel.fetch()
-        })
-        binding.recyclerView.adapter = adapter
+        }
 
-        viewModel.observe(viewLifecycleOwner) { birthdayItemUiList: BirthdayItemUiList ->
+        val itemClickListener = OnClickCallback.Debounced(clickDebounce) { item: BirthdayItemUi ->
+            item.map(showSheetMapper)
+        }
+
+        val adapter = BirthdayListAdapter(itemClickListener)
+        val searchViewClearFocus = binding.searchView::clearFocus
+
+        //disable nested scrolling
+        binding.root.let { coordinatorLayout: CoordinatorLayout ->
+            coordinatorLayout.setOnTouchListener { _, _ ->
+                coordinatorLayout.performClick()
+                true
+            }
+        }
+
+        binding.chipGroup.setOnChipClickListener(OnClickCallback.Base { chip: ChipUi ->
+            viewModel.changePosition(chip)
+            searchViewClearFocus()
+        })
+
+        binding.newBirthdayImageButton.setDebouncedOnClickListener {
+            viewModel.showNewBirthdayDialog()
+            searchViewClearFocus()
+        }
+
+        binding.menuImageButton.setDebouncedOnClickListener {
+            viewModel.showSettingsDialog()
+            searchViewClearFocus()
+        }
+
+        binding.searchView.setOnQueryTextListener(
+            OnQueryTextListener.SlightDebounce(lifecycle) { newQuery: String ->
+                binding.appbar.setExpanded(true)
+                viewModel.changeSearchQuery(newQuery)
+                viewModel.fetch()
+            }
+        )
+
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = WrapLinearLayoutManager(requireContext())
+
+        binding.recyclerView.addOnScrollListener(
+            ScrollStateChangeListener.Touch(onTouch = searchViewClearFocus)
+        )
+
+        binding.searchView.setOnQueryTextFocusChangeListener(
+            SingleOnFocusChangeListener.OutOfFocus(outOfFocus = searchViewClearFocus)
+        )
+
+        viewModel.observeBirthdayList(viewLifecycleOwner) { birthdayItemUiList: BirthdayItemUiList ->
             birthdayItemUiList.apply(adapter)
         }
-        viewModel.observeChips(viewLifecycleOwner) { chips: BirthdayListChips ->
+
+        viewModel.observeChips(viewLifecycleOwner) { chips: ChipListUi ->
             chips.apply(binding.chipGroup)
         }
+
         viewModel.observeRecyclerState(viewLifecycleOwner) { recyclerState: RecyclerState ->
             recyclerState.apply(binding.recyclerView)
         }
-        viewModel.init(savedInstanceState == null)
+
+        viewModel.init(isFirstRun = savedInstanceState == null)
         viewModel.fetch()
     }
 }

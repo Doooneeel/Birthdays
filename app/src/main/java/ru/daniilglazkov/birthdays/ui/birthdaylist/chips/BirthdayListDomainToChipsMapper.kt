@@ -5,45 +5,44 @@ import ru.daniilglazkov.birthdays.domain.birthday.BirthdayCheckMapper
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
 import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
+import ru.daniilglazkov.birthdays.domain.core.text.AddDelimiter
 
 /**
  * @author Danil Glazkov on 01.09.2022, 21:25
  */
-interface BirthdayListDomainToChipsMapper : BirthdayListDomain.Mapper<BirthdayListChips> {
-
-    abstract class Abstract(
-        private val birthdayDomainToChipMapper: BirthdayDomainToChipMapper,
-        private val chipFilterPredicate: BirthdayCheckMapper,
-    ) : BirthdayListDomainToChipsMapper {
-        protected abstract fun firstChip(totalCount: Int): String
-        protected abstract fun handleEmptyList(): BirthdayListChips
-
-        override fun map(list: List<BirthdayDomain>): BirthdayListChips {
-            val headers = list.filter { it.map(chipFilterPredicate) }
-
-            return if (headers.isEmpty()) handleEmptyList() else BirthdayListChips.Base(buildList {
-                add(firstChip(totalCount = list.size - headers.size))
-                addAll(headers.map { header ->
-                    header.map(birthdayDomainToChipMapper)
-                })
-            })
-        }
-    }
+interface BirthdayListDomainToChipsMapper : BirthdayListDomain.Mapper<ChipListUi> {
 
     class Base(
-        birthdayDomainToChipMapper: BirthdayDomainToChipMapper,
-        chipPredicate: BirthdayCheckMapper,
-        private val provideString: ProvideString,
-        private val firstChipTextFormat: ChipTextFormat
-    ) : Abstract(
-        birthdayDomainToChipMapper,
-        chipPredicate
-    ) {
-        override fun handleEmptyList() = BirthdayListChips.Empty
+        private val firstChipDelimiter: AddDelimiter,
+        private val chipFilterPredicate: BirthdayCheckMapper,
+        private val domainToChipMapper: BirthdayDomainToChipMapper,
+        manageResources: ProvideString,
+    ) : BirthdayListDomainToChipsMapper {
+        private val totalTitle: String by lazy { manageResources.string(R.string.total) }
 
-        override fun firstChip(totalCount: Int) = firstChipTextFormat.format(
-            provideString.string(R.string.total),
-            totalCount
-        )
+        override fun map(list: List<BirthdayDomain>): ChipListUi {
+            if (list.isEmpty()) {
+                return ChipListUi.Empty
+            }
+
+            val filteredList: List<BirthdayDomain> = list.filter { it.map(chipFilterPredicate) }
+
+            val totalCount: Int = (list.size - filteredList.size)
+
+            val firstChip: ChipUi = ChipUi.WithoutId(
+                firstChipDelimiter.add(totalTitle, totalCount.toString())
+            )
+
+            return if (totalCount == list.size) {
+                ChipListUi.Base(firstChip)
+            } else {
+                val chipsUi: List<ChipUi> = filteredList.map { it.map(domainToChipMapper) }
+
+                ChipListUi.Base(buildList {
+                    add(firstChip)
+                    addAll(chipsUi)
+                })
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.data.birthdays
+package ru.daniilglazkov.birthdays.data.birthdaylist
 
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
@@ -11,6 +11,6 @@ interface BirthdayDomainToDataMapper : BirthdayDomain.Mapper<BirthdayData> {
 
     class Base : BirthdayDomainToDataMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayData =
-            BirthdayData.Base(id, name, date)
+            BirthdayData.Base(id, name, date.toEpochDay())
     }
 }

@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @author Danil Glazkov on 17.06.2022, 08:13
  */
 class SingleLiveEvent<T> : MutableLiveData<T>() {
+
     private val state = AtomicBoolean(false)
 
     @MainThread
@@ -18,6 +19,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
             observer.onChanged(it)
         }
     }
+
     @MainThread
     override fun setValue(value: T) {
         state.set(true)

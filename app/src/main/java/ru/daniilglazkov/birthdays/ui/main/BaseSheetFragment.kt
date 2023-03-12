@@ -13,55 +13,55 @@ import ru.daniilglazkov.birthdays.ui.core.Debounce
 import ru.daniilglazkov.birthdays.ui.core.HideKeyboard
 import ru.daniilglazkov.birthdays.ui.core.OnClosed
 import ru.daniilglazkov.birthdays.ui.core.ProvideViewModel
-import ru.daniilglazkov.birthdays.ui.core.click.OnDebouncedClickListener
+import ru.daniilglazkov.birthdays.ui.core.view.click.DebouncedOnClickListener
+import ru.daniilglazkov.birthdays.ui.core.view.listener.ChangeDragState
 
 /**
  * @author Danil Glazkov on 12.06.2022, 20:02
  */
-abstract class BaseSheetFragment<VB: ViewBinding, VM: BaseSheetViewModel.Abstract<*>>(
+abstract class BaseSheetFragment<VB: ViewBinding, VM: BaseSheetViewModel.Abstract>(
     private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     private val viewModelClass: Class<VM>,
-    private val debounce: Debounce = Debounce.NoDelay()
-) : BottomSheetDialogFragment(),
+) : BottomSheetDialogFragment(), ChangeDragState,
     OnClosed.Unit,
     HideKeyboard
 {
+    protected open val clickDebounce: Debounce = Debounce.NoDelay()
+
     protected val binding: VB get() = checkNotNull(_binding)
     protected val viewModel: VM get() = checkNotNull(_viewModel)
 
-    protected val bottomSheetBehavior: BottomSheetBehavior<*> by lazy {
+    private val bottomSheetBehavior: BottomSheetBehavior<*> by lazy {
         BottomSheetBehavior.from(view?.parent as View)
     }
-    protected val clearFocusViewList = mutableListOf<View>()
 
     private var _binding: VB? = null
     private var _viewModel: VM? = null
     private var onClosed: () -> Unit = { }
 
-    protected fun View.setOnSingleClick(listener: OnClickListener) {
-        setOnClickListener(OnDebouncedClickListener.Base(debounce, listener::onClick))
+    protected fun View.setDebouncedOnClickListener(listener: OnClickListener) {
+        setOnClickListener(DebouncedOnClickListener.Base(clickDebounce, listener::onClick))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
 
-        binding.root.setOnClickListener { anyView ->
-            clearFocusViewList.find { it != anyView }?.run {
-                hideKeyboard(anyView.windowToken)
-                anyView.clearFocus()
-            }
-        }
+    override fun changeDragState(state: Boolean) {
+        bottomSheetBehavior.isDraggable = state
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        _viewModel = (requireActivity() as ProvideViewModel).provideViewModel(viewModelClass, this)
-
+        _viewModel = (requireActivity() as ProvideViewModel).provideViewModel(
+            clazz = viewModelClass,
+            owner = this
+        )
         viewModel.addCloseable(onClosed)
-        viewModel.observeCloseDialog(this) { dismiss() }
+        viewModel.observeCloseDialog(owner = this) { dismiss() }
     }
 
     override fun onClosed(block: () -> Unit) {
@@ -81,6 +81,7 @@ abstract class BaseSheetFragment<VB: ViewBinding, VM: BaseSheetViewModel.Abstrac
         super.onDestroyView()
         _binding = null
     }
+
     override fun hideKeyboard(windowToken: IBinder) = (requireActivity() as HideKeyboard)
         .hideKeyboard(windowToken)
 }

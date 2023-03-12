@@ -2,62 +2,49 @@ package ru.daniilglazkov.birthdays.ui.core.view.toggle
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatButton
 import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.ui.core.view.AbstractButtonCustomView
-import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
-import ru.daniilglazkov.birthdays.ui.core.view.ManageAttributeResources
-import ru.daniilglazkov.birthdays.ui.core.view.listener.OnToggleListener
-import ru.daniilglazkov.birthdays.ui.core.view.listener.SetOnToggleListener
+import ru.daniilglazkov.birthdays.ui.core.view.*
+
 /**
  * @author Danil Glazkov on 02.10.2022, 18:19
  */
 class ToggleButtonView(
     context: Context,
     attributeSet: AttributeSet? = null,
-) : AbstractButtonCustomView(
+) : AppCompatButton(
     context,
     attributeSet,
-    R.styleable.ToggleButtonView
 ) , SetOnToggleListener,
     AbstractView.Check,
-    Toggle
+    UpdateView
 {
-    override val resources = ManageAttributeResources.Base(typedArray)
-
-    private val toggleButtonStateEnabled = ToggleButtonState.Base(
-        resources.string(R.styleable.ToggleButtonView_enableText),
-        resources.colorState(R.styleable.ToggleButtonView_enableBackgroundTint),
-        resources.id(R.styleable.ToggleButtonView_enableDrawable)
-    )
-    private val toggleButtonStateDisabled = ToggleButtonState.Base(
-        resources.string(R.styleable.ToggleButtonView_disableText),
-        resources.colorState(R.styleable.ToggleButtonView_disableBackgroundTint),
-        resources.id(R.styleable.ToggleButtonView_disableDrawable)
+    private val manageResources = ManageAttributeResources.Base(
+        context.obtainStyledAttributes(attributeSet, R.styleable.ToggleButtonView)
     )
 
-    private var buttonState = true
-    private var onToggleListener: OnToggleListener? = null
+    private val enabledState = ToggleButtonState.Enable(manageResources)
+    private val disabledState = ToggleButtonState.Disable(manageResources)
 
-    private var toggleButtonState: ToggleButtonState
+    private var buttonState: Boolean
+    private var onToggleListener: OnToggleListener = OnToggleListener.Unit
 
     init {
-        toggleButtonState = toggleButtonStateEnabled
-        background = resources.drawable(R.styleable.ToggleButtonView_baseBackground)
-        resources.recycle()
+        buttonState = manageResources.boolean(R.styleable.ToggleButtonView_initState, true)
+        background = manageResources.drawable(R.styleable.ToggleButtonView_baseBackground)
 
-        setOnClickListener { toggle() }
+        setOnClickListener {
+            buttonState = !buttonState
+            onToggleListener.onToggle(buttonState)
+            updateView()
+        }
         updateView()
+        manageResources.recycle()
     }
 
     override fun updateView() {
-        toggleButtonState = if (buttonState) toggleButtonStateEnabled else toggleButtonStateDisabled
+        val toggleButtonState = if (buttonState) enabledState else disabledState
         toggleButtonState.apply(view = this)
-    }
-
-    override fun toggle() {
-        buttonState = !buttonState
-        onToggleListener?.onToggle(buttonState)
-        updateView()
     }
 
     override fun setOnToggleListener(onToggleListener: OnToggleListener) {
@@ -65,7 +52,9 @@ class ToggleButtonView(
     }
 
     override fun map(source: Boolean) {
-        buttonState = source
-        updateView()
+        if (source != buttonState) {
+            buttonState = source
+            updateView()
+        }
     }
 }

@@ -6,13 +6,15 @@ import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
  * @author Danil Glazkov on 25.08.2022, 14:35
  */
 interface ErrorMessage {
+
     fun apply(view: AbstractView.Text)
+
 
     abstract class Abstract(private val error: String) : ErrorMessage {
         override fun apply(view: AbstractView.Text) = view.map(error)
     }
 
-    class Base(error: String) : Abstract(error)
+    data class Base(private val error: String) : Abstract(error)
 
     object Empty : Abstract("")
 }

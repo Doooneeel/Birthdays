@@ -5,9 +5,10 @@ import android.os.SystemClock
 /**
  * @author Danil Glazkov on 23.09.2022, 06:54
  */
-
 interface Debounce {
+
     fun handle(block: () -> Unit)
+
 
     abstract class Abstract(private val delay: Int) : Debounce {
         private var lastInvoke = 0L
@@ -21,8 +22,10 @@ interface Debounce {
     }
 
     class SlightDelay : Abstract(delay = 400)
-    class MediumDelay : Abstract(delay = 800)
-    class LongDelay : Abstract(delay = 1200)
+
+    class MediumDelay : Abstract(delay = 650)
+
+    class LongDelay : Abstract(delay = 1500)
 
     class NoDelay : Debounce {
         override fun handle(block: () -> Unit) = block.invoke()

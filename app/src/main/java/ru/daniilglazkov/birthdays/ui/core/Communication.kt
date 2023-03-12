@@ -13,9 +13,12 @@ interface Communication {
         fun observe(owner: LifecycleOwner, observer: Observer<T>)
     }
 
-    interface Update<T> : Mapper.Unit<T>
+    interface Update<T> {
+        fun put(value: T)
+    }
 
     interface Mutable<T> : Observe<T>, Update<T>
+
 
     abstract class Abstract<T>(protected val liveData: MutableLiveData<T>) : Mutable<T> {
         protected val value get() = checkNotNull(liveData.value)
@@ -30,20 +33,16 @@ interface Communication {
     ) : Abstract<T>(liveData) {
         constructor(initValue: T) : this(MutableLiveData(initValue))
 
-        override fun map(source: T) { liveData.value = source }
+        override fun put(value: T) { liveData.value = value }
     }
 
     abstract class Post<T : Any>(
         liveData: MutableLiveData<T> = MutableLiveData(),
     ) : Abstract<T>(liveData) {
-        override fun map(source: T) = liveData.postValue(source)
+        override fun put(value: T) = liveData.postValue(value)
     }
 
     abstract class SingleUi<T : Any> : Ui<T>(SingleLiveEvent())
-    abstract class SinglePost<T : Any> : Post<T>(SingleLiveEvent())
 
-    class Unit : Mutable<kotlin.Unit> {
-        override fun observe(owner: LifecycleOwner, observer: Observer<kotlin.Unit>) = Unit
-        override fun map(source: kotlin.Unit) = Unit
-    }
+    abstract class SinglePost<T : Any> : Post<T>(SingleLiveEvent())
 }

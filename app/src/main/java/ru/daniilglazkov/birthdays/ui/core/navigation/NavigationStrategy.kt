@@ -7,28 +7,33 @@ import ru.daniilglazkov.birthdays.ui.main.BaseSheetFragment
 /**
  * @author Danil Glazkov on 19.06.2022, 12:42
  */
-abstract class NavigationStrategy<T> {
+abstract class NavigationStrategy {
+
     abstract fun show(
-        id: String, clazz: Class<out Fragment>, containerId: Int, manager: FragmentManager
+        id: String,
+        clazz: Class<out Fragment>,
+        containerId: Int,
+        manager: FragmentManager
     )
 
-    class Sheet(private val onClosed: () -> Unit = { }) : NavigationStrategy<Any?>() {
+
+    class Sheet(private val onClosed: () -> Unit = { }) : NavigationStrategy() {
         override fun show(
             id: String,
             clazz: Class<out Fragment>,
             containerId: Int,
             manager: FragmentManager,
         ) {
-            val fragment = (clazz.newInstance() as BaseSheetFragment<*, *>).also {
-                it.onClosed(onClosed)
+            val sheetFragment = clazz.newInstance() as? BaseSheetFragment<*, *>
+
+            if (sheetFragment != null) {
+                sheetFragment.onClosed(onClosed)
+                sheetFragment.show(manager, id)
             }
-            manager.beginTransaction()
-                .add(fragment, clazz.simpleName)
-                .commit()
         }
     }
 
-    object Add : NavigationStrategy<Any?>() {
+    object Add : NavigationStrategy() {
         override fun show(
             id: String,
             clazz: Class<out Fragment>,
@@ -42,7 +47,7 @@ abstract class NavigationStrategy<T> {
         }
     }
 
-    object Replace : NavigationStrategy<Any?>() {
+    object Replace : NavigationStrategy() {
         override fun show(
             id: String,
             clazz: Class<out Fragment>,
@@ -53,14 +58,5 @@ abstract class NavigationStrategy<T> {
                 .replace(containerId, clazz.newInstance())
                 .commit()
         }
-    }
-
-    object Popup : NavigationStrategy<Any?>() {
-        override fun show(
-            id: String,
-            clazz: Class<out Fragment>,
-            containerId: Int,
-            manager: FragmentManager
-        ) = manager.popBackStack()
     }
 }

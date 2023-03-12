@@ -2,10 +2,11 @@ package ru.daniilglazkov.birthdays.ui.core.view.chip
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View.OnClickListener
-import com.google.android.material.chip.Chip
+import android.view.View
 import com.google.android.material.chip.ChipGroup
+import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.ChipUi
 import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
+import ru.daniilglazkov.birthdays.ui.core.view.click.OnClickCallback
 
 /**
  * @author Danil Glazkov on 28.07.2022, 02:46
@@ -16,25 +17,31 @@ class CustomChipGroup @JvmOverloads constructor(
 ) : ChipGroup(
     context,
     attrs
-) , AbstractView.List<String>,
-    SetOnChipClickListener
+) , AbstractView.List<ChipUi>,
+    SetOnChipClickListener<ChipUi>
 {
-    private val chips = buildList {
-        repeat(childCount) { add(getChildAt(it) as Chip) }
-    }
-    private var onChipClickListener = OnClickListener { }
+    private var onClickCallback: OnClickCallback<ChipUi> = OnClickCallback.Unit()
 
-    override fun setOnChipClickListener(onClickListener: OnClickListener) {
-        chips.forEach { chip -> chip.setOnClickListener(onClickListener) }
-        onChipClickListener = onClickListener
+    override fun setOnChipClickListener(callback: OnClickCallback<ChipUi>) {
+        onClickCallback = callback
     }
-    override fun map(source: List<String>) {
+
+    override fun map(source: List<ChipUi>) {
         removeAllViews()
 
-        source.forEach { title: String ->
-            addView(CustomChip(context).also { newChip ->
-                newChip.setOnClickListener(onChipClickListener)
-                newChip.map(title)
+        if (source.isEmpty()) {
+            val chip = CustomChip(context)
+            chip.visibility = View.INVISIBLE
+
+            addView(chip)
+            return
+        }
+        source.forEach { chipUi: ChipUi ->
+            addView(CustomChip(context).also { newChip: CustomChip ->
+                newChip.setOnClickListener {
+                    onClickCallback.onClick(chipUi)
+                }
+                chipUi.apply(newChip)
             })
         }
     }

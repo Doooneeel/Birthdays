@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import ru.daniilglazkov.birthdays.databinding.ActivityMainBinding
-import ru.daniilglazkov.birthdays.ui.core.FragmentFactory
 import ru.daniilglazkov.birthdays.ui.core.HideKeyboard
-import ru.daniilglazkov.birthdays.ui.core.ProvideFragmentFactory
 import ru.daniilglazkov.birthdays.ui.core.ProvideViewModel
+import ru.daniilglazkov.birthdays.ui.core.navigation.ManageScreen
+import ru.daniilglazkov.birthdays.ui.core.navigation.ProvideManageScreen
 
-class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideFragmentFactory, HideKeyboard {
+class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideManageScreen, HideKeyboard {
 
-    private lateinit var fragmentFactory: FragmentFactory
+    private lateinit var manageScreen: ManageScreen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,11 +23,12 @@ class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideFragmentFacto
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        fragmentFactory = FragmentFactory.Base(binding.frame.id, supportFragmentManager)
         val viewModel = provideViewModel(MainViewModel.Base::class.java, this)
 
+        manageScreen = ManageScreen.Base(binding.frame.id, supportFragmentManager)
+
         viewModel.observeNavigation(owner = this) {
-            fragmentFactory.fragment(it)
+            manageScreen.show(it)
         }
         viewModel.init(savedInstanceState == null)
     }
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideFragmentFacto
         inputMethodManager.hideSoftInputFromWindow(windowToken, HIDE_SOFT_INPUT_FLAG)
     }
 
-    override fun fragmentFactory(): FragmentFactory = fragmentFactory
+    override fun provideManageScreen(): ManageScreen = manageScreen
 
     override fun <T : ViewModel> provideViewModel(clazz: Class<T>, owner: ViewModelStoreOwner): T {
         return (application as ProvideViewModel).provideViewModel(clazz, owner)

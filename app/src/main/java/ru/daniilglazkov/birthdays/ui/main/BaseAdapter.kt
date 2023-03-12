@@ -24,6 +24,7 @@ abstract class BaseAdapter<VH : BaseViewHolder<VT>, VT : Same<VT>> : RecyclerVie
         layoutInflater = LayoutInflater.from(recyclerView.context)
         super.onAttachedToRecyclerView(recyclerView)
     }
+
     override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(mutableList[position])
 
     override fun getItemCount(): Int = mutableList.size

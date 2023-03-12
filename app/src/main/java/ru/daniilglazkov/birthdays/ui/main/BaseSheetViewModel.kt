@@ -1,31 +1,25 @@
 package ru.daniilglazkov.birthdays.ui.main
 
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import ru.daniilglazkov.birthdays.ui.core.Communication
+import ru.daniilglazkov.birthdays.ui.core.ObserveCloseDialog
+import ru.daniilglazkov.birthdays.ui.core.SheetCommunication
 import ru.daniilglazkov.birthdays.ui.core.navigation.NavigateBack
 import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
-import ru.daniilglazkov.birthdays.ui.core.ObserveCloseDialog
 
 /**
  * @author Danil Glazkov on 04.09.2022, 21:23
  */
-interface BaseSheetViewModel<VT> : BaseViewModel<VT>, NavigateBack, ObserveCloseDialog {
+interface BaseSheetViewModel : BaseViewModel, NavigateBack, ObserveCloseDialog {
 
-    abstract class Abstract<VT : Any>(
-        communication: Communication.Mutable<VT>,
+    abstract class Abstract(
+        private val sheetCommunication: SheetCommunication,
         navigation: Navigation.Mutable = Navigation.Unit(),
-    ) : BaseViewModel.Abstract<VT>(communication, navigation),
-        NavigateBack,
-        ObserveCloseDialog
-    {
-        private val closeDialogLiveData = MutableLiveData<Unit>()
+    ) : BaseViewModel.Abstract(navigation), NavigateBack, ObserveCloseDialog {
 
-        override fun navigateBack() {
-            closeDialogLiveData.value = Unit
-        }
+        override fun navigateBack() = sheetCommunication.put(Unit)
+
         override fun observeCloseDialog(owner: LifecycleOwner, observer: Observer<Unit>) =
-            closeDialogLiveData.observe(owner, observer)
+            sheetCommunication.observe(owner, observer)
     }
 }

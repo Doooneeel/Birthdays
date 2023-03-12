@@ -17,8 +17,12 @@ interface Navigation {
 
     class Base : Communication.SinglePost<NavigationScreen>(), Mutable
 
+
     class Unit : Mutable {
-        override fun map(source: NavigationScreen) = Unit
+
+        override fun put(value: NavigationScreen) = Unit
+
         override fun observe(owner: LifecycleOwner, observer: Observer<NavigationScreen>) = Unit
+
     }
 }

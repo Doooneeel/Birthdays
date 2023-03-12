@@ -9,28 +9,29 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import ru.daniilglazkov.birthdays.ui.core.Debounce
 import ru.daniilglazkov.birthdays.ui.core.HideKeyboard
-import ru.daniilglazkov.birthdays.ui.core.ProvideFragmentFactory
 import ru.daniilglazkov.birthdays.ui.core.ProvideViewModel
-import ru.daniilglazkov.birthdays.ui.core.click.OnDebouncedClickListener
+import ru.daniilglazkov.birthdays.ui.core.navigation.NavigationScreen
+import ru.daniilglazkov.birthdays.ui.core.navigation.ProvideManageScreen
+import ru.daniilglazkov.birthdays.ui.core.view.click.DebouncedOnClickListener
 
 /**
  * @author Danil Glazkov on 10.06.2022, 01:09
  */
-abstract class BaseFragment<VB: ViewBinding, VM: BaseViewModel.Abstract<*>>(
+abstract class BaseFragment<VB: ViewBinding, VM: BaseViewModel.Abstract>(
     private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB,
     private val viewModelClass: Class<VM>,
-    protected val debounce: Debounce = Debounce.NoDelay()
-) : Fragment(),
-    HideKeyboard
-{
+) : Fragment(), HideKeyboard {
+
+    protected open val clickDebounce: Debounce = Debounce.NoDelay()
+
     protected val viewModel: VM get() = checkNotNull(_viewModel)
     protected val binding: VB get() = checkNotNull(_binding)
 
     private var _binding: VB? = null
     private var _viewModel: VM? = null
 
-    protected fun View.setOnSingleClick(listener: View.OnClickListener) {
-        setOnClickListener(OnDebouncedClickListener.Base(debounce, listener::onClick))
+    protected fun View.setDebouncedOnClickListener(listener: View.OnClickListener) {
+        setOnClickListener(DebouncedOnClickListener.Base(clickDebounce, listener::onClick))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +46,10 @@ abstract class BaseFragment<VB: ViewBinding, VM: BaseViewModel.Abstract<*>>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fragmentFactory = (requireActivity() as ProvideFragmentFactory).fragmentFactory()
+        val showFragment = (requireActivity() as ProvideManageScreen).provideManageScreen()
 
-        viewModel.observeNavigation(this) {
-            fragmentFactory.fragment(it)
+        viewModel.observeNavigation(owner = this) { screen: NavigationScreen ->
+            showFragment.show(screen)
         }
     }
 

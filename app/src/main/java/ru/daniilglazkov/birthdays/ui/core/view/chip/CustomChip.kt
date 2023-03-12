@@ -11,9 +11,8 @@ import ru.daniilglazkov.birthdays.ui.core.view.AbstractView
 class CustomChip @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : Chip(
-    context,
-    attrs
-) , AbstractView.Text  {
+) : Chip(context, attrs),
+    AbstractView.Text
+{
     override fun map(source: String) { text = source }
 }

@@ -7,14 +7,14 @@ import java.time.LocalDate
  */
 interface BirthdayCheckMapper : BirthdayDomain.Mapper<Boolean> {
 
-    class IsHeader : BirthdayCheckMapper {
+    object IsHeader : BirthdayCheckMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
             type.matches(BirthdayType.Header)
     }
 
-    class IsNotHeader : BirthdayCheckMapper {
+    object IsNotHeader : BirthdayCheckMapper {
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
-            type.matches(BirthdayType.Header).not()
+           !IsHeader.map(id, name, date, type)
     }
 
     class Compare(
@@ -22,8 +22,13 @@ interface BirthdayCheckMapper : BirthdayDomain.Mapper<Boolean> {
         private val name: String,
         private val date: LocalDate,
         private val type: BirthdayType
-    ) : BirthdayCheckMapper {
-        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+    ) : BirthdayDomain.Mapper<Boolean> {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): Boolean =
             this.id == id && this.name == name && this.date == date && this.type.matches(type)
+    }
+
+    class CompareObject(private val birthday: BirthdayDomain) : BirthdayCheckMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+            birthday.map(Compare(id, name, date, type))
     }
 }

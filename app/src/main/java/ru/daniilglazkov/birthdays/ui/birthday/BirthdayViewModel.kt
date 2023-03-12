@@ -2,64 +2,56 @@ package ru.daniilglazkov.birthdays.ui.birthday
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import ru.daniilglazkov.birthdays.R
-import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
+import androidx.lifecycle.viewModelScope
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayInteractor
-import ru.daniilglazkov.birthdays.domain.birthday.BirthdayZodiacsDomain
 import ru.daniilglazkov.birthdays.ui.core.*
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
+import ru.daniilglazkov.birthdays.ui.zodiac.ZodiacsUi
 
 /**
  * @author Danil Glazkov on 10.06.2022, 21:49
  */
-interface BirthdayViewModel : BaseSheetViewModel<BirthdayUi>, ErrorCommunication.Observe,
-    DeleteStateCommunication.Observe, Fetch,
-    BirthdayZodiacsCommunication.Observe, Completion
-{
+interface BirthdayViewModel : BirthdayCommunications.Observe, Complete, Fetch {
+
     fun init(isFirstRun: Boolean, id: Int)
-    fun changeDeleteState(isDelete: Boolean)
+
+    fun changeDeleteState(state: Boolean)
 
 
     class Base(
         private val interactor: BirthdayInteractor,
-        private val birthdayCommunication: BirthdayCommunication,
-        private val errorCommunication: ErrorCommunication,
-        private val zodiacsUiCommunication: BirthdayZodiacsCommunication,
-        private val deleteStateCommunication: DeleteStateCommunication,
-        private val birthdayDomainToUiMapper: BirthdayDomainToUiMapper,
-        private val zodiacDomainToUiMapper: BirthdayZodiacsDomainToUiMapper,
-    ) : BaseSheetViewModel.Abstract<BirthdayUi>(birthdayCommunication), BirthdayViewModel {
-        private var id: Int = -1
-
-        private val handleError = {
-            errorCommunication.throwErrorMessage(R.string.element_removed)
-            navigateBack()
-        }
-        private val handleSuccess = { birthday: BirthdayDomain ->
-            val zodiacsDomain: BirthdayZodiacsDomain = interactor.zodiac(birthday)
-
-            zodiacsUiCommunication.map(zodiacsDomain.map(zodiacDomainToUiMapper))
-            birthdayCommunication.map(birthday.map(birthdayDomainToUiMapper))
-        }
+        private val communications: BirthdayCommunications.Mutable,
+        sheetCommunication: SheetCommunication,
+        private val handleBirthdaysRequest: HandleBirthdayRequest,
+        private val dispatchers: CoroutineDispatchers
+    ) : BaseSheetViewModel.Abstract(sheetCommunication), BirthdayViewModel {
 
         override fun init(isFirstRun: Boolean, id: Int) {
-            if (isFirstRun) this.id = id
+            if (isFirstRun) communications.putId(id)
         }
-        override fun fetch() = interactor.find(id, handleSuccess, handleError)
 
-        override fun changeDeleteState(isDelete: Boolean) = deleteStateCommunication.map(isDelete)
+        override fun fetch() = handleBirthdaysRequest.handle(viewModelScope) {
+            communications.find(interactor)
+        }
 
-        override fun observeBirthdayZodiacs(owner: LifecycleOwner, observer: Observer<BirthdayZodiacsUi>) {
-            zodiacsUiCommunication.observe(owner, observer)
+        override fun complete() = communications.handleTrueDeleteState {
+            dispatchers.launchBackground(viewModelScope) {
+                communications.delete(interactor)
+            }
         }
-        override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) {
-            errorCommunication.observe(owner, observer)
-        }
-        override fun observeDeleteState(owner: LifecycleOwner, observer: Observer<Boolean>) {
-            deleteStateCommunication.observe(owner, observer)
-        }
-        override fun complete() = deleteStateCommunication.handleTrue {
-            interactor.deleteBirthday(id)
-        }
+
+        override fun changeDeleteState(state: Boolean) = communications.putDeleteState(state)
+
+        override fun observeBirthday(owner: LifecycleOwner, observer: Observer<BirthdayUi>) =
+            communications.observeBirthday(owner, observer)
+
+        override fun observeZodiacs(owner: LifecycleOwner, observer: Observer<ZodiacsUi>) =
+            communications.observeZodiacs(owner, observer)
+
+        override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) =
+            communications.observeError(owner, observer)
+
+        override fun observeDeleteState(owner: LifecycleOwner, observer: Observer<Boolean>) =
+            communications.observeDeleteState(owner, observer)
     }
 }

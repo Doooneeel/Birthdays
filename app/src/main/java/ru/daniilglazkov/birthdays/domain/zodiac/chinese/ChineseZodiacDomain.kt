@@ -1,6 +1,6 @@
-package ru.daniilglazkov.birthdays.domain.zodiac
+package ru.daniilglazkov.birthdays.domain.zodiac.chinese
 
-import ru.daniilglazkov.birthdays.domain.core.Matches
+import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacDomain
 
 /**
  * @author Danil Glazkov on 02.11.2022, 09:27
@@ -8,13 +8,15 @@ import ru.daniilglazkov.birthdays.domain.core.Matches
 abstract class ChineseZodiacDomain(
     private val ordinal: Int,
     private val name: String,
-) : Matches<Int> {
+) : ZodiacDomain {
 
-    fun <T> map(mapper: Mapper<T>): T =
-        mapper.map(ordinal, name)
+    override fun <T> map(mapper: ZodiacDomain.Mapper<T>): T = mapper.map(ordinal, name)
 
-    override fun matches(data: Int): Boolean =
-        data == ordinal
+    override fun matches(data: Int): Boolean = data == this.ordinal
+
+
+    data class Base(private val ordinal: Int, private val name: String) :
+        ChineseZodiacDomain(ordinal, name)
 
     class Monkey(name: String) : ChineseZodiacDomain(ordinal = 0, name)
     class Rooster(name: String) : ChineseZodiacDomain(ordinal = 1, name)
@@ -28,8 +30,4 @@ abstract class ChineseZodiacDomain(
     class Snake(name: String) : ChineseZodiacDomain(ordinal = 9, name)
     class Horse(name: String) : ChineseZodiacDomain(ordinal = 10, name)
     class Goat(name: String) : ChineseZodiacDomain(ordinal = 11, name)
-
-    interface Mapper<T> {
-        fun map(ordinal: Int, name: String): T
-    }
 }

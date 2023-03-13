@@ -6,6 +6,5 @@
     <integer name="medium_viewport">48</integer>
     <integer name="large_viewport">60</integer>
 
-    <integer name="menu_column_count">2</integer>
-
+    <integer name="settings_menu_column_count">2</integer>
 </resources>

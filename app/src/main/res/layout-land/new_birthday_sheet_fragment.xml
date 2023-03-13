@@ -1,12 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bottom_sheet_background"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/normal_distance"
-    android:paddingBottom="@dimen/large_distance"
+    style="@style/SheetLayoutStyle"
+    android:paddingBottom="@dimen/medium_distance"
     android:theme="@style/Theme.Birthdays">
 
     <include
@@ -23,18 +19,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/normal_distance"
             android:layout_weight="1"
-            android:layout_gravity="center"
             android:orientation="vertical">
 
             <TextView
                 style="@style/LargeTextStyle"
+                android:gravity="center"
+                android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:padding="@dimen/large_distance"
                 android:text="@string/new_birthday" />
 
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout
+            <ru.daniilglazkov.birthdays.ui.core.view.input.CustomTextInputLayout
                 android:id="@+id/name_text_input_layout"
                 style="@style/TextInputLayoutStyle"
                 app:boxStrokeColor="@color/blue"
@@ -44,7 +42,7 @@
                 app:errorIconTint="@color/red"
                 app:errorTextColor="@color/red">
 
-                <ru.daniilglazkov.birthdays.ui.core.view.CustomInputEditText
+                <ru.daniilglazkov.birthdays.ui.core.view.input.CustomInputEditText
                     android:id="@+id/name_input_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,12 +53,12 @@
                     android:maxLength="@integer/name_max_length"
                     android:textColor="@color/text" />
 
-            </ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout>
+            </ru.daniilglazkov.birthdays.ui.core.view.input.CustomTextInputLayout>
 
             <LinearLayout
-                android:layout_marginTop="@dimen/small_distance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_distance"
                 android:gravity="center|bottom">
 
                 <ImageButton
@@ -85,16 +83,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_distance"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_distance"
                 android:gravity="center">
 
-                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
                     android:id="@+id/turn_age_text_view"
                     style="@style/TextWithBackgroundStyle"
                     android:layout_height="match_parent"
@@ -105,7 +103,7 @@
                     android:textColor="@color/white"
                     tools:text="20 years" />
 
-                <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+                <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
                     android:id="@+id/until_day_text_view"
                     style="@style/TextWithBackgroundStyle"
                     android:layout_height="match_parent"
@@ -119,9 +117,9 @@
 
             </LinearLayout>
 
-            <include layout="@layout/normal_separator_layout"/>
+            <include layout="@layout/normal_separator_layout" />
 
-            <ru.daniilglazkov.birthdays.ui.core.view.CustomDatePicker
+            <ru.daniilglazkov.birthdays.ui.core.view.picker.CustomDatePicker
                 android:id="@+id/date_picker"
                 style="@style/DatePickerStyle" />
 

@@ -14,6 +14,14 @@
     </style>
 
 
+    <style name="SheetLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingHorizontal">@dimen/edge_distance</item>
+    </style>
+
     <style name="DatePickerTheme">
         <item name="android:textColorPrimary">@color/text</item>
         <item name="colorControlNormal">@color/gray_text</item>
@@ -59,17 +67,41 @@
         <item name="android:textSize">@dimen/small_text</item>
     </style>
 
-
     <style name="LargeTextStyle" parent="MediumTextStyle">
         <item name="android:textSize">@dimen/large_text</item>
     </style>
 
-    <style name="VeryLargeTextStyle" parent="MediumTextStyle">
-        <item name="android:textSize">@dimen/very_large_text</item>
+
+    <style name="AutoSizeMediumTextStyle" parent="MediumTextStyle">
+        <item name="android:autoSizeMaxTextSize">@dimen/medium_text</item>
+        <item name="autoSizeMinTextSize">@dimen/very_small_text</item>
+        <item name="android:autoSizeStepGranularity">1sp</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="android:maxLines">1</item>
     </style>
 
-    <style name="SmallLightTextStyle" parent="MediumTextStyle">
+    <style name="AutoSizeNormalTextStyle" parent="AutoSizeMediumTextStyle">
+        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/normal_text</item>
+    </style>
+
+    <style name="AutoSizeSmallTextStyle" parent="AutoSizeMediumTextStyle">
         <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/small_text</item>
+    </style>
+
+
+    <style name="AutoSizeLargeTextStyle" parent="AutoSizeMediumTextStyle">
+        <item name="android:textSize">@dimen/large_text</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/large_text</item>
+    </style>
+
+    <style name="AutoSizeVeryLargeTextStyle" parent="AutoSizeMediumTextStyle">
+        <item name="android:textSize">@dimen/very_large_text</item>
+        <item name="android:autoSizeMaxTextSize">@dimen/very_large_text</item>
+    </style>
+
+    <style name="AutoSizeSmallLightTextStyle" parent="AutoSizeMediumTextStyle">
         <item name="android:fontFamily">@font/roboto_light</item>
     </style>
 
@@ -78,10 +110,9 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/small_text</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:text">TEXT</item>
         <item name="tint">@color/white</item>
-        <item name="android:paddingHorizontal">@dimen/very_large_distance</item>
         <item name="android:drawablePadding">@dimen/medium_distance</item>
         <item name="android:paddingStart">@dimen/medium_distance</item>
         <item name="android:paddingEnd">@dimen/normal_distance</item>
@@ -93,11 +124,11 @@
     <style name="SwitchStyle" parent="Theme.MaterialComponents">
         <item name="android:textColor">@color/text</item>
         <item name="drawableTint">@color/text</item>
-        <item name="android:textSize">@dimen/small_text</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/panel</item>
+        <item name="android:paddingVertical">@dimen/normal_distance</item>
         <item name="android:paddingHorizontal">@dimen/normal_distance</item>
     </style>
 
@@ -109,7 +140,7 @@
         <item name="android:paddingVertical">@dimen/large_distance</item>
         <item name="android:background">@drawable/panel</item>
         <item name="android:textColor">@color/text</item>
-        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:textSize">@dimen/medium_text</item>
         <item name="drawableTint">@color/text</item>
         <item name="android:button">@drawable/radio_button_inset</item>
     </style>
@@ -137,8 +168,10 @@
         <item name="android:textSize">@dimen/small_text</item>
     </style>
 
-    <style name="TextWithIconStyle" parent="NormalTextStyle">
+    <style name="TitleStyle" parent="AutoSizeNormalTextStyle">
         <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">@dimen/normal_distance</item>
+        <item name="android:paddingVertical">@dimen/medium_distance</item>
         <item name="android:drawablePadding">@dimen/medium_distance</item>
         <item name="drawableTint">@color/text</item>
     </style>
@@ -147,7 +180,7 @@
         <item name="android:layoutDirection">rtl</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:columnCount">@integer/menu_column_count</item>
+        <item name="android:columnCount">@integer/settings_menu_column_count</item>
         <item name="android:orientation">horizontal</item>
     </style>
 

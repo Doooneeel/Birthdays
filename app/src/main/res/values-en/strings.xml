@@ -11,8 +11,10 @@
     <string name="left">Left</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="today">Today</string>
-
+    <string name="clear">Clear</string>
     <string name="new_birthday">New Birthday</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="birthdate">Date of Birth</string>
 
     <string name="total">Total</string>
 
@@ -22,9 +24,9 @@
     <string name="name">Name</string>
     <string name="age">Age</string>
     <string name="month">Month</string>
-    <string name="menu">Меню</string>
-    <string name="clear">Clear</string>
+    <string name="menu">Menu</string>
     <string name="list_is_empty">The list is empty</string>
+
 
 
     <!--Error messages-->
@@ -32,22 +34,27 @@
     <string name="empty_name_error_message">Enter your name</string>
     <string name="first_char_is_not_letter_error_message">Name must start with a letter</string>
     <string name="element_removed">Element removed</string>
-    <string name="birthday_not_found">Nothing found</string>
+    <string name="birthday_not_found">Birthday not found</string>
+    <string name="element_not_found">Element not found</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="error">Error</string>
+
+
     <string name="zodiac">Zodiac</string>
     <string name="chinese_zodiac">Chinese Zodiac</string>
     <!--Sort mode-->
-    <string name="by_name">By name</string>
-    <string name="by_date">By date</string>
-    <string name="by_month">By month</string>
-    <string name="by_age">By age</string>
-    <string name="by_year">By year</string>
-    <string name="by_zodiac">By zodiac</string>
+    <string name="by_name">Name</string>
+    <string name="by_date">Date</string>
+    <string name="by_month">Month</string>
+    <string name="by_age">Age</string>
+    <string name="by_year">Year</string>
+    <string name="by_zodiac">Zodiac</string>
 
     <string name="reverse">Reverse</string>
     <string name="grouped">Group</string>
 
-    <string name="sort">Sort</string>
-    <string name="additional_parameters">Additional Parameters</string>
+    <string name="sort">Sort by</string>
+    <string name="extra_options">Extra Options</string>
 
 
     <!--Zodiacs-->
@@ -76,18 +83,17 @@
     <string name="rooster">Rooster</string>
     <string name="dog">Dog</string>
     <string name="pig">Pig</string>
-    <string name="birthdate">Birthdate</string>
 
 
     <!--Plurals-->
     <plurals name="left">
-        <item quantity="one">%d</item>
-        <item quantity="other">%d дня</item>
+        <item quantity="one">Left</item>
+        <item quantity="other">Left</item>
     </plurals>
 
     <plurals name="day">
-        <item quantity="one">Remaining: %d day</item>
-        <item quantity="other">Remaining: %d days</item>
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
     </plurals>
 
     <plurals name="age">

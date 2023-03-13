@@ -1,0 +1,44 @@
+<resources>
+
+    <dimen name="very_large_radius">22dp</dimen>
+    <dimen name="large_radius">16dp</dimen>
+    <dimen name="medium_radius">14dp</dimen>
+    <dimen name="small_radius">12dp</dimen>
+    <dimen name="very_small_radius">10dp</dimen>
+
+
+    <dimen name="very_large_icon">60dp</dimen>
+    <dimen name="large_icon">48dp</dimen>
+    <dimen name="medium_icon">24dp</dimen>
+    <dimen name="small_icon">18dp</dimen>
+    <dimen name="very_small_icon">10dp</dimen>
+
+
+    <dimen name="very_large_distance">36dp</dimen>
+    <dimen name="large_distance">22dp</dimen>
+    <dimen name="normal_distance">16dp</dimen>
+    <dimen name="medium_distance">10dp</dimen>
+    <dimen name="small_distance">6dp</dimen>
+    <dimen name="very_small_distance">4dp</dimen>
+    <dimen name="edge_distance">10dp</dimen>
+
+
+    <dimen name="very_large_text">24sp</dimen>
+    <dimen name="large_text">18sp</dimen>
+    <dimen name="normal_text">16sp</dimen>
+    <dimen name="medium_text">12sp</dimen>
+    <dimen name="small_text">10sp</dimen>
+    <dimen name="very_small_text">8sp</dimen>
+
+
+    <dimen name="sheet_grapple_width">58dp</dimen>
+    <dimen name="sheet_grapple_height">4dp</dimen>
+
+
+    <dimen name="small_separator">3dp</dimen>
+    <dimen name="normal_separator">4dp</dimen>
+
+
+    <dimen name="recycler_padding_bottom">46dp</dimen>
+
+</resources>

@@ -1,21 +1,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/normal_distance"
-    android:paddingBottom="@dimen/large_distance"
+    style="@style/SheetLayoutStyle"
     android:theme="@style/Theme.Birthdays"
     tools:ignore="RtlSymmetry,TextContrastCheck">
 
     <include layout="@layout/bottom_sheet_grapple" />
 
     <TextView
-        style="@style/TextWithIconStyle"
-        android:drawablePadding="@dimen/normal_distance"
-        android:paddingTop="@dimen/medium_distance"
-        android:paddingBottom="@dimen/large_distance"
+        style="@style/TitleStyle"
+        android:paddingVertical="@dimen/normal_distance"
         android:paddingStart="@dimen/medium_distance"
         android:text="@string/sort"
         app:drawableStartCompat="@drawable/ic_sort_medium" />
@@ -24,40 +18,40 @@
         android:id="@+id/sort_mode_grid_layout"
         style="@style/MenuGridLayoutStyle">
 
-        <ru.daniilglazkov.birthdays.ui.core.view.SortByNameRadioButton
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByNameRadioButton
             android:id="@+id/by_name_radio_button"
             style="@style/RadioButtonStyle"
             android:layout_marginEnd="@dimen/very_small_distance"
             android:text="@string/by_name" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.SortByDateRadioButton
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByDateRadioButton
             android:id="@+id/by_date_radio_button"
             style="@style/RadioButtonStyle"
             android:layout_marginStart="@dimen/very_small_distance"
             android:text="@string/by_date" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.SortByYearRadioButton
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByYearRadioButton
             android:id="@+id/by_year_radio_button"
             style="@style/RadioButtonStyle"
             android:layout_marginTop="@dimen/small_distance"
             android:layout_marginEnd="@dimen/very_small_distance"
             android:text="@string/by_year" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.SortByAgeRadioButton
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByAgeRadioButton
             android:id="@+id/by_age_radio_button"
             style="@style/RadioButtonStyle"
             android:layout_marginStart="@dimen/very_small_distance"
             android:layout_marginTop="@dimen/small_distance"
             android:text="@string/by_age" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.SortByZodiacRadioButton
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByZodiacRadioButton
             android:id="@+id/by_zodiac_radio_button"
             style="@style/RadioButtonStyle"
             android:layout_marginTop="@dimen/small_distance"
             android:layout_marginEnd="@dimen/very_small_distance"
             android:text="@string/by_zodiac" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.SortByMonthRadioButton
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByMonthRadioButton
             android:id="@+id/by_month_radio_button"
             style="@style/RadioButtonStyle"
             android:layout_marginStart="@dimen/very_small_distance"
@@ -67,30 +61,24 @@
     </ru.daniilglazkov.birthdays.ui.core.view.SortModeGridLayout>
 
     <TextView
-        style="@style/TextWithIconStyle"
-        android:drawablePadding="@dimen/normal_distance"
-        android:paddingVertical="@dimen/large_distance"
+        style="@style/TitleStyle"
+        android:paddingVertical="@dimen/normal_distance"
         android:paddingStart="@dimen/medium_distance"
-        android:text="@string/additional_parameters"
+        android:text="@string/extra_options"
         app:drawableStartCompat="@drawable/ic_settings_medium" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ru.daniilglazkov.birthdays.ui.core.view.toggle.CustomSwitch
+        android:id="@+id/group_switch"
+        style="@style/SwitchStyle"
+        android:text="@string/grouped" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
-            android:id="@+id/group_switch"
-            style="@style/SwitchStyle"
-            android:layout_marginEnd="@dimen/very_small_distance"
-            android:paddingVertical="@dimen/large_distance"
-            android:text="@string/grouped" />
+    <include layout="@layout/small_separator_layout" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomSwitch
-            android:id="@+id/reverse_switch"
-            style="@style/SwitchStyle"
-            android:layout_marginStart="@dimen/very_small_distance"
-            android:text="@string/reverse" />
+    <ru.daniilglazkov.birthdays.ui.core.view.toggle.CustomSwitch
+        android:id="@+id/reverse_switch"
+        style="@style/SwitchStyle"
+        android:text="@string/reverse" />
 
-    </LinearLayout>
+    <include layout="@layout/normal_separator_layout" />
 
 </LinearLayout>

@@ -5,14 +5,13 @@
     <string name="birthdays">Дни рождения</string>
     <string name="next_birthday">Следующий день рождения</string>
     <string name="delete">Удалить</string>
-    <string name="cancel">Отмена</string>
+    <string name="cancel">Отменить</string>
     <string name="turns">Исполняется</string>
     <string name="today">Сегодня</string>
     <string name="tomorrow">Завтра</string>
     <string name="total">Всего</string>
     <string name="search">Поиск</string>
 
-    <string name="clear">Очистить</string>
     <string name="date">Дата</string>
     <string name="name">Имя</string>
     <string name="age">Возраст</string>
@@ -20,22 +19,23 @@
     <string name="menu">Меню</string>
     <string name="left">Осталось</string>
     <string name="list_is_empty">Список пуст</string>
+    <string name="clear">Очистить</string>
 
 
-    <string name="birthday_not_found">¯\\_(ツ)_/¯\nНичего не найдено</string>
 
-    <string name="new_birthday">Новый День Рождения</string>
+
+    <string name="new_birthday">Новый день рождения</string>
 
     <!--Settings-->
-    <string name="by_name">По имени</string>
-    <string name="by_date">По дате</string>
-    <string name="by_month">По месяцу</string>
-    <string name="by_age">По возрасту</string>
-    <string name="by_year">По году</string>
-    <string name="by_zodiac">По зодиакту</string>
+    <string name="by_name">Имени</string>
+    <string name="by_date">Дате</string>
+    <string name="by_month">Месяцу</string>
+    <string name="by_age">Возрасту</string>
+    <string name="by_year">Году</string>
+    <string name="by_zodiac">Зодиакту</string>
 
-    <string name="sort">Сортировка</string>
-    <string name="additional_parameters">Доп. параметры</string>
+    <string name="sort">Сортировать по</string>
+    <string name="extra_options">Доп. параметры</string>
 
     <string name="reverse">Обратный порядок</string>
     <string name="grouped">Группировать</string>
@@ -78,9 +78,12 @@
     <string name="empty_name_error_message">Введите имя</string>
     <string name="first_char_is_not_letter_error_message">Имя должно начинаться с буквы</string>
     <string name="element_removed">Элемент удален</string>
+    <string name="element_not_found">Элемент не найден</string>
     <string name="birthdate">Дата рождения</string>
-
-
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    <string name="birthday_not_found">День рождения не найден</string>
+    <string name="error">Ошибка</string>
 
     <!--Plurals-->
     <plurals name="left">

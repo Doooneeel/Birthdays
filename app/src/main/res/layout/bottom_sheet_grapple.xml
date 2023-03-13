@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:paddingHorizontal="@dimen/very_large_distance"
-    android:paddingVertical="@dimen/medium_distance"
+    android:paddingTop="@dimen/medium_distance"
     android:src="@drawable/sheet_grapple"
     tools:ignore="ContentDescription,ImageContrastCheck" />

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/normal_distance"
+    android:layout_marginHorizontal="@dimen/edge_distance"
     android:layout_marginVertical="@dimen/small_distance"
     android:background="@drawable/panel"
     android:backgroundTint="@color/blue"
@@ -12,7 +12,7 @@
     android:paddingHorizontal="@dimen/large_distance"
     android:paddingVertical="@dimen/normal_distance">
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+    <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
         android:id="@+id/name_text_view"
         style="@style/NormalTextStyle"
         android:layout_marginBottom="@dimen/medium_distance"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end">
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
             android:id="@+id/turn_age_text_view"
             style="@style/TextWithBackgroundStyle"
             android:layout_weight="0"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
             style="@style/TextWithBackgroundStyle"
             android:layout_weight="0"
             android:backgroundTint="@color/background"

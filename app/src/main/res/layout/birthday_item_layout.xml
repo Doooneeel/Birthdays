@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/normal_distance"
+    android:layout_marginHorizontal="@dimen/edge_distance"
     android:layout_marginVertical="@dimen/small_distance"
     android:background="@drawable/panel"
     android:foreground="@drawable/medium_rounded_ripple_effect"
@@ -11,7 +11,7 @@
     android:paddingHorizontal="@dimen/large_distance"
     android:paddingBottom="@dimen/normal_distance">
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+    <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
         android:id="@+id/name_text_view"
         style="@style/NormalTextStyle"
         android:paddingVertical="@dimen/normal_distance"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
             android:id="@+id/turn_age_text_view"
             style="@style/TextWithBackgroundStyle"
             android:layout_weight="0"
@@ -31,11 +31,11 @@
             tools:text="20 years" />
 
         <Space
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
             android:id="@+id/until_day_text_view"
             style="@style/TextWithBackgroundStyle"
             android:layout_weight="0"

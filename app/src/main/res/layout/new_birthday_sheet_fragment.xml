@@ -1,12 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bottom_sheet_background"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/very_large_distance"
-    android:paddingBottom="@dimen/normal_distance"
+    style="@style/SheetLayoutStyle"
     android:theme="@style/Theme.Birthdays">
 
     <include
@@ -15,15 +10,17 @@
 
     <TextView
         style="@style/LargeTextStyle"
+        android:paddingVertical="@dimen/normal_distance"
         android:layout_gravity="center"
-        android:paddingTop="@dimen/medium_distance"
-        android:paddingBottom="@dimen/large_distance"
+        android:gravity="center"
         android:text="@string/new_birthday"
         android:textSize="@dimen/large_text" />
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout
+    <ru.daniilglazkov.birthdays.ui.core.view.input.CustomTextInputLayout
         android:id="@+id/name_text_input_layout"
         style="@style/TextInputLayoutStyle"
+        android:paddingHorizontal="@dimen/large_distance"
+        android:paddingVertical="@dimen/very_small_distance"
         app:boxStrokeColor="@color/blue"
         app:boxStrokeErrorColor="@color/red"
         app:counterEnabled="true"
@@ -31,7 +28,7 @@
         app:errorIconTint="@color/red"
         app:errorTextColor="@color/red">
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomInputEditText
+        <ru.daniilglazkov.birthdays.ui.core.view.input.CustomInputEditText
             android:id="@+id/name_input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +40,7 @@
             android:textColor="@color/text"
             tools:ignore="TextContrastCheck" />
 
-    </ru.daniilglazkov.birthdays.ui.core.view.CustomTextInputLayout>
+    </ru.daniilglazkov.birthdays.ui.core.view.input.CustomTextInputLayout>
 
     <include layout="@layout/small_separator_layout" />
 
@@ -52,7 +49,7 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
             android:id="@+id/turn_age_text_view"
             style="@style/TextWithBackgroundStyle"
             android:layout_marginEnd="@dimen/normal_distance"
@@ -62,7 +59,7 @@
             android:textColor="@color/white"
             tools:text="20 years" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.CustomTextView
+        <ru.daniilglazkov.birthdays.ui.core.view.text.CustomTextView
             android:id="@+id/until_day_text_view"
             style="@style/TextWithBackgroundStyle"
             android:layout_weight="0"
@@ -77,7 +74,7 @@
 
     <include layout="@layout/normal_separator_layout" />
 
-    <ru.daniilglazkov.birthdays.ui.core.view.CustomDatePicker
+    <ru.daniilglazkov.birthdays.ui.core.view.picker.CustomDatePicker
         android:id="@+id/date_picker"
         style="@style/DatePickerStyle" />
 
@@ -105,5 +102,6 @@
 
     </LinearLayout>
 
+    <include layout="@layout/normal_separator_layout" />
 
 </LinearLayout>

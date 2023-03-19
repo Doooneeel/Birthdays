@@ -6,7 +6,7 @@ import ru.daniilglazkov.birthdays.domain.birthdaylist.search.*
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.TransformBirthdayListFactory
 import ru.daniilglazkov.birthdays.domain.core.Repository
 import ru.daniilglazkov.birthdays.domain.core.text.NormalizeQuery
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
+import ru.daniilglazkov.birthdays.domain.datetime.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.settings.*
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.age.AgeGroups
 import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacDomain
@@ -20,13 +20,15 @@ import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerStateCo
 import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdaySearchQueryCommunication
 import ru.daniilglazkov.birthdays.ui.core.HandleError
 import ru.daniilglazkov.birthdays.domain.core.text.AddDelimiter
+import ru.daniilglazkov.birthdays.sl.module.datetime.DateTimeModule
+import ru.daniilglazkov.birthdays.sl.module.zodiac.ZodiacModule
 
 /**
  * @author Danil Glazkov on 10.06.2022, 03:20
  */
 class BirthdayListModule(
     private val coreModule: CoreModule,
-    private val dateModule: DateModule,
+    private val dateTimeModule: DateTimeModule,
     private val zodiacModule: ZodiacModule,
     private val repository: BirthdayListRepository,
     private val settingsRepository: Repository.Read<SettingsDomain>,
@@ -34,15 +36,15 @@ class BirthdayListModule(
 
     override fun viewModel(): BirthdayListViewModel.Base {
 
-        val nextEvent = dateModule.provideNextEvent()
+        val nextEvent = dateTimeModule.provideNextEvent()
         val resources = coreModule.manageResources()
-        val now = dateModule.provideCurrentDate()
+        val now = dateTimeModule.provideCurrentDate()
         val locale = coreModule.locale()
 
         val birthdayListDomainToItemsUiMapper = BirthdayListDomainToItemsUiMapper.Base(
             BirthdayDomainToItemUiMapper.Factory(
                 nextEvent,
-                dateModule.provideEventIsToday(),
+                dateTimeModule.provideEventIsToday(),
                 resources,
                 now,
             )

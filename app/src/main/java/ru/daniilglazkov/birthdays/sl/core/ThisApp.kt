@@ -1,25 +1,26 @@
 package ru.daniilglazkov.birthdays.sl.core
 
 import android.app.Application
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.*
 import ru.daniilglazkov.birthdays.BuildConfig
+import ru.daniilglazkov.birthdays.service.core.ProvideReceiverWrapper
 import ru.daniilglazkov.birthdays.sl.dependencies.BirthdaysDependencyContainer
 import ru.daniilglazkov.birthdays.sl.dependencies.MainDependencyContainer
-import ru.daniilglazkov.birthdays.sl.module.DateModule
-import ru.daniilglazkov.birthdays.sl.module.ZodiacModule
+import ru.daniilglazkov.birthdays.sl.module.ServiceModule
+import ru.daniilglazkov.birthdays.sl.module.datetime.DateTimeModule
+import ru.daniilglazkov.birthdays.sl.module.zodiac.ZodiacModule
+import ru.daniilglazkov.birthdays.sl.module.cache.ProvideBirthdayListRepository
 import ru.daniilglazkov.birthdays.ui.core.ProvideViewModel
-import java.time.LocalDate
-import java.time.ZoneId
 
 /**
  * @author Danil Glazkov on 10.06.2022, 01:59
  */
-class ThisApp : Application(), ProvideViewModel {
-
+class ThisApp : Application(), ProvideViewModel, ProvideBirthdayListRepository,
+    ProvideNotificationMapper, ProvideReceiverWrapper
+{
     private lateinit var viewModelsFactory: ViewModelsFactory
-
+    private lateinit var birthdaysDependencyContainer: BirthdaysDependencyContainer
+    private lateinit var serviceModule: ServiceModule
 
     override fun onCreate() {
         super.onCreate()
@@ -30,20 +31,35 @@ class ThisApp : Application(), ProvideViewModel {
             ProvideInstances.Release(applicationContext)
 
         val coreModule = CoreModule.Base(applicationContext)
-        val dateModule = DateModule.Base(LocalDate.now(ZoneId.systemDefault()))
+        val dateTimeModule = DateTimeModule.Base()
         val zodiacModule = ZodiacModule.Base(coreModule.manageResources())
 
-        val dependencyContainer = MainDependencyContainer(
+        serviceModule = ServiceModule.Base(applicationContext, dateTimeModule)
+        serviceModule.createNotificationChannels()
+
+        birthdaysDependencyContainer = BirthdaysDependencyContainer(
             coreModule = coreModule,
-            next = BirthdaysDependencyContainer(
-                coreModule = coreModule,
-                cacheModule = provideInstances.provideCacheModule(),
-                dateModule = dateModule,
-                zodiacModule = zodiacModule
-            )
+            cacheModule = provideInstances.provideCacheModule(),
+            dateTimeModule = dateTimeModule,
+            zodiacModule = zodiacModule
         )
+
+        val dependencyContainer = MainDependencyContainer(
+            coreModule,
+            serviceModule,
+            birthdaysDependencyContainer
+        )
+
         viewModelsFactory = ViewModelsFactory(dependencyContainer)
     }
+
+    override fun provideReceiverWrapper() = serviceModule.provideReceiverWrapper()
+
+    override fun provideNotificationMapper() = birthdaysDependencyContainer
+        .provideNotificationMapper()
+
+    override fun provideBirthdaysRepository() = birthdaysDependencyContainer
+        .provideBirthdaysRepository()
 
     override fun <VM : ViewModel> provideViewModel(clazz: Class<VM>, owner: ViewModelStoreOwner) =
         ViewModelProvider(owner, viewModelsFactory)[clazz]

@@ -1,6 +1,5 @@
 package ru.daniilglazkov.birthdays.sl.dependencies
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import ru.daniilglazkov.birthdays.data.birthdaylist.BaseBirthdayListRepository
 import ru.daniilglazkov.birthdays.data.birthdaylist.BirthdayDomainToDataMapper
@@ -12,10 +11,14 @@ import ru.daniilglazkov.birthdays.data.settings.*
 import ru.daniilglazkov.birthdays.data.settings.cache.SettingsCacheDataSource
 import ru.daniilglazkov.birthdays.data.settings.cache.SettingsDataToCacheMapper
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.sort.SortModeList
-import ru.daniilglazkov.birthdays.sl.core.CoreModule
-import ru.daniilglazkov.birthdays.sl.core.DependencyContainer
-import ru.daniilglazkov.birthdays.sl.core.Module
+import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
+import ru.daniilglazkov.birthdays.service.birthday.notification.BirthdayNotificationMapper
+import ru.daniilglazkov.birthdays.sl.core.*
 import ru.daniilglazkov.birthdays.sl.module.*
+import ru.daniilglazkov.birthdays.sl.module.cache.CacheModule
+import ru.daniilglazkov.birthdays.sl.module.cache.ProvideBirthdayListRepository
+import ru.daniilglazkov.birthdays.sl.module.datetime.DateTimeModule
+import ru.daniilglazkov.birthdays.sl.module.zodiac.ZodiacModule
 import ru.daniilglazkov.birthdays.ui.birthday.BirthdayViewModel
 import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListViewModel
 import ru.daniilglazkov.birthdays.ui.newbirthday.NewBirthdayViewModel
@@ -27,49 +30,71 @@ import ru.daniilglazkov.birthdays.ui.settings.SettingsViewModel
 class BirthdaysDependencyContainer(
     private val coreModule: CoreModule,
     cacheModule: CacheModule,
-    private val dateModule: DateModule,
+    private val dateTimeModule: DateTimeModule,
     private val zodiacModule: ZodiacModule,
     private val next: DependencyContainer = DependencyContainer.Error()
-) : DependencyContainer {
-    private val database: BirthdaysDatabase = cacheModule.provideDatabase()
-    private val preferences: SharedPreferences = cacheModule.preferences(FILE_NAME)
+) : DependencyContainer,
+    ProvideBirthdayListRepository,
+    ProvideNotificationMapper
+{
+    private val database: BirthdaysDatabase by lazy { cacheModule.provideDatabase() }
 
-    private val birthdaysRepository = BaseBirthdayListRepository(
-        BirthdayListCacheDataSource.Base(
-            database.provideBirthdaysDao(),
-            BirthdayDataToCacheMapper.Base()
-        ),
-        BirthdayDataToDomainMapper.Base(),
-        BirthdayDomainToDataMapper.Base(),
-        BaseFirstLaunch(PreferencesDataStore.Boolean(preferences), FIRST_LAUNCH_KEY)
-    )
+    private val birthdaysRepository by lazy {
+        BaseBirthdayListRepository(
+            BirthdayListCacheDataSource.Base(
+                database.provideBirthdaysDao(),
+                BirthdayDataToCacheMapper.Base()
+            ),
+            BirthdayDataToDomainMapper.Base(),
+            BirthdayDomainToDataMapper.Base(),
+            BaseFirstLaunch(
+                PreferencesDataStore.Boolean(
+                    cacheModule.preferences(FILE_NAME)
+                ),
+                FIRST_LAUNCH_KEY
+            )
+        )
+    }
 
-    private val settingsRepository = BaseSettingsRepository(
-        SettingsCacheDataSource.Base(
-            database.provideSettingsDao(),
-            SettingsDataToCacheMapper.Base()
+    private val settingsRepository by lazy {
+        BaseSettingsRepository(
+            SettingsCacheDataSource.Base(
+                database.provideSettingsDao(),
+                SettingsDataToCacheMapper.Base()
+            ),
+            SettingsDomainToDataMapper.Base(),
+            SettingsDataToDomainMapper.Base(SortModeList.Base())
+        )
+    }
+
+    override fun provideBirthdaysRepository() = birthdaysRepository
+
+    override fun provideNotificationMapper() = BirthdayNotificationMapper.Base(
+        coreModule.manageResources(),
+        dateTimeModule.provideNextEvent(),
+        dateTimeModule.provideEventIsToday(),
+        DateDifference.Days.Base(
+            dateTimeModule.provideCurrentDate()
         ),
-        SettingsDomainToDataMapper.Base(),
-        SettingsDataToDomainMapper.Base(SortModeList.Base())
     )
 
     override fun <VM : ViewModel> module(clazz: Class<VM>): Module<*> = when (clazz) {
         BirthdayListViewModel.Base::class.java -> BirthdayListModule(
             coreModule,
-            dateModule,
+            dateTimeModule,
             zodiacModule,
             birthdaysRepository,
             settingsRepository,
         )
         BirthdayViewModel.Base::class.java -> BirthdayModule(
             coreModule,
-            dateModule,
+            dateTimeModule,
             zodiacModule,
             birthdaysRepository,
         )
         NewBirthdayViewModel.Base::class.java -> NewBirthdayModule(
             coreModule,
-            dateModule,
+            dateTimeModule,
             database.provideNewBirthdayDao(),
             birthdaysRepository
         )

@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.sl.core
 
 import android.content.Context
-import ru.daniilglazkov.birthdays.sl.module.CacheModule
+import ru.daniilglazkov.birthdays.sl.module.cache.CacheModule
 
 /**
  * @author Danil Glazkov on 16.02.2023, 17:54

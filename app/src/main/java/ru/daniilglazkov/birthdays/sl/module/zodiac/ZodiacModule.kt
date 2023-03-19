@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.sl.module
+package ru.daniilglazkov.birthdays.sl.module.zodiac
 
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayZodiacMapper
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacGroups
@@ -9,13 +9,9 @@ import ru.daniilglazkov.birthdays.ui.zodiac.BaseGreekZodiacDomainList
 /**
  * @author Danil Glazkov on 16.02.2023, 18:18
  */
-interface ZodiacModule {
-
-    fun provideGreekMapper(): BirthdayZodiacMapper
+interface ZodiacModule : ProvideZodiacsMapper {
 
     fun provideGreekZodiacGroup(): GreekZodiacGroups
-
-    fun provideChineseMapper(): BirthdayZodiacMapper
 
 
     class Base(resources: ProvideString) : ZodiacModule {
@@ -37,5 +33,4 @@ interface ZodiacModule {
 
         override fun provideChineseMapper(): BirthdayZodiacMapper = chinese
     }
-
 }

@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.sl.core
+package ru.daniilglazkov.birthdays.sl.module.cache
 
 import androidx.room.RoomDatabase
 

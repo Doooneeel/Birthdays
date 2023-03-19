@@ -3,10 +3,12 @@ package ru.daniilglazkov.birthdays.sl.module
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayInteractor
 import ru.daniilglazkov.birthdays.domain.birthday.HandleBirthdayDataRequest
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListRepository
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
+import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
+import ru.daniilglazkov.birthdays.domain.datetime.DateTextFormat
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.Module
+import ru.daniilglazkov.birthdays.sl.module.datetime.DateTimeModule
+import ru.daniilglazkov.birthdays.sl.module.zodiac.ZodiacModule
 import ru.daniilglazkov.birthdays.ui.birthday.*
 import ru.daniilglazkov.birthdays.ui.core.*
 import ru.daniilglazkov.birthdays.ui.core.text.format.DaysToEventTextFormat
@@ -17,7 +19,7 @@ import ru.daniilglazkov.birthdays.ui.zodiac.*
  */
 class BirthdayModule(
     private val coreModule: CoreModule,
-    private val dateModule: DateModule,
+    private val dateTimeModule: DateTimeModule,
     private val zodiacModule: ZodiacModule,
     private val repository: BirthdayListRepository,
 ) : Module<BirthdayViewModel.Base> {
@@ -31,8 +33,8 @@ class BirthdayModule(
             zodiacModule.provideGreekMapper(),
             zodiacModule.provideChineseMapper(),
         )
-        val calculateNextEvent = dateModule.provideNextEvent()
-        val currentDate = dateModule.provideCurrentDate()
+        val calculateNextEvent = dateTimeModule.provideNextEvent()
+        val currentDate = dateTimeModule.provideCurrentDate()
 
         val zodiacsDomainToUiMapper = ZodiacsDomainToUiMapper.Base(
             ZodiacDomainToUiMapper.Greek(),

@@ -1,10 +1,9 @@
-package ru.daniilglazkov.birthdays.sl.module
+package ru.daniilglazkov.birthdays.sl.module.cache
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import ru.daniilglazkov.birthdays.data.core.cache.BirthdaysDatabase
-import ru.daniilglazkov.birthdays.sl.core.ProvideDatabase
 import ru.daniilglazkov.birthdays.ui.core.resources.ProvidePreferences
 
 /**

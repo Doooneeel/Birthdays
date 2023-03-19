@@ -3,11 +3,13 @@ package ru.daniilglazkov.birthdays.sl.module
 import ru.daniilglazkov.birthdays.data.newbirthday.*
 import ru.daniilglazkov.birthdays.data.newbirthday.cache.*
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListRepository
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
+import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
 import ru.daniilglazkov.birthdays.domain.newbirthday.HandleNewBirthdayDataRequest
 import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayInteractor
+import ru.daniilglazkov.birthdays.domain.newbirthday.FetchDateOfBirthInfo
 import ru.daniilglazkov.birthdays.sl.core.CoreModule
 import ru.daniilglazkov.birthdays.sl.core.Module
+import ru.daniilglazkov.birthdays.sl.module.datetime.DateTimeModule
 import ru.daniilglazkov.birthdays.ui.core.ErrorCommunication
 import ru.daniilglazkov.birthdays.ui.core.SheetCommunication
 import ru.daniilglazkov.birthdays.ui.core.text.filter.*
@@ -22,17 +24,18 @@ import ru.daniilglazkov.birthdays.ui.newbirthday.validation.ValidateName
  */
 class NewBirthdayModule(
     private val coreModule: CoreModule,
-    private val dateModule: DateModule,
+    private val dateTimeModule: DateTimeModule,
     private val newBirthdayDao: NewBirthdayDao,
     private val repository: BirthdayListRepository,
 ) : Module<NewBirthdayViewModel.Base> {
 
     override fun viewModel(): NewBirthdayViewModel.Base {
 
-        val now = dateModule.provideCurrentDate()
+        val now = dateTimeModule.provideCurrentDate()
         val resources = coreModule.manageResources()
         val nameFilter = TextFilterChain(TextFilterTrim(), TextFilterWhitespaces())
         val dispatchers = coreModule.dispatchers()
+        val nextEvent = dateTimeModule.provideNextEvent()
 
         val interactor = NewBirthdayInteractor.Base(
             repository,
@@ -45,8 +48,10 @@ class NewBirthdayModule(
                 NewBirthdayDomainToDataMapper.Base()
             ),
             HandleNewBirthdayDataRequest.Base(now),
-            DateDifference.Years.TurnsYearsOld(now),
-            DateDifference.Days.NextEvent(dateModule.provideNextEvent(), now),
+            FetchDateOfBirthInfo.Base(
+                DateDifference.Years.TurnsYearsOld(now),
+                DateDifference.Days.NextEvent(nextEvent, now),
+            ),
         )
 
         val communications = NewBirthdayCommunications.Base(

@@ -9,18 +9,21 @@ import java.util.*
 /**
  * @author Danil Glazkov on 10.06.2022, 03:16
  */
-interface CoreModule : ProvideManageResources,  ProvideNavigation {
+interface CoreModule : ProvideManageResources, ProvideNavigation {
 
     fun locale(): Locale
+
+    fun context(): Context
 
     fun dispatchers(): CoroutineDispatchers
 
 
-    class Base(context: Context) : CoreModule {
+    class Base(private val context: Context) : CoreModule {
 
         private val resourcesManager = ManageResources.Base(context)
         private val navigation = Navigation.Base()
         private val dispatchers = CoroutineDispatchers.Base()
+
 
         override fun dispatchers(): CoroutineDispatchers = dispatchers
 
@@ -29,5 +32,7 @@ interface CoreModule : ProvideManageResources,  ProvideNavigation {
         override fun locale(): Locale = Locale.getDefault()
 
         override fun navigation(): Navigation.Mutable = navigation
+
+        override fun context(): Context = context
     }
 }

@@ -1,6 +1,6 @@
-package ru.daniilglazkov.birthdays.sl.core
+package ru.daniilglazkov.birthdays.sl.module.datetime
 
-import ru.daniilglazkov.birthdays.domain.date.CalculateNextEvent
+import ru.daniilglazkov.birthdays.domain.datetime.CalculateNextEvent
 
 /**
  * @author Danil Glazkov on 30.10.2022, 11:01

@@ -1,6 +1,5 @@
 package ru.daniilglazkov.birthdays.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.os.IBinder
 import android.view.inputmethod.InputMethodManager
@@ -16,6 +15,10 @@ import ru.daniilglazkov.birthdays.ui.core.navigation.ProvideManageScreen
 class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideManageScreen, HideKeyboard {
 
     private lateinit var manageScreen: ManageScreen
+
+    private val inputMethodManager by lazy {
+        getSystemService(InputMethodManager::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +37,6 @@ class MainActivity : AppCompatActivity(), ProvideViewModel, ProvideManageScreen,
     }
 
     override fun hideKeyboard(windowToken: IBinder) {
-        val inputService: Any = getSystemService(Context.INPUT_METHOD_SERVICE)
-        val inputMethodManager: InputMethodManager = (inputService as InputMethodManager)
         inputMethodManager.hideSoftInputFromWindow(windowToken, HIDE_SOFT_INPUT_FLAG)
     }
 

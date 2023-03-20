@@ -1,5 +1,6 @@
 package ru.daniilglazkov.birthdays.ui.main
 
+import ru.daniilglazkov.birthdays.service.core.receivers.ReceiverWrapper
 import ru.daniilglazkov.birthdays.ui.birthdaylist.BirthdayListScreen
 import ru.daniilglazkov.birthdays.ui.core.Init
 import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
@@ -9,10 +10,15 @@ import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
  */
 interface MainViewModel : BaseViewModel, Init {
 
-    class Base(navigation: Navigation.Mutable) : BaseViewModel.Abstract(navigation), MainViewModel {
-
+    class Base(
+        private val workManager: ReceiverWrapper,
+        navigation: Navigation.Mutable,
+    ) : BaseViewModel.Abstract(navigation), MainViewModel {
         override fun init(isFirstRun: Boolean) {
-            if (isFirstRun) navigate(BirthdayListScreen())
+            if (isFirstRun) {
+                navigate(BirthdayListScreen())
+                workManager.start()
+            }
         }
     }
 }

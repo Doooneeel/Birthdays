@@ -3,7 +3,7 @@ package ru.daniilglazkov.birthdays.sl.core
 import android.app.Application
 import androidx.lifecycle.*
 import ru.daniilglazkov.birthdays.BuildConfig
-import ru.daniilglazkov.birthdays.service.core.ProvideReceiverWrapper
+import ru.daniilglazkov.birthdays.service.core.receivers.ProvideReceiverWrapper
 import ru.daniilglazkov.birthdays.sl.dependencies.BirthdaysDependencyContainer
 import ru.daniilglazkov.birthdays.sl.dependencies.MainDependencyContainer
 import ru.daniilglazkov.birthdays.sl.module.ServiceModule

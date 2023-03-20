@@ -4,8 +4,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import ru.daniilglazkov.birthdays.domain.date.EventIsToday
+import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
+import ru.daniilglazkov.birthdays.domain.datetime.EventIsToday
 import ru.daniilglazkov.birthdays.ui.BaseUiTest
 import ru.daniilglazkov.birthdays.ui.core.text.format.DaysToEventTextFormat
 import java.time.LocalDate

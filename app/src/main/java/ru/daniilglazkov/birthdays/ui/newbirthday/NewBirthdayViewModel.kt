@@ -1,7 +1,5 @@
 package ru.daniilglazkov.birthdays.ui.newbirthday
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import ru.daniilglazkov.birthdays.domain.core.ChangeDate
 import ru.daniilglazkov.birthdays.domain.core.Create
@@ -9,7 +7,6 @@ import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayInteractor
 import ru.daniilglazkov.birthdays.ui.core.*
 import ru.daniilglazkov.birthdays.ui.core.text.filter.TextFilter
 import ru.daniilglazkov.birthdays.ui.main.BaseSheetViewModel
-import ru.daniilglazkov.birthdays.ui.newbirthday.about.AboutBirthdateUi
 import ru.daniilglazkov.birthdays.ui.newbirthday.validation.NewBirthdayValidateMapper
 import ru.daniilglazkov.birthdays.ui.newbirthday.validation.NewBirthdayValidationResult
 import java.time.LocalDate
@@ -34,7 +31,9 @@ interface NewBirthdayViewModel : NewBirthdayCommunications.Observe, ErrorCommuni
         private val dispatchers: CoroutineDispatchers
     ) : BaseSheetViewModel.Abstract(
         sheetCommunication
-    ) , NewBirthdayViewModel {
+    ) , NewBirthdayViewModel,
+        NewBirthdayCommunications.Observe by communications
+    {
         private val handleValidationResult = object : NewBirthdayValidationResult.Mapper<Unit> {
             override fun map(message: ErrorMessage) = communications.putError(message)
 
@@ -52,7 +51,7 @@ interface NewBirthdayViewModel : NewBirthdayCommunications.Observe, ErrorCommuni
         }
 
         override fun changeDate(date: LocalDate) = handleRequest.handleBirthdate(viewModelScope) {
-            interactor.aboutBirthdate(date)
+            interactor.dateOfBirthInfo(date)
         }
 
         override fun changeBirthday(name: String, date: LocalDate) {
@@ -72,14 +71,5 @@ interface NewBirthdayViewModel : NewBirthdayCommunications.Observe, ErrorCommuni
         override fun hideErrorMessage() = communications.hideErrorMessage()
 
         override fun clearNewBirthday() = communications.clearNewBirthday()
-
-        override fun observeNewBirthday(owner: LifecycleOwner, observer: Observer<NewBirthdayUi>) =
-            communications.observeNewBirthday(owner, observer)
-
-        override fun observeError(owner: LifecycleOwner, observer: Observer<ErrorMessage>) =
-            communications.observeError(owner, observer)
-
-        override fun observeAboutBirthday(owner: LifecycleOwner, observer: Observer<AboutBirthdateUi>) =
-            communications.observeAboutBirthday(owner, observer)
     }
 }

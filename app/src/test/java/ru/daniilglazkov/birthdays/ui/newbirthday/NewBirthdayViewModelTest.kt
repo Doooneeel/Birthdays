@@ -147,7 +147,7 @@ class NewBirthdayViewModelTest : BaseUiTest() {
     @Test
     fun test_change_date() {
         val date = LocalDate.MAX
-        interactor.aboutBirthdate = AboutBirthdateDomain.Base(123, 321)
+        interactor.aboutBirthdate = DateOfBirthInfoDomain.Base(123, 321)
 
         viewModel.changeDate(date)
 
@@ -183,7 +183,7 @@ class NewBirthdayViewModelTest : BaseUiTest() {
 
     private class TestInteractor : NewBirthdayInteractor {
 
-        lateinit var aboutBirthdate: AboutBirthdateDomain
+        lateinit var aboutBirthdate: DateOfBirthInfoDomain
         lateinit var latestBirthday: NewBirthdayDomain
 
         val aboutBirthdateCalledList = mutableListOf<LocalDate>()
@@ -191,8 +191,8 @@ class NewBirthdayViewModelTest : BaseUiTest() {
         val createCalledList = mutableListOf<NewBirthdayDomain>()
         var latestBirthdayCallCount = 0
 
-        override suspend fun createNewBirthday(birthday: NewBirthdayDomain) {
-            createCalledList.add(birthday)
+        override suspend fun createNewBirthday(newBirthday: NewBirthdayDomain) {
+            createCalledList.add(newBirthday)
         }
 
         override suspend fun latestBirthday(): NewBirthdayDomain {
@@ -204,7 +204,7 @@ class NewBirthdayViewModelTest : BaseUiTest() {
             saveToCacheCalledList.add(newBirthday)
         }
 
-        override fun aboutBirthdate(date: LocalDate): AboutBirthdateDomain {
+        override fun dateOfBirthInfo(date: LocalDate): DateOfBirthInfoDomain {
             aboutBirthdateCalledList.add(date)
             return aboutBirthdate
         }
@@ -213,12 +213,12 @@ class NewBirthdayViewModelTest : BaseUiTest() {
     private class TestHandleNewBirthdayRequest : TestHandleDomainRequest<NewBirthdayDomain>(),
         HandleNewBirthdayRequest {
 
-        lateinit var aboutBirthdateResult: AboutBirthdateDomain
+        lateinit var aboutBirthdateResult: DateOfBirthInfoDomain
         var handleBirthdateCallCount = 0
 
         override fun handleBirthdate(
             scope: CoroutineScope,
-            block: suspend () -> AboutBirthdateDomain
+            block: suspend () -> DateOfBirthInfoDomain
         ) {
             ++handleBirthdateCallCount
             runBlocking { aboutBirthdateResult = block.invoke() }

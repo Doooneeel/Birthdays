@@ -17,5 +17,3 @@ interface TestCore {
     fun assertCollectionEquals(expected: Collection<Any>, actual: Collection<Any>) =
         Assert.assertArrayEquals(expected.toTypedArray(), actual.toTypedArray())
 }
-
-

@@ -3,10 +3,10 @@ package ru.daniilglazkov.birthdays.domain.birthdaylist.transform.split
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
+import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.age.AgeGroups
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.age.AgeRange
-import ru.daniilglazkov.birthdays.domain.date.TestCalculateNextEvent
+import ru.daniilglazkov.birthdays.domain.datetime.TestCalculateNextEvent
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacDomain
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacGroups
 import java.time.LocalDate

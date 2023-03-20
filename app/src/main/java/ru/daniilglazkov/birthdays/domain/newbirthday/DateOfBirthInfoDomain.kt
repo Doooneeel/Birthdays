@@ -3,7 +3,7 @@ package ru.daniilglazkov.birthdays.domain.newbirthday
 /**
  * @author Danil Glazkov on 10.10.2022, 16:13
  */
-interface AboutBirthdateDomain {
+interface DateOfBirthInfoDomain {
 
     fun <T> map(mapper: Mapper<T>): T
 
@@ -15,7 +15,7 @@ interface AboutBirthdateDomain {
     data class Base(
         private val turnsYearsOld: Int,
         private val daysToBirthday: Int,
-    ) : AboutBirthdateDomain {
+    ) : DateOfBirthInfoDomain {
         override fun <T> map(mapper: Mapper<T>): T =
             mapper.map(turnsYearsOld, daysToBirthday)
     }

@@ -2,7 +2,7 @@ package ru.daniilglazkov.birthdays.domain.core.text
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.daniilglazkov.birthdays.domain.date.*
+import ru.daniilglazkov.birthdays.domain.datetime.*
 import java.time.LocalDate
 import java.time.Month
 import java.util.*

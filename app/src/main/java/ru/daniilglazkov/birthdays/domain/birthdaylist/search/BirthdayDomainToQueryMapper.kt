@@ -3,8 +3,8 @@ package ru.daniilglazkov.birthdays.domain.birthdaylist.search
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
 import ru.daniilglazkov.birthdays.domain.core.text.NormalizeQuery
-import ru.daniilglazkov.birthdays.domain.date.CalculateNextEvent
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
+import ru.daniilglazkov.birthdays.domain.datetime.CalculateNextEvent
+import ru.daniilglazkov.birthdays.domain.datetime.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacDomain
 import java.time.LocalDate
 import java.util.*

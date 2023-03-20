@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.domain.date
+package ru.daniilglazkov.birthdays.domain.datetime
 
 import java.time.Month
 import java.time.YearMonth

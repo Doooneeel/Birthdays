@@ -10,12 +10,12 @@ class NewBirthdayDomainTest {
     @Test
     fun test_create() {
         val firstBirthday = NewBirthdayDomain.Base("a", LocalDate.MAX)
-        assertEquals(BirthdayDomain.Base(-1, "a", LocalDate.MAX), firstBirthday.create())
+        assertEquals(BirthdayDomain.Base(10, "a", LocalDate.MAX), firstBirthday.create(10))
 
         val secondBirthday = NewBirthdayDomain.Base("n", LocalDate.MIN)
-        assertEquals(BirthdayDomain.Base(-1, "n", LocalDate.MIN), secondBirthday.create())
+        assertEquals(BirthdayDomain.Base(-1, "n", LocalDate.MIN), secondBirthday.create(-1))
 
         val thirdBirthday = NewBirthdayDomain.Base("X", LocalDate.MAX)
-        assertEquals(BirthdayDomain.Base(-1, "X", LocalDate.MAX), thirdBirthday.create())
+        assertEquals(BirthdayDomain.Base(0, "X", LocalDate.MAX), thirdBirthday.create(0))
     }
 }

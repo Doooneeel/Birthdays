@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.domain.birthdaylist.transform.split
 
 import ru.daniilglazkov.birthdays.domain.birthday.*
-import ru.daniilglazkov.birthdays.domain.date.*
+import ru.daniilglazkov.birthdays.domain.datetime.*
 import ru.daniilglazkov.birthdays.domain.range.*
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacDomain
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacGroups

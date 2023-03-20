@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.domain.date
+package ru.daniilglazkov.birthdays.domain.datetime
 
 import ru.daniilglazkov.birthdays.domain.core.text.TextFormat
 import java.time.LocalDate

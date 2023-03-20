@@ -6,8 +6,8 @@ import ru.daniilglazkov.birthdays.TestCore
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
 import ru.daniilglazkov.birthdays.domain.core.text.NormalizeQuery
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
-import ru.daniilglazkov.birthdays.domain.date.TestCalculateNextEvent
+import ru.daniilglazkov.birthdays.domain.datetime.DateTextFormat
+import ru.daniilglazkov.birthdays.domain.datetime.TestCalculateNextEvent
 import ru.daniilglazkov.birthdays.domain.zodiac.ZodiacDomain
 import ru.daniilglazkov.birthdays.domain.zodiac.chinese.ChineseZodiacDomain
 import java.time.LocalDate

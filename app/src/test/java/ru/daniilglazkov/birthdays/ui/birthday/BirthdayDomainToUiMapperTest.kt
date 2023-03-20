@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.date.*
+import ru.daniilglazkov.birthdays.domain.datetime.*
 import ru.daniilglazkov.birthdays.ui.BaseUiTest
 import ru.daniilglazkov.birthdays.ui.core.text.format.DaysToEventTextFormat
 import java.time.LocalDate

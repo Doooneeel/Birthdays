@@ -1,8 +1,6 @@
 package ru.daniilglazkov.birthdays.domain.newbirthday
 
-import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
-import ru.daniilglazkov.birthdays.domain.core.Add
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
+import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListRepository
 import java.time.LocalDate
 
 /**
@@ -10,34 +8,31 @@ import java.time.LocalDate
  */
 interface NewBirthdayInteractor {
 
-    suspend fun createNewBirthday(birthday: NewBirthdayDomain)
+    suspend fun createNewBirthday(newBirthday: NewBirthdayDomain)
 
     suspend fun latestBirthday(): NewBirthdayDomain
 
     suspend fun saveToCache(newBirthday: NewBirthdayDomain)
 
-    fun aboutBirthdate(date: LocalDate): AboutBirthdateDomain
+    fun dateOfBirthInfo(date: LocalDate): DateOfBirthInfoDomain
 
 
     class Base(
-        private val birthdayListRepository: Add.Suspend<BirthdayDomain>,
+        private val birthdayListRepository: BirthdayListRepository,
         private val newBirthdayRepository: NewBirthdayRepository,
         private val handleResponse: HandleNewBirthdayDataRequest,
-        private val turnsYearsOld: DateDifference.Years,
-        private val daysToBirthday: DateDifference.Days,
+        private val fetchDateOfBirthInfo: FetchDateOfBirthInfo,
     ) : NewBirthdayInteractor {
 
-        override fun aboutBirthdate(date: LocalDate) = AboutBirthdateDomain.Base(
-            turnsYearsOld.difference(date),
-            daysToBirthday.difference(date)
-        )
+        override fun dateOfBirthInfo(date: LocalDate): DateOfBirthInfoDomain =
+            fetchDateOfBirthInfo.fetchInfo(date)
 
         override suspend fun latestBirthday(): NewBirthdayDomain = handleResponse.handle {
             newBirthdayRepository.read()
         }
 
-        override suspend fun createNewBirthday(birthday: NewBirthdayDomain) {
-            birthdayListRepository.add(birthday.create())
+        override suspend fun createNewBirthday(newBirthday: NewBirthdayDomain) {
+            birthdayListRepository.add(newBirthday.create(/*auto generation*/ id = -1))
         }
 
         override suspend fun saveToCache(newBirthday: NewBirthdayDomain) {

@@ -1,11 +1,8 @@
 package ru.daniilglazkov.birthdays.ui.birthdaylist
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListInteractor
 import ru.daniilglazkov.birthdays.ui.birthdaylist.chips.*
-import ru.daniilglazkov.birthdays.ui.birthdaylist.recycler.state.RecyclerState
 import ru.daniilglazkov.birthdays.ui.core.*
 import ru.daniilglazkov.birthdays.ui.core.navigation.Navigation
 import ru.daniilglazkov.birthdays.ui.main.BaseViewModel
@@ -28,8 +25,10 @@ interface BirthdayListViewModel : BaseViewModel, BirthdayListCommunications.Obse
         private val communications: BirthdayListCommunications.Mutable,
         private val handleRequest: HandleBirthdayListRequest,
         navigation: Navigation.Mutable,
-    ) : BaseViewModel.Abstract(navigation), BirthdayListViewModel {
-
+    ) : BaseViewModel.Abstract(navigation),
+        BirthdayListViewModel,
+        BirthdayListCommunications.Observe by communications
+    {
         private val settingsScreen = SettingsScreen(onClosed = ::fetch)
         private val newBirthdayScreen = NewBirthdayScreen(onClosed = ::fetch)
 
@@ -50,14 +49,5 @@ interface BirthdayListViewModel : BaseViewModel, BirthdayListCommunications.Obse
         override fun showSettingsDialog() = navigate(settingsScreen)
 
         override fun showNewBirthdayDialog() = navigate(newBirthdayScreen)
-
-        override fun observeBirthdayList(owner: LifecycleOwner, observer: Observer<BirthdayItemUiList>) =
-            communications.observeBirthdayList(owner, observer)
-
-        override fun observeChips(owner: LifecycleOwner, observer: Observer<ChipListUi>) =
-            communications.observeChips(owner, observer)
-
-        override fun observeRecyclerState(owner: LifecycleOwner, observer: Observer<RecyclerState>) =
-            communications.observeRecyclerState(owner, observer)
     }
 }

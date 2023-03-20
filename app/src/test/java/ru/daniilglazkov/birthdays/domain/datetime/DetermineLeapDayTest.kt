@@ -1,4 +1,4 @@
-package ru.daniilglazkov.birthdays.domain.date
+package ru.daniilglazkov.birthdays.domain.datetime
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -4,7 +4,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthdaylist.BirthdayListDomain
-import ru.daniilglazkov.birthdays.domain.date.*
+import ru.daniilglazkov.birthdays.domain.datetime.*
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.age.AgeGroups
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.age.AgeRange
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.sort.SortMode

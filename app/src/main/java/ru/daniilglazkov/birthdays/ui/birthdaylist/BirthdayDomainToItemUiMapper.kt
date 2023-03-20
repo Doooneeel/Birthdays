@@ -3,7 +3,7 @@ package ru.daniilglazkov.birthdays.ui.birthdaylist
 import ru.daniilglazkov.birthdays.R
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.date.*
+import ru.daniilglazkov.birthdays.domain.datetime.*
 import ru.daniilglazkov.birthdays.ui.core.resources.ManageResources
 import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
 import ru.daniilglazkov.birthdays.ui.core.text.format.DaysToEventTextFormat

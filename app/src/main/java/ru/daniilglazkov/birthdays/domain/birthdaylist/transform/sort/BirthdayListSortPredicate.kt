@@ -2,7 +2,7 @@ package ru.daniilglazkov.birthdays.domain.birthdaylist.transform.sort
 
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
+import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacDomain
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacGroups
 import java.time.LocalDate

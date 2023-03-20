@@ -8,7 +8,6 @@ import ru.daniilglazkov.birthdays.domain.core.TestHandleRequest
 import ru.daniilglazkov.birthdays.domain.birthday.BaseBirthdayTest
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayDomain
 import ru.daniilglazkov.birthdays.domain.core.exceptions.EmptyCacheException
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
 import java.time.LocalDate
 
 class NewBirthdayInteractorTest : BaseBirthdayTest() {
@@ -17,27 +16,24 @@ class NewBirthdayInteractorTest : BaseBirthdayTest() {
 
     private lateinit var newBirthdayRepository: TestNewBirthdayRepository
     private lateinit var birthdayListRepository: TestBirthdayListRepository
-    private lateinit var ageDateDifference: DateDifference.Test
-    private lateinit var daysToBirthdayDateDifference: DateDifference.Test
+    private lateinit var fetchDateOfBirthInfo: TestFetchDateOfBirthInfo
     private lateinit var handleRequest: TestNewBirthdayHandleRequest
 
-    private lateinit var newBirthdayInteractor: NewBirthdayInteractor
+    private lateinit var interactor: NewBirthdayInteractor
 
 
     @Before
     fun setUp() {
         newBirthdayRepository = TestNewBirthdayRepository()
         birthdayListRepository = TestBirthdayListRepository()
-        ageDateDifference = DateDifference.Test()
-        daysToBirthdayDateDifference = DateDifference.Test()
+
         handleRequest = TestNewBirthdayHandleRequest()
 
-        newBirthdayInteractor = NewBirthdayInteractor.Base(
+        interactor = NewBirthdayInteractor.Base(
             birthdayListRepository,
             newBirthdayRepository,
             handleRequest,
-            ageDateDifference,
-            daysToBirthdayDateDifference
+            fetchDateOfBirthInfo,
         )
     }
 
@@ -46,8 +42,8 @@ class NewBirthdayInteractorTest : BaseBirthdayTest() {
         val firstBirthday = NewBirthdayDomain.Base("a", LocalDate.MIN)
         val secondBirthday = NewBirthdayDomain.Empty(testNow)
 
-        newBirthdayInteractor.saveToCache(firstBirthday)
-        newBirthdayInteractor.saveToCache(secondBirthday)
+        interactor.saveToCache(firstBirthday)
+        interactor.saveToCache(secondBirthday)
 
         assertEquals(2, newBirthdayRepository.saveToCacheCalledList.size)
 
@@ -60,7 +56,7 @@ class NewBirthdayInteractorTest : BaseBirthdayTest() {
         newBirthdayRepository.data = NewBirthdayDomain.Base("a", LocalDate.MAX)
 
         val expected = newBirthdayRepository.data
-        val actual = newBirthdayInteractor.latestBirthday()
+        val actual = interactor.latestBirthday()
 
         assertEquals(expected, actual)
         assertEquals(1, newBirthdayRepository.newBirthdayCalledCount)
@@ -74,7 +70,7 @@ class NewBirthdayInteractorTest : BaseBirthdayTest() {
         val expected = NewBirthdayDomain.Empty(testNow)
         handleRequest.result = expected
 
-        val actual = newBirthdayInteractor.latestBirthday()
+        val actual = interactor.latestBirthday()
 
         assertEquals(expected, actual)
         assertEquals(1, newBirthdayRepository.newBirthdayCalledCount)
@@ -85,24 +81,17 @@ class NewBirthdayInteractorTest : BaseBirthdayTest() {
 
     @Test
     fun test_about_birthdate() {
-        ageDateDifference.result = 100
-        daysToBirthdayDateDifference.result = 500
+        fetchDateOfBirthInfo.result = DateOfBirthInfoDomain.Base(10, 20)
 
-        val expected = AboutBirthdateDomain.Base(100, 500)
-        val actual = newBirthdayInteractor.aboutBirthdate(LocalDate.MAX)
+        interactor.dateOfBirthInfo(LocalDate.MIN)
 
-        assertEquals(expected, actual)
-
-        assertEquals(1, ageDateDifference.calledList.size)
-        assertEquals(LocalDate.MAX, ageDateDifference.calledList[0])
-
-        assertEquals(1, daysToBirthdayDateDifference.calledList.size)
-        assertEquals(LocalDate.MAX, daysToBirthdayDateDifference.calledList[0])
+        assertEquals(1, fetchDateOfBirthInfo.calledList.size)
+        assertEquals(LocalDate.MIN, fetchDateOfBirthInfo.calledList[0])
     }
 
     @Test
     fun test_create_new_birthday() = runBlocking {
-        newBirthdayInteractor.createNewBirthday(NewBirthdayDomain.Base("a", LocalDate.MIN))
+        interactor.createNewBirthday(NewBirthdayDomain.Base("a", LocalDate.MIN))
 
         assertEquals(1, birthdayListRepository.addCalledList.size)
         assertEquals(
@@ -111,6 +100,18 @@ class NewBirthdayInteractorTest : BaseBirthdayTest() {
         )
     }
 
+
+    private class TestFetchDateOfBirthInfo : FetchDateOfBirthInfo {
+
+        lateinit var result: DateOfBirthInfoDomain
+        val calledList = mutableListOf<LocalDate>()
+
+        override fun fetchInfo(date: LocalDate): DateOfBirthInfoDomain {
+            calledList.add(date)
+
+            return result
+        }
+    }
     
     private open class TestNewBirthdayRepository : NewBirthdayRepository {
 

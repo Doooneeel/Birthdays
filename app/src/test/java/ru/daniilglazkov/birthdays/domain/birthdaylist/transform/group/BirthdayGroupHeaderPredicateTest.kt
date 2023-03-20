@@ -3,8 +3,8 @@ package ru.daniilglazkov.birthdays.domain.birthdaylist.transform.group
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import ru.daniilglazkov.birthdays.domain.birthday.BirthdayType
-import ru.daniilglazkov.birthdays.domain.date.DateDifference
-import ru.daniilglazkov.birthdays.domain.date.DateTextFormat
+import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
+import ru.daniilglazkov.birthdays.domain.datetime.DateTextFormat
 import ru.daniilglazkov.birthdays.domain.zodiac.*
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacDomain
 import ru.daniilglazkov.birthdays.domain.zodiac.greek.GreekZodiacGroups

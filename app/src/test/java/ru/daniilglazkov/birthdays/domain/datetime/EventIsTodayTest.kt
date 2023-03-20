@@ -1,11 +1,11 @@
-package ru.daniilglazkov.birthdays.domain.date
+package ru.daniilglazkov.birthdays.domain.datetime
 
 import org.junit.Assert.*
 import org.junit.Test
 import java.time.LocalDate
 import java.time.Month
 
-class EventIsTodayTest : BaseDateTest() {
+class   EventIsTodayTest : BaseDateTest() {
 
     @Test
     fun test_now_leap_day() {

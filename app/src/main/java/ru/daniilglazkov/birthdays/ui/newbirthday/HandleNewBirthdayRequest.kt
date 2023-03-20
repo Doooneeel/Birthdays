@@ -1,7 +1,7 @@
 package ru.daniilglazkov.birthdays.ui.newbirthday
 
 import kotlinx.coroutines.CoroutineScope
-import ru.daniilglazkov.birthdays.domain.newbirthday.AboutBirthdateDomain
+import ru.daniilglazkov.birthdays.domain.newbirthday.DateOfBirthInfoDomain
 import ru.daniilglazkov.birthdays.domain.newbirthday.NewBirthdayDomain
 import ru.daniilglazkov.birthdays.ui.core.CoroutineDispatchers
 import ru.daniilglazkov.birthdays.ui.core.HandleDomainRequest
@@ -11,7 +11,7 @@ import ru.daniilglazkov.birthdays.ui.core.HandleDomainRequest
  */
 interface HandleNewBirthdayRequest : HandleDomainRequest<NewBirthdayDomain> {
 
-    fun handleBirthdate(scope: CoroutineScope, block: suspend () -> AboutBirthdateDomain)
+    fun handleBirthdate(scope: CoroutineScope, block: suspend () -> DateOfBirthInfoDomain)
 
 
     class Base(
@@ -32,7 +32,7 @@ interface HandleNewBirthdayRequest : HandleDomainRequest<NewBirthdayDomain> {
 
         override fun handleBirthdate(
             scope: CoroutineScope,
-            block: suspend () -> AboutBirthdateDomain
+            block: suspend () -> DateOfBirthInfoDomain
         ) = handleAboutBirthdate.handle(scope, block)
     }
 }

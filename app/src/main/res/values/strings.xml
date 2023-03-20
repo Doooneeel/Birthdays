@@ -85,6 +85,14 @@
     <string name="birthday_not_found">День рождения не найден</string>
     <string name="error">Ошибка</string>
 
+
+    <!--Notifications-->
+    <string name="reminders">Напоминания</string>
+    <string name="reminders_channel_id" translatable="false">reminders_channel_id</string>
+
+    <string name="notification_birthday_in_a_week">Через неделю празднует день рождения</string>
+    <string name="notification_birthday_today">Сегодня празднует день рождения!</string>
+
     <!--Plurals-->
     <plurals name="left">
         <item quantity="one">Остался</item>
@@ -104,5 +112,8 @@
         <item quantity="few">%d года</item>
         <item quantity="many">%d лет</item>
     </plurals>
+
+
+
 
 </resources>

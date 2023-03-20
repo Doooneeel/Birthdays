@@ -18,45 +18,45 @@
         android:id="@+id/sort_mode_grid_layout"
         style="@style/MenuGridLayoutStyle">
 
-        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByNameRadioButton
-            android:id="@+id/by_name_radio_button"
-            style="@style/RadioButtonStyle"
-            android:layout_marginEnd="@dimen/very_small_distance"
-            android:text="@string/by_name" />
-
         <ru.daniilglazkov.birthdays.ui.core.view.button.SortByDateRadioButton
             android:id="@+id/by_date_radio_button"
             style="@style/RadioButtonStyle"
-            android:layout_marginStart="@dimen/very_small_distance"
+            android:layout_marginEnd="@dimen/very_small_distance"
             android:text="@string/by_date" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByYearRadioButton
-            android:id="@+id/by_year_radio_button"
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByNameRadioButton
+            android:id="@+id/by_name_radio_button"
             style="@style/RadioButtonStyle"
-            android:layout_marginTop="@dimen/small_distance"
-            android:layout_marginEnd="@dimen/very_small_distance"
-            android:text="@string/by_year" />
+            android:layout_marginStart="@dimen/very_small_distance"
+            android:text="@string/by_name" />
 
         <ru.daniilglazkov.birthdays.ui.core.view.button.SortByAgeRadioButton
             android:id="@+id/by_age_radio_button"
             style="@style/RadioButtonStyle"
-            android:layout_marginStart="@dimen/very_small_distance"
+            android:layout_marginEnd="@dimen/very_small_distance"
             android:layout_marginTop="@dimen/small_distance"
             android:text="@string/by_age" />
 
-        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByZodiacRadioButton
-            android:id="@+id/by_zodiac_radio_button"
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByYearRadioButton
+            android:id="@+id/by_year_radio_button"
             style="@style/RadioButtonStyle"
+            android:layout_marginStart="@dimen/very_small_distance"
             android:layout_marginTop="@dimen/small_distance"
-            android:layout_marginEnd="@dimen/very_small_distance"
-            android:text="@string/by_zodiac" />
+            android:text="@string/by_year" />
 
         <ru.daniilglazkov.birthdays.ui.core.view.button.SortByMonthRadioButton
             android:id="@+id/by_month_radio_button"
             style="@style/RadioButtonStyle"
+            android:layout_marginTop="@dimen/small_distance"
+            android:layout_marginEnd="@dimen/very_small_distance"
+            android:text="@string/by_month" />
+
+        <ru.daniilglazkov.birthdays.ui.core.view.button.SortByZodiacRadioButton
+            android:id="@+id/by_zodiac_radio_button"
+            style="@style/RadioButtonStyle"
             android:layout_marginStart="@dimen/very_small_distance"
             android:layout_marginTop="@dimen/small_distance"
-            android:text="@string/by_month" />
+            android:text="@string/by_zodiac" />
 
     </ru.daniilglazkov.birthdays.ui.core.view.SortModeGridLayout>
 

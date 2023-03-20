@@ -15,7 +15,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_columnWeight">1</item>
-        <item name="android:paddingHorizontal">@dimen/normal_distance</item>
+        <item name="android:paddingStart">@dimen/medium_distance</item>
         <item name="android:paddingVertical">@dimen/normal_distance</item>
         <item name="android:background">@drawable/panel</item>
         <item name="android:textColor">@color/text</item>

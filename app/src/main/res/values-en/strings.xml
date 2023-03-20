@@ -85,6 +85,12 @@
     <string name="pig">Pig</string>
 
 
+    <!--Notifications-->
+    <string name="reminders">Reminders</string>
+    <string name="notification_birthday_in_a_week">Celebrating a birthday in a week</string>
+    <string name="notification_birthday_today">Today celebrates a birthday</string>
+
+
     <!--Plurals-->
     <plurals name="left">
         <item quantity="one">Left</item>

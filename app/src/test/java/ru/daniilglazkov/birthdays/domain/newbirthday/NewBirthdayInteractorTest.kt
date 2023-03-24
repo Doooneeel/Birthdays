@@ -26,7 +26,7 @@ class NewBirthdayInteractorTest : BaseBirthdayTest() {
     fun setUp() {
         newBirthdayRepository = TestNewBirthdayRepository()
         birthdayListRepository = TestBirthdayListRepository()
-
+        fetchDateOfBirthInfo = TestFetchDateOfBirthInfo()
         handleRequest = TestNewBirthdayHandleRequest()
 
         interactor = NewBirthdayInteractor.Base(

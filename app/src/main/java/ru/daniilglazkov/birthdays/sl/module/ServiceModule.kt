@@ -3,6 +3,7 @@ package ru.daniilglazkov.birthdays.sl.module
 import android.content.Context
 import ru.daniilglazkov.birthdays.domain.datetime.CurrentTimeInMillis
 import ru.daniilglazkov.birthdays.domain.datetime.TriggerTime
+import ru.daniilglazkov.birthdays.service.core.notification.AreNotificationEnabled
 import ru.daniilglazkov.birthdays.service.core.receivers.ProvideReceiverWrapper
 import ru.daniilglazkov.birthdays.service.core.receivers.ReceiverWrapper
 import ru.daniilglazkov.birthdays.service.core.notification.CreateNotificationChannel
@@ -29,7 +30,8 @@ interface ServiceModule : ProvideReceiverWrapper {
         private val receiver by lazy {
             ReceiverWrapper.Notification(context,
                 TriggerTime.Morning(provideZoneOffset.zoneOffset()),
-                CurrentTimeInMillis.Base
+                CurrentTimeInMillis.Base,
+                AreNotificationEnabled.Base(context)
             )
         }
 

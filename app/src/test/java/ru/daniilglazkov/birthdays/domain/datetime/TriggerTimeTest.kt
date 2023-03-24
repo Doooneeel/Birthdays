@@ -78,7 +78,7 @@ class TriggerTimeTest {
             LocalDateTime.ofInstant(Instant.ofEpochMilli(actualInMillis), zoneOffset)
         }\nexpected = ${
             LocalDateTime.ofInstant(Instant.ofEpochMilli(expectedInMillis), zoneOffset)
-        }"
+        }\n\n"
 
         assertEquals(comment, expectedInMillis, actualInMillis)
     }

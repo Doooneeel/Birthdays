@@ -14,13 +14,17 @@ interface CreateNotificationChannel {
 
 
     abstract class Abstract(
-        private val context: Context,
+        context: Context,
         private val channel: String,
         private val name: String,
         private val importance: Int = NotificationManager.IMPORTANCE_DEFAULT
     ) : CreateNotificationChannel {
-        override fun createChannel() = context.getSystemService(NotificationManager::class.java)
-            .createNotificationChannel(NotificationChannel(channel, name, importance))
+
+        private val manager = context.getSystemService(NotificationManager::class.java)
+
+        override fun createChannel() = manager.createNotificationChannel(
+            NotificationChannel(channel, name, importance)
+        )
     }
 
 

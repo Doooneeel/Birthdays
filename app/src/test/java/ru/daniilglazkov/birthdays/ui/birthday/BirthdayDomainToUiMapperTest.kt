@@ -12,7 +12,7 @@ import java.time.LocalDate
 /**
  * @author Danil Glazkov on 06.02.2023, 8:01
  */
-class BirthdayDomainToUiMapperTest : BaseUiTest() {
+class BirthdayDomainToUiMapperTest {
 
     @Test
     fun test_map() {
@@ -25,7 +25,7 @@ class BirthdayDomainToUiMapperTest : BaseUiTest() {
         val turnsYearsOld = DateDifference.Test()
         val daysToBirthday = DateDifference.Test()
         val calculateNextEvent = TestCalculateNextEvent(nextEvent)
-        val mangeResources = TestManageResources()
+        val mangeResources = BaseUiTest.TestManageResources()
 
         turnsYearsOld.result = 1000
         daysToBirthday.result = 120

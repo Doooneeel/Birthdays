@@ -13,9 +13,9 @@ import java.time.LocalDate
 /**
  * @author Danil Glazkov on 07.02.2023, 9:26
  */
-class BirthdayDomainToItemUiMapperTest : BaseUiTest() {
+class BirthdayDomainToItemUiMapperTest {
 
-    private lateinit var resources: TestManageResources
+    private lateinit var resources: BaseUiTest.TestManageResources
     private lateinit var daysToEventTextFormat: TestsDaysToEventTextFormat
     private lateinit var turnsYearsOld: DateDifference.Test
     private lateinit var daysToBirthday: DateDifference.Test
@@ -27,7 +27,7 @@ class BirthdayDomainToItemUiMapperTest : BaseUiTest() {
     @Before
     fun setUp() {
         daysToEventTextFormat = TestsDaysToEventTextFormat()
-        resources = TestManageResources()
+        resources = BaseUiTest.TestManageResources()
         turnsYearsOld = DateDifference.Test()
         daysToBirthday = DateDifference.Test()
         eventIsToday = TestEventIsToday()

@@ -3,7 +3,7 @@ package ru.daniilglazkov.birthdays.domain.zodiac.greek
 import org.junit.Assert.*
 import org.junit.Test
 import ru.daniilglazkov.birthdays.domain.core.exceptions.NotFoundException
-import ru.daniilglazkov.birthdays.ui.core.resources.ProvideString
+import ru.daniilglazkov.birthdays.ui.BaseUiTest
 import ru.daniilglazkov.birthdays.ui.zodiac.BaseGreekZodiacDomainList
 
 /**
@@ -49,7 +49,7 @@ class GreekZodiacGroupsTest {
     @Test
     fun test_base_groups() {
         val baseGroups = GreekZodiacGroups.Base(
-            BaseGreekZodiacDomainList(TestProvideString())
+            BaseGreekZodiacDomainList(BaseUiTest.TestManageResources())
         )
 
         for(day in 1..366) { baseGroups.group(day) }
@@ -61,10 +61,5 @@ class GreekZodiacGroupsTest {
         for(day in 367..500) {
             assertThrows(NotFoundException::class.java) { baseGroups.group(day) }
         }
-    }
-
-    private class TestProvideString : ProvideString {
-        override fun string(id: Int): String = ""
-        override fun quantityString(id: Int, value: Int): String = ""
     }
 }

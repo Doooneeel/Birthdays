@@ -22,7 +22,7 @@ abstract class BaseUiTest {
 
     protected class TestNavigation : TestAbstractCommunication<NavigationScreen>(), Navigation.Mutable
 
-    protected class TestManageResources : ManageResources {
+    class TestManageResources : ManageResources {
 
         var string: String = ""
         var number: Int = 0

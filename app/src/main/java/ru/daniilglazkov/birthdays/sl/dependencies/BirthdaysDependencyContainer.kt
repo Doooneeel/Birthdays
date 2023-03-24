@@ -13,6 +13,7 @@ import ru.daniilglazkov.birthdays.data.settings.cache.SettingsDataToCacheMapper
 import ru.daniilglazkov.birthdays.domain.birthdaylist.transform.sort.SortModeList
 import ru.daniilglazkov.birthdays.domain.datetime.DateDifference
 import ru.daniilglazkov.birthdays.service.birthday.notification.BirthdayNotificationMapper
+import ru.daniilglazkov.birthdays.service.birthday.notification.ManageNotificationDisplayStatus
 import ru.daniilglazkov.birthdays.sl.core.*
 import ru.daniilglazkov.birthdays.sl.module.*
 import ru.daniilglazkov.birthdays.sl.module.cache.CacheModule
@@ -39,6 +40,10 @@ class BirthdaysDependencyContainer(
 {
     private val database: BirthdaysDatabase by lazy { cacheModule.provideDatabase() }
 
+    private val booleanDataStore: PreferencesDataStore.Boolean by lazy {
+        PreferencesDataStore.Boolean(cacheModule.preferences(FILE_NAME))
+    }
+
     private val birthdaysRepository by lazy {
         BaseBirthdayListRepository(
             BirthdayListCacheDataSource.Base(
@@ -47,12 +52,7 @@ class BirthdaysDependencyContainer(
             ),
             BirthdayDataToDomainMapper.Base(),
             BirthdayDomainToDataMapper.Base(),
-            BaseFirstLaunch(
-                PreferencesDataStore.Boolean(
-                    cacheModule.preferences(FILE_NAME)
-                ),
-                FIRST_LAUNCH_KEY
-            )
+            BaseFirstLaunch(booleanDataStore, FIRST_LAUNCH_KEY)
         )
     }
 
@@ -71,6 +71,7 @@ class BirthdaysDependencyContainer(
 
     override fun provideNotificationMapper() = BirthdayNotificationMapper.Base(
         coreModule.manageResources(),
+        ManageNotificationDisplayStatus.Base(booleanDataStore),
         dateTimeModule.provideNextEvent(),
         dateTimeModule.provideEventIsToday(),
         DateDifference.Days.Base(

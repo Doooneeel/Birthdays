@@ -57,7 +57,7 @@
 
         <receiver
             android:name=".service.birthday.notification.NotificationReceiver"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="false" />
 
     </application>

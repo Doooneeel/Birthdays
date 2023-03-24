@@ -92,6 +92,7 @@
 
     <string name="notification_birthday_in_a_week">Через неделю празднует день рождения</string>
     <string name="notification_birthday_today">Сегодня празднует день рождения!</string>
+    <string name="notification_birthday_tomorrow">Завтра празднует день рождения!</string>
 
     <!--Plurals-->
     <plurals name="left">

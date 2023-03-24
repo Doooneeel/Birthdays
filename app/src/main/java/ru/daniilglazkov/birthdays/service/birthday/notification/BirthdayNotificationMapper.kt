@@ -13,32 +13,49 @@ import java.time.LocalDate
 interface BirthdayNotificationMapper : BirthdayDomain.Mapper<BirthdayNotification> {
 
     class Base(
-        resources: ProvideString,
+        private val resources: ProvideString,
+        private val manageStatus: ManageNotificationDisplayStatus,
         private val nextEvent: CalculateNextEvent,
         private val eventIsToday: EventIsToday,
         private val dateDifference: DateDifference.Days,
+        private val nextMapper: BirthdayNotificationMapper = Skip,
     ) : BirthdayNotificationMapper {
-
-        private val birthdayTodayContent by lazy {
-            resources.string(R.string.notification_birthday_today)
-        }
-
-        private val birthdayInAWeekContent by lazy {
-            resources.string(R.string.notification_birthday_in_a_week)
-        }
-
         override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType): BirthdayNotification {
+            val birthdayTodayKey = "notification_birthday_today_$id"
+            val birthdayTomorrow = "notification_birthday_tomorrow_$id"
+            val birthdayInAWeekKey = "notification_birthday_in_a_week_$id"
+
+            val keys = listOf(birthdayTodayKey, birthdayTomorrow, birthdayInAWeekKey)
+
             val birthday: LocalDate = nextEvent.nextEvent(date)
+            val daysBeforeBirthday: Int = dateDifference.difference(birthday)
 
             return when {
-                eventIsToday.isToday(birthday) -> BirthdayNotification.ReminderMaxPriority(
-                    id, name, birthdayTodayContent
+                eventIsToday.isToday(birthday) -> manageStatus.fetchBasedOnStatus(
+                    BirthdayNotification.ReminderMaxPriority(id, name,
+                        resources.string(R.string.notification_birthday_today)
+                    ), birthdayTodayKey, keys
                 )
-                dateDifference.difference(birthday) == 7 -> BirthdayNotification.Reminder(
-                    id, name, birthdayInAWeekContent
+                daysBeforeBirthday == 1 -> manageStatus.fetchBasedOnStatus(
+                    BirthdayNotification.ReminderMaxPriority(id, name,
+                        resources.string(R.string.notification_birthday_tomorrow)
+                    ), birthdayTomorrow, keys
                 )
-                else -> BirthdayNotification.Skip
+                daysBeforeBirthday == 7 -> manageStatus.fetchBasedOnStatus(
+                    BirthdayNotification.Reminder(id, name,
+                        resources.string(R.string.notification_birthday_in_a_week)
+                    ), birthdayInAWeekKey, keys
+                )
+                else -> {
+                    manageStatus.resetStatus(keys)
+                    nextMapper.map(id, name, date, type)
+                }
             }
         }
+    }
+
+    object Skip : BirthdayNotificationMapper {
+        override fun map(id: Int, name: String, date: LocalDate, type: BirthdayType) =
+            BirthdayNotification.Skip
     }
 }
